@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="justify-content-center">
-        <div class="col-md-10 col-sm-12 col-xs-12" id="auth">
+        <div class="col-md-12 col-sm-12 col-xs-12" id="auth">
 
             <a class="navbar-brand" href="{{ url('/') }}">            
                 <img src="{{asset('imagens/logo-page-login.svg')}}">
@@ -67,9 +67,21 @@
                         <button type="submit" class="btn btn-login">
                             {{ __('Cadastrar') }}
                         </button>
+
                     </div>
                 </div>
             </form>
+        <hr>
+            <div class="form-group row novo">
+
+               <h5>  Já tem cadastro no site ? </h5>
+
+                <a href="{{ route('login') }}" class="btn btn-danger">
+                    {{ __('Acesse sua Conta') }}
+                </a>
+
+            </div>   
+
 
         </div>
     </div>

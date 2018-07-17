@@ -22,10 +22,26 @@ a:hover{
 	background: rgb(0,122,165)!important;
 	border-color: rgb(0,122,165)!important;/*Azul principal*/
 }
+
+.btn-danger{
+	background: rgb(255,90,0);
+	box-shadow: none!important;
+	border-color: rgb(255,90,0)!important;
+	height: 57px;
+	line-height: 45px;
+	font-size: 1.4em;
+}
+
 .btn-primary:hover{
 	box-shadow: none!important;
 	background: #006384!important;
 	border-color: #006384!important;/*Azul links*/
+}
+
+.btn-danger:hover{
+	box-shadow: none!important;
+	background: rgb(250,70,0);
+	border-color: rgb(250,70,0)!important;
 }
 
 .btn-group > .btn:focus, 
@@ -38,6 +54,7 @@ a:hover{
 	background: #006384!important;
 	border-color: #006384!important;/*Azul links*/
 }
+
 /*=============== HEAD ================*/
 
 .position-ref{
@@ -415,7 +432,7 @@ h4{
 
 	#sign-in, #sign-up {
 	    background: radial-gradient(ellipse at center, #5A93AF 0%, #004E74 100%);
-	    min-height: 100vh;
+	    height: 100vh;
 	}
 
 	#auth > .navbar-brand{
@@ -434,14 +451,14 @@ h4{
 	}
 
 	.btn-login{
-		width: 40%;
+		width: 50%;
 		height: 47px;
 	}
 
 	.btn-link{
-		padding: 1.5% 1%!important;
+		padding: 1.5% 0.2%!important;
 		outline: none;
-		font-size: 1.1em;
+		font-size: 0.9em;
 	}
 
 	 .checkbox > label{
@@ -459,6 +476,33 @@ h4{
 		font-size: 1.5em;
 
 	}
+
+	hr{
+		background: rgb(223,223,223);
+		margin-top: 8%;
+	}
+
+	.novo{
+		width: 100%;
+		height: 25vh;
+		padding: 1.5% 2%;
+		text-align: center!important;	
+		margin: 0 auto;
+	}
+
+	.novo > h5{
+		width: 100%;
+		font-size: 18px;
+		font-weight: 600;
+	}
+
+	.novo > .btn-danger{
+		width: 100%;
+		height: 57px;
+		margin: 0 auto;
+		line-height: 45px;
+	}
+
 
 /* =============== Preloader ==================*/
 .preloader {
@@ -613,6 +657,12 @@ h4{
 	.social > a > .item > .fa-3x{
 		font-size: 2.5em;
 	}	
+
+	.btn-link{
+		padding: 1.5% 2%!important;
+		outline: none;
+		font-size: 1.3em;
+	}
 
 
 }
@@ -813,5 +863,35 @@ h4{
 	padding: 0.5% 0% 1%;
 }
 
+/*============ pagina de login ===========*/
+
+	.novo{
+		width: 100%;
+		height: 25vh;
+		padding: 1.5% 2%;
+		text-align: center!important;	
+		margin: 0 auto;
+	}
+
+	.novo > h5{
+		width: 100%;
+		font-size: 18px;
+		font-weight: 600;
+	}
+
+	.novo > .btn-danger{
+		width: 100%;
+		height: 57px;
+		line-height: 45px;
+		font-size: 1.5em;
+		margin: 0 auto;
+	}
+
+	.btn-danger{
+		background: rgb(255,90,0)!important;
+		box-shadow: none!important;
+		border-color: rgb(255,90,0)!important;
+		color: #fff!important;
+	}
 
 }

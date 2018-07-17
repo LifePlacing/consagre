@@ -24,7 +24,6 @@
 </head>
 <body id="sign-in">
 	<div id="app">
-
 		<div class="preloader">
 		<div class="loader_img"><img src="{{asset('images/loader.gif')}}" alt="loading..." height="64" width="64"></div>
 		</div>
@@ -33,7 +32,6 @@
 	        @yield('content')            
 	    </main>
 	</div>
-
 	<script src="{{ asset('js/all.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/custom_js/login.js')}}"></script>
 </body>
