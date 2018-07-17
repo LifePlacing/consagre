@@ -18,10 +18,10 @@ return [
     'timezone' => 'UTC',
 
 
-    'locale' => 'en',
+    'locale' => 'pt-br',
 
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt-br',
 
 
 
