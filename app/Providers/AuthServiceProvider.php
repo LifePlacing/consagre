@@ -2,29 +2,47 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
+
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerPolicies();
 
-        //
+    public function boot(GateContract $gate)
+    {
+        $this->registerPolicies($gate);
+
+        $gate->define('isProprietario', function($user){
+
+            return $user->user_type == 'proprietario';
+        });
+
+        $gate->define('isCorretor', function($user){
+
+            return $user->user_type == 'corretor';
+        });
+
+        $gate->define('isImobiliaria', function($user){
+
+            return $user->user_type == 'imobiliaria';
+        });  
+
+        $gate->define('isComboAdmin', function($user){
+            return $user->user_type == 'proprietario'&&'corretor'&&'imobiliaria';
+        }); 
+
+        $gate->define('isComboAds', function($user){
+            return $user->user_type == 'proprietario'&&'corretor';
+        });   
+
+        $gate->define('isComboVendas', function($user){
+            return $user->user_type == 'corretor'&&'imobiliaria';
+        });  
+        
     }
 }

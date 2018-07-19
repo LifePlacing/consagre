@@ -7,6 +7,7 @@
 
             <a class="navbar-brand" href="{{ url('/') }}">            
                 <img src="{{asset('imagens/logo-page-login.svg')}}">
+                
             </a>
 
             @if (session('status'))
@@ -20,7 +21,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}" 
+            <form method="POST" action="{{ route('admin.login') }}" 
                 aria-label="{{ __('Login') }}">
                     
                     @csrf
@@ -72,7 +73,7 @@
                             {{ __('Login') }}
                         </button>
 
-                        <a class="btn-link" href="{{ route('password.request') }}">
+                        <a class="btn-link" href="{{ route('admin.password.request') }}">
                             {{ __('Esqueceu sua senha?') }}
                         </a>
                     </div>
@@ -84,7 +85,7 @@
 
                <h5>  Ainda não tem uma Conta ? </h5>
 
-                <a href="{{ route('register') }}" class="btn btn-danger">
+                <a href="{{ route('admin.register') }}" class="btn btn-danger">
                     {{ __('Cadastre-se aqui') }}
                 </a>
 

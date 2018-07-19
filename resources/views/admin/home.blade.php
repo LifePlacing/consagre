@@ -17,16 +17,10 @@
                     @endif
 
                     Você está Logado! Esta página ainda está em contrução 
-                    <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    <a class="btn btn-primary" href="{{ route('admin.logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>
-
-                    @can('isComboVendas')
-                    <div class="proprietario">
-                        Eu Sou {{ Auth::user()->user_type }} .
-                    </div>
-                    @endcan
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
