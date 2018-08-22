@@ -21,24 +21,24 @@
 	<div class="tab-content" id="ContentLanc">
 
 	  	<div class="tab-pane fade show active" id="avenda" role="tabpanel" aria-labelledby="avenda-tab">
-	  			@foreach($imoveislist as $i => $imovel)
+	  			<!--@foreach($imoveislist as $i => $imovel)
 	  					 @if($imovel->meta == 'venda')
 
-	  					 	{{$imovel->id}}
+	  					 	{{$imovel->id}} -->
 
 	  					 	<!--@foreach($imovel->media as $medias)
                                     <img class="img-fluid img-thumbnail" src="{{asset('/imagens/imoveis/'.$medias->source)}}">
                              @endforeach-->
-	  					 @endif 
-	  			@endforeach	
+	  			<!--		 @endif 
+	  			@endforeach	-->
 		</div>
 	  <div class="tab-pane fade" id="aluguel" role="tabpanel" aria-labelledby="aluguel-tab">
-
+	  	<!--
 	  			@foreach($imoveislist as $i => $imovel)
 	  					
 	  					 @if($imovel->meta == 'aluguel' and $imovel->status == 0)
 
-	  					 	{{$imovel->id}}
+	  					 	{{$imovel->id}} -->
 
 							 <!-- 					 	
 	  					 	@foreach($imovel->media as $medias)
@@ -46,8 +46,8 @@
                              @endforeach	 
                          	--> 					 	
 
-	  					 @endif	
-	  			@endforeach	  
+	  		  		<!--	@endif	
+						@endforeach	  -->
 
 	  </div>	  
 
@@ -77,10 +77,6 @@
 
 	  </div>
 	  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-	  	@foreach($regSantos as $g => $guaru)
-	  				{{$guaru->titulo}}
-	  				{{ $guaru->cep}}
-	  	@endforeach
 	  	Bertioga, Cubatão, Guarujá, Praia Grande, Santos, São Vicente
 
 	  </div>
