@@ -23,18 +23,18 @@ $(document).ready(function() {
 
         //If the wrapper height is greater than the window
 
-                if (content > height)
-                {
-                    //then set sidebar height to the wrapper
-                    $("#right, html, body").css("min-height", content + 0 + "px");
-                    $("#left").css("min-height", content + 2 + "px");
-                }
-                else
-                    {
-                    //Otherwise, set the sidebar to the height of the window
-                    $("#right, html, body").css("min-height", height + 0 + "px");
-                    $("#left").css("min-height", height + 2 + "px");
-                }
+        if (content > height)
+        {
+            //then set sidebar height to the wrapper
+            $("#right, html, body").css("min-height", content + 0 + "px");
+            $("#left").css("min-height", content + 2 + "px");
+        }
+        else
+        {
+            //Otherwise, set the sidebar to the height of the window
+            $("#right, html, body").css("min-height", height + 0 + "px");
+            $("#left").css("min-height", height + 2 + "px");
+        }
     }
     function fix_sidebar() {
         //Make sure the body tag has the .fixed class
@@ -68,12 +68,14 @@ $(document).ready(function() {
     });
 
     // slim scroll for header and right sections
-    $('.right_content').slimscroll({
-        height: $(window).height(),
-        size: '5px',
-        opacity: 0.2
-    });
-
+    function right_content(){
+        $('.right_content').slimscroll({
+            height: $(window).height(),
+            size: '5px',
+            opacity: 0.2
+        });
+    }
+    right_content();
     $('#messages').slimscroll({
         height: '222px',
         size: '5px',
@@ -85,6 +87,31 @@ $(document).ready(function() {
         size: '5px',
         opacity: 0.2
     });
+    // ==================fixed menu header js=================
+    if($(window).width()>767){
+        fixed_menu();
+    }else{
+        $(".menu_scroll").slimScroll({
+            destroy: true,
+            height: '100%'
+        });
+        $("#top,#left").removeClass("fixed");
+        $("body").removeClass("fixedMenu_header");
+        $(".menu_sction").removeClass("menu_scroll");
+    }
+    function fixed_menu() {
+        $(".fixedMenu_header .wrapper").css("margin-top",$("#top").height());
+        $(".menu_scroll").slimscroll({
+            height: $(window).height()-$("#top").height(),
+            size: '5px',
+            opacity: 0.2
+        });
+    }
+    $(window).on("resize",function () {
+        fixed_menu();
+        right_content();
+    });
+// ==================end fixed menu header js=================
 
 });
 
@@ -112,7 +139,7 @@ $(document).ready(function() {
                 $this.find("li.active").has("ul").children("ul").collapse("show");
                 $this.find("li").not(".active").has("ul").children("ul").collapse("hide");
             } else {
-                $this.find("li.active").has("ul").children("ul").addClass("collapse in");
+                $this.find("li.active").has("ul").children("ul").addClass("collapse show");
                 $this.find("li").not(".active").has("ul").children("ul").addClass("collapse");
             }
             //add the "doubleTapToGo" class to active items if needed
@@ -130,10 +157,16 @@ $(document).ready(function() {
                         return;
                     }
                 }
-                $(this).parent("li").toggleClass("active").children("ul").collapse("toggle");
+                $(this).parent("li").toggleClass("active").children("ul").collapse({
+                    toggle: true,
+                    animate: false
+                });
+                $this.find("li.active").has("ul").children("ul").addClass("collapse show");
 
                 if ($toggle) {
-                    $(this).parent("li").siblings().removeClass("active").children("ul.in").collapse("hide");
+                    $(this).parent("li").siblings().removeClass("active").children("ul.show").collapse("hide");
+                    $this.find("li.active").has("ul").children("ul").addClass("collapse show");
+                    $this.find("li").not(".active").has("ul").children("ul").removeClass("show");
                 }
             });
         },
@@ -385,3 +418,21 @@ function loadjscssfile(filename, filetype) {
         $("#skin_change").attr("href", "assets/css/skins/"+filename+"")
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

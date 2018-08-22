@@ -1,0 +1,147 @@
+.form-box{
+    height: 100%!important;
+}
+
+.btn-group > .btn{
+    height: 44px;
+    width: 25%!important;
+}
+
+input:required:invalid{
+    border-color: red;
+}
+input:required:valid {
+    border-color: green;
+}
+
+
+#progress {
+    width: 100%;
+    background-color: transparent!important;
+    height: 30px;
+    margin-top: 10px;
+}
+
+#progbar{
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  height: 30px;
+  background: rgb(255,90,0);
+}
+
+#progbar::before{
+
+}
+
+.btn-group > .btn:focus, 
+.btn-group > .btn:active, 
+.btn-group > .btn.active, 
+.btn-group-vertical > .btn:focus, 
+.btn-group-vertical > .btn:active, 
+.btn-group-vertical > .btn.active{
+    box-shadow: none!important;
+    background: #006384!important;
+    border-color: #006384!important;/*Azul links*/
+
+}
+
+.btn-plano{
+    background:rgb(0,122,165)!important;
+    font-size: 1.2rem!important;
+    min-width: 90%!important;
+    margin: 15px 0px!important;
+    color:#fff;
+}
+
+input[type="text"], 
+input[type="tel"],
+input[type="password"], 
+textarea, 
+textarea.form-control {
+	height: 44px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #fff;
+    border: 1px solid #ddd;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 44px;
+    color: #888;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+textarea, 
+textarea.form-control {
+	height: 90px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	line-height: 30px;
+}
+
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="tel"]:focus,
+select:active,
+select:focus,
+textarea:focus, 
+textarea.form-control:focus,
+.form-control:focus,
+select.form-control:focus{
+	outline: 0;
+	background: #fff;
+    border: 1px solid #ccc;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
+
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, 
+textarea:-moz-placeholder, textarea.form-control:-moz-placeholder { color: #888; }
+
+input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder, 
+textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder { color: #888; }
+
+input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder, 
+textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder { color: #888; }
+
+label { font-weight: 300; }
+
+
+button.btn-wizard {
+	min-width: 105px;
+	height: 40px;
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 40px;
+    color: #fff;
+    -moz-border-radius: 4px!important; -webkit-border-radius: 4px!important; border-radius: 4px;
+    text-shadow: none !important;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+button.btn-wizard:hover { opacity: 0.6; color: #fff; }
+button.btn-wizard:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+button.btn-wizard:focus,
+button.btn-wizard:active:focus,
+button.btn-wizard.active:focus { outline: 0; opacity: 0.6; color: #fff; }
+
+button.btn-wizard.btn-next,
+button.btn-wizard.btn-next:focus,
+button.btn-wizard.btn-next:active:focus, button.btn-wizard.btn-next.active:focus { background: #f35b3f; }
+
+button.btn-wizard.btn-submit,
+button.btn-wizard.btn-submit:focus,
+button.btn.btn-submit:active:focus, button.btn-wizard.btn-submit.active:focus { background: #f35b3f; }
+
+button.btn-wizard.btn-previous,
+button.btn-wizard.btn-previous:focus,
+button.btn-wizard.btn-previous:active:focus, button.btn-wizard.btn-previous.active:focus { background: #bbb; }

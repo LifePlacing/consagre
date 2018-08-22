@@ -12,6 +12,10 @@
     height: 18px;
     border: none;
 }
+.plus_btn:focus
+{
+    color: #000 !important;
+}
 /* Custom calendar */
 .external-event {
     padding: 3px 5px;
@@ -151,7 +155,7 @@ a:not([href]):not([tabindex]){
 .cal_btn_hov .btn.btn-link.btn-xs{
     margin-top: -4px;
 }
-@media screen and (max-width: 340px){
+@media (max-width: 340px){
     .manual_popover, .view_user_cal .event_tooltip a {
         width: 25px;
         height: 26px;
@@ -165,4 +169,20 @@ a:not([href]):not([tabindex]){
 }
 .fc-event-container:hover{
     color: #fff;
+}
+/*dropdown colors*/
+.color_primary,.color_primary:hover{
+    background-color: #00c0ef;
+}
+.color_success,.color_success:hover{
+    background-color: #00bf86;
+}
+.color_info,.color_info:hover{
+    background-color: #668cff;
+}
+.color_warning,.color_warning:hover{
+    background-color: #ffa000;
+}
+.color_danger,.color_danger:hover{
+    background-color: #ff8080;
 }

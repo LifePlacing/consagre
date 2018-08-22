@@ -12,8 +12,17 @@
 .block_list_color2 li {
     padding: 10px 50px 10px 20px;
     margin: 15px;
-    background-color: #ff9933;
+    background-color: #ffa000;
     color: #fff;
+}
+
+.block__list_tags li {
+    color: #fff;
+    float: left;
+    margin: 8px 20px 10px 0;
+    padding: 5px 22px;
+    min-width: 10px;
+    text-align: center;
 }
 .layer.block #bar [draggable="false"]{
     background: #0fb0c0;
@@ -31,14 +40,6 @@
 }
 .layer #foo .btn-raised:hover{
     background-color:#0fb0c0;
-}
-.block__list_tags li {
-    color: #fff;
-    float: left;
-    margin: 10px 20px 10px 0;
-    padding: 5px 22px;
-    min-width: 10px;
-    text-align: center;
 }
 .title{
     background-color:transparent;
@@ -86,7 +87,7 @@ img {
 .tile__name {
     cursor: move;
     padding-bottom: 10px;
-    border-bottom: 1px solid #EF6F6C;
+    border-bottom: 1px solid #ff8080;
 }
 
 .tile__list {
@@ -164,7 +165,7 @@ img {
     opacity: 0;
     display: block;
     cursor: pointer;
-    color: #EF6F6C;
+    color: #ff8080;
     top: 13px;
     right: 40px;
     position: absolute;
@@ -188,7 +189,7 @@ img {
     margin: 10px 0 0;
     transition: opacity .1s ease;
     cursor: pointer;
-    background: #4fb7fe;
+    background: #00c0ef;
     padding: 10px 0;
     font-size: 20px;
 }
@@ -207,7 +208,7 @@ img {
     color: #5F9EDF;
     display: inline-block;
     cursor: move;
-    cursor: -webkit-grabbing;
+    cursor: -webkit-grabbing; /* overrides 'move' */
 }
 
 #todos input {
@@ -216,6 +217,9 @@ img {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
 }
+.layer ul{
+    padding: 0;
+}
 
 #nested ul li {
     background-color: rgba(0, 0, 0, .05);
@@ -223,10 +227,7 @@ img {
 .sortable_close .fa-close{
     margin:-10px 15px 0 0
 }
-#filter .slimScrollBar{
-    z-index: 90 !important;
-}
-@media screen and (max-width: 539px) {
+@media (max-width: 539px) {
     #bar{
         text-align: center;
     }

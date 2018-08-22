@@ -165,7 +165,7 @@ body
 .weekly_report {
     color: #FFF;
     text-align: center;
-    margin: 0 0 -21px 0;
+    margin: 0 0 -7px 0;
     font-size: 18px;
 }
 
@@ -700,9 +700,9 @@ body
 
     #pieLabel1
     {
-        left: 80% !important;
+    left: 80% !important;
 
-    }
+}
 
 }
 @media (min-width:991px) and (max-width:1150px) {
@@ -714,14 +714,14 @@ body
     }
 
 }
-@media screen and (max-width: 992px)
+@media (max-width: 992px)
 {
     .md_align_section
     {
         margin-top: 35px;
     }
 }
-@media screen and (min-width: 768px) and (max-width: 800px){
+@media (min-width: 768px) and (max-width: 800px){
     .icon_padd_left{
         margin-left: -1px;
     }

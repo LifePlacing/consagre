@@ -69,7 +69,7 @@
 .mail .nav-tabs .nav-item{
     width: 25% ;
 }
-@media screen and (max-width: 539px) {
+@media (max-width: 539px) {
     .mail .nav-tabs .nav-item{
         width: 32% ;
     }

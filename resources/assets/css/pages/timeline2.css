@@ -173,12 +173,12 @@
 .text-default-gray{
     color: #777;
 }
-@media screen and (min-width:768px) and (max-width:1023px){
+@media (min-width:768px) and (max-width:1023px){
     .timeline > li > .timeline-panel{
         width:43%;
     }
 }
-@media screen and (max-width:600px){
+@media (max-width:600px){
     .timeline > li > .timeline-panel{
         width:40%;
     }

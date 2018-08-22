@@ -1,0 +1,219 @@
+html,body{
+	text-align: center!important;
+}
+
+.erro-form{
+	color: #dc3545!important;
+	margin-top: 0.25rem;
+	font-size: 70%;
+	width: 100%;
+	display: none;
+}
+
+.invalid-feedback{
+	display: block;
+}
+.f1 > h3{
+	font-size: 22px;
+    font-weight: 300;
+    color: #555;
+    line-height: 30px;
+}
+.f1 > h4{
+	font-size: 18px;
+    font-weight: 400;
+    color: #555;
+    line-height: 5px;
+    text-align: left;
+    padding: 3% 1% 1%!important;    
+}
+
+fieldset > h3 {
+	font-size: 22px;
+    font-weight: 300;
+    color: #555;
+    line-height: 30px;
+}
+
+fieldset > h4 {
+	font-size: 18px;
+    font-weight: 400;
+    color: #555;
+    line-height: 5px;
+    padding: 1%! 0%important;
+}
+
+img { max-width: 100%; }
+
+
+
+::-moz-selection { background: rgb(255,90,0); color: #fff; text-shadow: none; }
+::selection { background: rgb(255,90,0); color: #fff; text-shadow: none; }
+
+/*=====componente cep ==========*/
+
+.lembra-cep{
+	color:rgb(255,90,0)!important; 
+}
+
+/***** Top content *****/
+
+
+.f1 {
+	padding: 15px; background: #fff;
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
+.f1 h3 { margin-top: 0; margin-bottom: 5px; text-transform: uppercase; }
+
+.f1-steps { overflow: hidden; position: relative; margin-top: 20px; }
+
+.f1-progress { position: absolute; top: 24px; left: 0; width: 100%; height: 1px; background: #ddd; }
+.f1-progress-line { position: absolute; top: 0; left: 0; height: 2px; background: rgb(255,90,0); }
+
+.f1-step { position: relative; float: left; width: 33.333333%; padding: 0 5px; }
+
+.f1-step-icon {
+	display: inline-block; width: 40px; height: 40px; margin-top: 4px; background: #ddd;
+	font-size: 16px; color: #fff; line-height: 40px;
+	-moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;
+}
+.f1-step.activated .f1-step-icon {
+	background: #fff; border: 1px solid rgb(255,90,0); color: #f35b3f; line-height: 38px;
+}
+.f1-step.active .f1-step-icon {
+	width: 48px; height: 48px; margin-top: 0; background: rgb(255,90,0); font-size: 22px; line-height: 48px;
+}
+
+.f1-step p { color: #ccc; }
+.f1-step.activated p { color: rgb(255,90,0); }
+.f1-step.active p { color: rgb(255,90,0); }
+
+.f1 fieldset { display: none; text-align: left; }
+
+.f1-buttons { text-align: right; }
+
+.f1 .input-error { border-color: #f35b3f; }
+
+.linha{width: 100%; flex: 0 0 100%; height: auto;}
+
+
+/*========= Pagina Planos ============= */
+.valores{ min-width: 100%; flex: 0 0 100%; background:rgb(0,122,165); padding: 0.5rem;}
+.modelo{ min-width: 100%;}
+
+.valores > form{ width: 100%; flex: 0 0 100%; }
+
+.valores > form > .item { min-width: 49.99%; flex: 0 0 49.99%; padding: 0 0.5rem; float: left; }
+
+.modelo > h2{
+	padding: 15px;
+}
+
+table > thead > tr > th > h5{
+	font-weight: 600;
+}
+
+.img-amostra{
+	width: 50%!important;
+	height: 200px!important;
+	object-fit: cover;
+	flex: 0 0 175px!important;
+	float: left;
+	margin: 5px;
+	}
+
+
+
+/***** Media queries *****/
+
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+@media (min-width: 768px) and (max-width: 991px) {}
+
+@media (max-width: 767px) {	
+	.top-content { padding: 5px 0px; }
+	.f1-steps { margin-top: 5px; line-height: 1.5;}
+
+	.container{
+		padding-left: 0px!important;
+		padding-right: 0px!important;
+	}
+	
+
+	fieldset > h4{ line-height: normal; 
+					font-size: 1rem!important; 
+	}
+
+	.img-amostra{
+		width: 100%!important;
+		max-height: 200px!important;
+	}
+
+	.valores > form > .item { 
+		min-width: 90%; 
+		flex: 0 0 90%; 
+		padding: 1rem 0!important; 
+	}
+
+
+}
+
+@media (max-width: 415px) {
+	
+	h1, h2 { font-size: 32px; }
+
+	.container{
+		padding-left: 0px!important;
+		padding-right: 0px!important;
+		overflow: hidden;
+	}
+	
+	.f1 { padding-bottom: 10px; }
+
+	.f1-steps { margin-top: 5px; line-height: 1.5;}
+
+	fieldset > h4{ line-height: normal; font-size: 0.9rem!important; 	}
+
+	.f1-buttons button { margin-bottom: 5px; }
+
+	.btn-group > .btn{ width: 50%!important;}
+
+	button.btn-wizard.btn-next, button.btn-wizard.btn-next:focus, button.btn-wizard.btn-next:active:focus, button.btn-wizard.btn-next.active:focus {
+    	color: #fff;
+    	font-weight: 600;
+    	width: 100%!important;
+    	cursor: pointer;
+	}
+
+
+	.uploader > .images-preview > .img-wrapper{
+		min-width: 40%!important;
+		flex: 0 0 40%;
+	}
+
+	.img-amostra{
+		width: 100%!important;
+		max-height: 200px!important;
+	}
+
+	.valores > form > .item { 
+		min-width: 90%; 
+		flex: 0 0 90%; 
+		padding: 1rem 0!important;  
+	}
+
+
+}
+
+
+/* Retina-ize images/icons */
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) {	
+
+}

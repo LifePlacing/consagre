@@ -27,7 +27,7 @@
     margin:6px
 }
 /*.gallery2-padding{*/
-    /*padding-top: 10px;*/
+/*padding-top: 10px;*/
 /*}*/
 .tab-content .thumb_zoom {
     margin:10px 10px 0 0;
@@ -56,21 +56,27 @@
 .admin_img_width,.btn_file_position {
     margin-left: -5px;
 }
-@media screen and (max-width: 470px){
+@media (max-width: 470px){
     #tab_1 figure img{
         margin-bottom: -1px;
     }
 }
-@media screen and (max-width: 800px){
+@media (max-width: 800px){
     .popover{
         width:110px;
     }
 }
-@media screen and (min-width: 1365px) {
+@media (min-width: 1365px) {
     #tab_1 figure img{
-        margin-bottom: -13px;
+        margin-bottom: 0;
+        margin-top: -1px;
     }
     #tab_1 figure{
-        margin: 10px 17px 5px 0;
+        margin: 10px 14px 5px 0;
+    }
+}
+@media (max-width: 424px){
+    .nav-tabs-custom ul{
+        display: block;
     }
 }

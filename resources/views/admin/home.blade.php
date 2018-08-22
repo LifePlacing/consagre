@@ -17,7 +17,7 @@
                     @endif
 
                     Você está Logado! Esta página ainda está em contrução 
-                    <a class="btn btn-primary" href="{{ route('admin.logout') }}" onclick="event.preventDefault();
+                    <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
                     </a>

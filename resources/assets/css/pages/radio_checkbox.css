@@ -7,6 +7,9 @@
 .diff_colored_radio .btn span.fa {
     opacity: 0;
 }
+.diff_colored_radio .btn,.diff_colored_checkbox .btn{
+    margin-right:-2px;
+}
 .diff_colored_radio .btn.active span.fa {
     opacity: 1;
 }
@@ -87,7 +90,7 @@
 .custom-control .custom-control-indicator{
     margin-top: 2px !important;
 }
-@media screen and (max-width: 767px){
+@media (max-width: 767px){
     .radio_header_top{
         margin-top: 25px;
     }
@@ -138,7 +141,7 @@
     margin-top: 15px;
 }
 
-@media screen and (max-width: 991px) {
+@media (max-width: 991px) {
     .transition_radio_media{
         margin-top: 15px;
     }

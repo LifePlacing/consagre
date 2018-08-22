@@ -1,11 +1,14 @@
+/*modal flex display*/
+.modal-header
+{
+    display: flex;
+    flex-direction: row-reverse;
+}
 .intl-tel-input .country-list{
     z-index: 999;
 }
 .form_inline_btn_margin-top{
     margin-top: 0 !important;
-}
-.custom-control .custom-control-indicator{
-    margin-top: 2px !important;
 }
 .horizontal_sign_section_top{
     margin-top:5px
@@ -28,17 +31,17 @@
 .intl-tel-input.allow-dropdown{
     display: block;
 }
-@media screen and (max-width: 370px){
+@media (max-width: 370px){
     .form_lay_select_padding{
-        padding: 0 1px;
+        padding: 8px 1px 0;
     }
 }
-@media screen and (min-width: 992px) and (max-width: 1200px) {
+@media (min-width: 992px) and (max-width: 1200px) {
     .two_column_signup_margintop{
         margin-top: 12px;
     }
 }
-@media screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
     .two_column_label_margintop{
         margin-top: 17px !important;
 
@@ -47,7 +50,7 @@
         margin-top: 35px;
     }
 }
-@media screen and (min-width: 1201px) {
+@media (min-width: 1201px) {
     .intl-tel-input .country-list{
         width: 380px;
     }

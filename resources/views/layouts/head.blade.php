@@ -16,19 +16,15 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('css/consagre.css') }}" rel="stylesheet"> -->
-     <link href="{{ asset('css/mobile.css') }}" rel="stylesheet"> 
-
+    <link href="{{ asset('css/mobile.css') }}" rel="stylesheet"> 
 
 </head>
 <body>
 
 <div id="app">
 	<div class="position-ref">
-		
 		<div class="top">
 
 		<div class="navbar-superior">
@@ -38,16 +34,40 @@
 
 	                	<div class="links">
 	                    @auth
-	                        <a href="{{ url('/home') }}">Home</a>
+
+							<div class="dropdown">
+
+							  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Minha Conta
+							  </a>
+
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('home') }}">
+								Home
+								</a>  
+
+								<a class="dropdown-item" href="{{ route('logout') }}" 
+								onclick="event.preventDefault();
+								document.getElementById('logout-form').submit();">
+									Logout
+								</a>  
+
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								    @csrf
+								</form>
+							  </div>
+
+							</div>
+
 	                    @else
 	                        <a href="{{ route('login') }}">Login</a>
 	                        <span class="marc">|</span>
 	                        <a href="{{ route('register') }}">Cadastre-se</a>
-	                    </div>  	                    
-
-	                    <button>Anunciar meu imóvel</button>
-
-	                    @endauth
+	                    @endauth                            
+	                    </div>
+	                   	<a class="button" href="{{url('planos', ['anuncio'])}}">
+	                   	Anunciar meu Imóvel
+	                   </a>                     
 
 	                </div>
 	            @endif
@@ -108,7 +128,7 @@
 
 			<form>
 				<div class="form-inline">
-					<div class="form-group col-sm-4 col-xs-12">
+					<div class="form-group col-sm-4 col-xs-12 xs-12">
 						<span>Do que você precisa?</span>
 						<div class="btn-group btn-group-toggle col-sm-12" data-toggle="buttons">
 							  <label class="btn btn-primary active">
@@ -124,17 +144,19 @@
 						</div>
 					</div>
 
-					<div class="form-group col-sm-4 col-xs-12">
+					<div class="form-group col-sm-4 col-xs-12 xs-6">
 						<span>Qual tipo?</span>
-						<select class="custom-select col-sm-12">
+						<select class=" dropdown-toggle custom-select col-sm-12" >
 						  <option selected>Escolha o tipo de imóvel</option>
-						  <option value="1">One</option>
-						  <option value="2">Two</option>
-						  <option value="3">Three</option>
+						  @if($tipos)
+							@foreach($tipos as $tipo => $id)
+						  		<option value="{{ $id }}">{{ $tipo }}</option>
+						  	@endforeach
+						  @endif
 						</select>
 					</div>
 
-				    <div class="form-group col-sm-4 col-xs-12">
+				    <div class="form-group col-sm-4 col-xs-12 xs-6">
 				    	<span>Onde?</span>
 				       	<input type="text" class="form-control col-sm-12" id="cidade" placeholder="Qual cidade do Litoral Paulista?">
 				    </div>
@@ -160,4 +182,40 @@
             @yield('content')            
         </main>
         
-@extends('layouts.footer')        
+<footer>
+	<div class="anuncie">
+		<span>Conheça nossos planos de anúncio</span>
+		<button onclick="location.href='/planos/anuncio'">Anunciar meu imóvel</button>		
+	</div>
+	<div class="container">	
+		<div class="row">
+			<div class="col-xs-12 col-sm-7 xs-12">
+				<div class="social">
+					<h4>Redes Sociais</h4>
+					<a href=""><div class="rounded-circle item f"><i class="fa fa-facebook-f fa-3x"></i></div></a>
+					<a href=""><div class="rounded-circle item t"><i class="fa fa-twitter fa-3x"></i></div></a>
+					<a href=""><div class="rounded-circle item g"><i class="fa fa-google-plus fa-3x"></i></div></a>
+					<a href=""><div class="rounded-circle item y"><i class="fa fa-youtube fa-3x"></i></div></a>
+					<a href=""><div class="rounded-circle item p"><i class="fa fa-pinterest-p fa-3x"></i></div></a>
+					<a href=""><div class="rounded-circle item i"><i class="fa fa-instagram fa-3x"></i></div></a>
+
+				</div>			
+			</div>			
+			<div class="col-sm-3">	
+				<div class="aplicativos">
+					<h4> Baixe o Aplicativo </h4> 
+					<i class="fa fa-apple fa-4x"></i> 
+					<i class="fa fa-android fa-4x"></i>
+
+				</div>
+			</div>	
+
+		</div>
+	</div>
+	<div class="container">
+		<div class="copyright">Copyright <code>c</code> {{date('Y')}} |  Marcos Vinicius Nunes - (13)98101-1263 </div>
+	</div>
+</footer>	
+</div>
+</body>
+</html>    

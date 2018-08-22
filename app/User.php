@@ -21,13 +21,18 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    public function imovels(){
+        return $this->hasMany('App\Imovel');
+    }
+
 
     protected $fillable = [
-        'name', 'email', 'password', 'user_type',
+        'name', 'email', 'password',  'cpf', 'phone', 'sobre', 
     ];
 
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'cpf', 'role', 'user_type',
     ];
+
 }

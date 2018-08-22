@@ -3,28 +3,35 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
 
 class RedirectIfAuthenticated
 {
-    public function handle($request, Closure $next, $guard = null)
-    {
-       
-        switch ($guard) {
-            case 'admin':
-                if (Auth::guard($guard)->check ()){ 
-                    return redirect ()-> route('admin.dashboard'); 
-                  } 
-                break;
-            
-            default:
-                    if (Auth::guard($guard)->check()) {
-                    return redirect()->route("{$guard}.home");
-                    }
 
-                break;
+    protected $auth;
+
+    public function __construct(Guard $auth)
+    {
+        $this->auth = $auth;
+    }    
+
+    public function handle($request, Closure $next)
+    {
+        if ($this->auth->check()) {            
+            
+            if ($this->auth->user()->role == 'admin') {
+                
+                return redirect()->route('admin.dashboard');
+               
+            }
+            if ($this->auth->user()->role == 'membro') {
+                
+                return redirect()->intended('/');
+            }
         }
-        
+
         return $next($request);
+        
     }
+
 }

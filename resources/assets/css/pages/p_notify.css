@@ -74,7 +74,7 @@
 .ui-pnotify-icon{
     margin-top: 2px !important;
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
     html > body > .ui-pnotify {
         bottom: auto !important;
         left: 0 !important;

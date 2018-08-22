@@ -71,7 +71,7 @@
 .messages{
 	border: 1px solid #fff !important;
 }
-@media screen and (min-width: 1200px) {
+@media (min-width: 1200px) {
 	.daterangepicker{
 		margin-right: 25px !important;
 	}
@@ -101,20 +101,20 @@ li.ui-timepicker-selected, .ui-timepicker-list li:hover, .ui-timepicker-list .ui
 	background-color: #00c0ef !important;
 	color: #fff;
 }
-@media screen and (max-width: 389px) {
+@media (max-width: 389px) {
 	.daterangepicker{
 		right: 22px !important;
 		left: 22px !important;
 		padding-right: 10px;
 	}
 }
-@media screen and (min-width: 390px) and (max-width: 1200px){
+@media (min-width: 390px) and (max-width: 1200px){
 	.daterangepicker{
 		right: 22px !important;
 		padding:0 5px;
 	}
 }
-@media screen and (min-width: 910px) and (max-width: 1040px){
+@media (min-width: 910px) and (max-width: 1040px){
 	.daterangepicker{
 		left: 400px !important;
 	}

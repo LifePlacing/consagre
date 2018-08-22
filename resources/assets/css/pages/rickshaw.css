@@ -32,9 +32,9 @@ svg:not(:root) {
 #legend_chart2, #legend_chart3 {
     font-family: "Source Sans Pro", sans-serif;
 }
-@media screen and (max-width:992px){
-    .md_top_align
-    {
-        margin-top: 35px;
-    }
+@media (max-width:992px){
+.md_top_align
+{
+    margin-top: 35px;
+}
 }

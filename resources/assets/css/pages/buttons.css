@@ -721,7 +721,7 @@ a.vimeo:hover * {
 	}
 }
 
-@media screen and (min-width: 321px) and (max-width: 539px) {
+@media (min-width: 321px) and (max-width: 539px) {
 	.btn_angle_right{
 		padding-left: 14px;
 	}

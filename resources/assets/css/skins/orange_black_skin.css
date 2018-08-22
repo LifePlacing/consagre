@@ -1,21 +1,17 @@
 #top .navbar {
 	margin-bottom: 0;
-	background: #ffa000;
+	background: #DD962C;
 }
 
 #left {
 background-color: #575757;
 }
 
-.badge {
-background-color: #777;
-}
-
 .skin_txt {color: #ff8800;}
 
 .btn-default {
 color: #fff;
-background-color: #ffa000;
+background-color: #DD962C;
 
 }
 

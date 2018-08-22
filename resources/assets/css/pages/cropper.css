@@ -68,3 +68,15 @@
 {
     width: 100%;
 }
+.btn-group > .btn, .btn-group-vertical > .btn{
+    margin-bottom: 0;
+}
+.btn-group-crop .btn {
+    margin-top: 10px;
+}
+@media (max-width: 424px){
+    .btn-group-crop {
+        display: block;
+    }
+}
+

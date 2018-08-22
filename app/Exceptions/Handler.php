@@ -32,22 +32,4 @@ class Handler extends ExceptionHandler
     }
 
 
-    protected function unauthenticated($request, AuthenticationException $exception){
-
-        $guard = array_get($exception->guards(), 0);
-              
-        switch ($guard) {
-            case 'admin':
-            return redirect()->guest(route("admin.login"));
-                break;            
-            default:                    
-            return redirect()->guest(route("login"));
-                break;
-        }
-
-        return redirect()->guest(route("login"));
-
-    }
-
-
 }

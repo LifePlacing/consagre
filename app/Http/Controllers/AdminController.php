@@ -8,14 +8,14 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware(['role', 'auth', 'revalidate']);
     }
 
 /* PAGINA DASHBOARD */
 
     public function index()
     {
-    	return view('admin.home');
+    	return view('admin.index');
     }
     
 }

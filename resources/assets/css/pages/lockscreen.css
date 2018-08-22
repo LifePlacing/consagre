@@ -36,6 +36,7 @@
 .form-box button.login {
 	margin-top: 15px;
 	padding: 10px 20px;
+	cursor: pointer;
 }
 .animated {
 	animation-duration: 1s;

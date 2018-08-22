@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Role;
 use App\Mail\ConfirmarEmail;
 use App\VerifyUser;
 use Mail;
@@ -17,9 +18,6 @@ class RegisterController extends Controller
 
 
     use RegistersUsers;
-
-
-    protected $redirectTo = '/home';
 
 
     public function __construct()
@@ -40,11 +38,11 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            
+            'password' => Hash::make($data['password']), 
         ]);
 
         $verifyUser = VerifyUser::create([

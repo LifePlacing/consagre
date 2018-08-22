@@ -20,8 +20,36 @@
 
 	<div class="tab-content" id="ContentLanc">
 
-	  <div class="tab-pane fade show active" id="avenda" role="tabpanel" aria-labelledby="avenda-tab">Desculpe ainda não temos nenhum imóvel a venda disponivel</div>
-	  <div class="tab-pane fade" id="aluguel" role="tabpanel" aria-labelledby="aluguel-tab">Desculpe infelizmente ainda não temos nenhum imóvel disponivel para aluguel</div>	  
+	  	<div class="tab-pane fade show active" id="avenda" role="tabpanel" aria-labelledby="avenda-tab">
+	  			@foreach($imoveislist as $i => $imovel)
+	  					 @if($imovel->meta == 'venda')
+
+	  					 	{{$imovel->id}}
+
+	  					 	<!--@foreach($imovel->media as $medias)
+                                    <img class="img-fluid img-thumbnail" src="{{asset('/imagens/imoveis/'.$medias->source)}}">
+                             @endforeach-->
+	  					 @endif 
+	  			@endforeach	
+		</div>
+	  <div class="tab-pane fade" id="aluguel" role="tabpanel" aria-labelledby="aluguel-tab">
+
+	  			@foreach($imoveislist as $i => $imovel)
+	  					
+	  					 @if($imovel->meta == 'aluguel' and $imovel->status == 0)
+
+	  					 	{{$imovel->id}}
+
+							 <!-- 					 	
+	  					 	@foreach($imovel->media as $medias)
+                                    <img class="img-fluid img-thumbnail" src="{{asset('/imagens/imoveis/'.$medias->source)}}">
+                             @endforeach	 
+                         	--> 					 	
+
+	  					 @endif	
+	  			@endforeach	  
+
+	  </div>	  
 
 	</div>	
 
@@ -29,7 +57,7 @@
 
 	<section id="cidades">
 
-	<h2>Buscar por Cidade </h2>
+	<h2>Buscar por Cidade</h2>
 
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 	  <li class="nav-item">
@@ -47,11 +75,12 @@
 	  	
 	  	Cananeia, Iguape, Ilha Comprida, Itanhaém, Mongaguá, Pedro de Toledo, Peruíbe
 
-
-
 	  </div>
 	  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-	  	
+	  	@foreach($regSantos as $g => $guaru)
+	  				{{$guaru->titulo}}
+	  				{{ $guaru->cep}}
+	  	@endforeach
 	  	Bertioga, Cubatão, Guarujá, Praia Grande, Santos, São Vicente
 
 	  </div>

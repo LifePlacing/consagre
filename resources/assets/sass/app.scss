@@ -1,9 +1,7 @@
 //Icones Fontawesome
-@import "node_modules/font-awesome/scss/font-awesome.scss";
-
-@import 'vendor/themify/css/themify-icons.css';
-@import 'vendor/iCheck/css/all.css';
+@import "resources/assets/vendors/font-awesome/scss/font-awesome.scss";
 @import 'vendor/bootstrapvalidator/css/bootstrapValidator.min.css';
+
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
@@ -14,4 +12,4 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-
+@import '~vue-toastr/src/vue-toastr.scss';

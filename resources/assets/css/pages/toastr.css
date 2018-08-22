@@ -463,13 +463,13 @@ textarea#getCodeResult {
 }
 
 label, img {
-	margin-bottom: 0px !important
+	margin-bottom: 0 !important
 }
 
 
 
 /* MOBILE PORTRAIT */
-@media only screen and (min-width: 320px) {
+@media (min-width: 320px) {
 	ul.layouts .g1 {
 		display: inline;
 		float: left
@@ -492,7 +492,7 @@ label, img {
 }
 
 /* MOBILE LANDSCAPE */
-@media only screen and (min-width: 480px) {
+@media (min-width: 480px) {
 	ul.layouts .g1 {
 		display: inline;
 		float: left
@@ -504,7 +504,7 @@ label, img {
 }
 
 /* SMALL TABLET */
-@media only screen and (min-width: 600px) {
+@media (min-width: 600px) {
 	ul.layouts .g1 {
 		display: inline;
 		float: left
@@ -516,7 +516,7 @@ label, img {
 }
 
 /* TABLET/NETBOOK */
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
 	/* COLUMN GRID */
 	.g1, .g2, .g3 {
 		display: inline;
@@ -549,7 +549,7 @@ label, img {
 }
 
 /* LANDSCAPE TABLET/NETBOOK/LAPTOP */
-@media only screen and (min-width: 1024px) {
+@media (min-width: 1024px) {
 	body {
 
 	}
@@ -568,7 +568,7 @@ label, img {
 	}
 }
 
-@media only screen and (min-width: 1280px) {
+@media (min-width: 1280px) {
 	/* DESKTOP */
 	body {
 		max-width: 100%;
@@ -577,7 +577,7 @@ label, img {
 
 /* WIDESCREEN */
 /* Increased body size for legibility */
-@media only screen and (min-width: 1400px) {
+@media (min-width: 1400px) {
 	/* 18.5px / 28px */
 }
 

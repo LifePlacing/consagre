@@ -49,18 +49,18 @@
     border-bottom: 16px solid #336699;
 }
 
-@media screen and (max-width: 440px) {
+@media (max-width: 440px) {
     #gmap-types .gmnoprint .gm-style-mtc div:first-child {
         /*width:70px !important;*/
         padding: 5px !important;
     }
 }
-@media screen and (max-width: 359px) {
+@media (max-width: 359px) {
      #gmap-types .gmnoprint .gm-style-mtc div:nth-child(2) {
         top:52px !important;
     }
 }
-@media screen and (max-width: 992px) {
+@media (max-width: 992px) {
     .map_md_top_align
     {
         margin-top: 35px;

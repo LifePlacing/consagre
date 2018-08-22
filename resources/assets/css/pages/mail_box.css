@@ -23,15 +23,15 @@ input[type=checkbox] {
 	opacity: 1 !important;
 }
 .list-group li {
-    border-right: 0;
-    border-left: 0;
+	border-right: 0;
+	border-left: 0;
 }
 .list-group li a {
-    display: block;
-    width: 100%;
+	display: block;
+	width: 100%;
 }
 .list-group li span {
-    float: right;
+	float: right;
 }
 .status-online {
 	width:8px;
@@ -65,27 +65,30 @@ input[type=checkbox] {
 }
 
 .list-group-item {
-position: relative;
-display: block;
-padding: 5px;
-background-color: #fff;
-border:1px solid #ddd;
+	position: relative;
+	display: block;
+	padding: 5px;
+	background-color: #fff;
+	border:1px solid #ddd;
 }
 .dropdown_list_hover .btn-group  {
-    margin:0 5px 0 0;
+	margin:0 5px 0 0;
 }
-.status_height {line-height: 30px;}
+.status_height {line-height: 30px;
+}
 
 .mail_inbox_text_col{
 	color: #fff !important;
 }
+.mail .table-bordered{
+	padding: 11px;
+}
+.mail table td .custom-control-indicator{
+	margin-top: -5px;
+}
 /*============common css===================*/
 .custom-control-indicator{
-	margin-top: -5px !important;
 	pointer-events: all !important;
-}
-.table-bordereds .custom-control-indicator{
-	margin-top: -8px !important;
 }
 .fa-star:hover{
 	cursor:pointer;
@@ -97,7 +100,7 @@ border:1px solid #ddd;
 .mail table td {
 	border-top: none;
 	border-bottom: 1px solid #efefef;
-	padding: 15px 5px !important;
+	padding: 17px 5px 0 5px  !important;
 }
 
 .tabs .nav-tabs {
@@ -124,7 +127,7 @@ border:1px solid #ddd;
 	margin-bottom: 0;
 }
 .mail .checker {
-	margin-top: -3px;
+	margin-top: 5px;
 }
 .inbox_search_height{
 	height: 37px;
@@ -159,7 +162,7 @@ border:1px solid #ddd;
 .mail .nav-tabs .nav-item{
 	width: 25% ;
 }
-@media screen and (max-width: 539px) {
+@media (max-width: 539px) {
 	.mail .nav-tabs .nav-item{
 		width: 32% ;
 	}
@@ -207,8 +210,9 @@ border:1px solid #ddd;
 .mail_compose .wysihtml5-toolbar li:nth-child(4) a{
 	padding: 7px;
 }
-.modal-footer a:nth-child(2){
-	margin-top: 20px;
+.modal-header {
+	display: flex;
+	flex-direction: row-reverse;
 }
 /*=================Mail View================================*/
 .view_admin_img{
@@ -219,13 +223,13 @@ border:1px solid #ddd;
 }
 @media (min-width: 768px){
 	/*.mail_compose_list ul li:hover,.dropdown_list_hover ul li:hover {*/
-		/*background-color: #ffc;*/
+	/*background-color: #ffc;*/
 	/*}*/
 	.mail table tr:hover {
 		background-color: #ffc !important;
 	}
 }
-@media screen and (max-width:340px) {
+@media (max-width:340px) {
 	#view_reply3{
 		margin-top: 15px;
 	}

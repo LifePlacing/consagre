@@ -39,18 +39,18 @@
 .error_color1 label{
     display: block;
 }
-@media screen and (min-width: 769px) {
+@media (min-width: 769px) {
     .parentFormpopup-validation{
         width: 232px;
     }
 }
-@media only screen and (min-width: 320px) and (max-width: 460px) {
+@media (min-width: 320px) and (max-width: 460px) {
     .formError{
         min-width:130px !important;
         left: 100px !important;
     }
 }
-@media only screen and (min-width: 461px) and (max-width: 1200px) {
+@media (min-width: 461px) and (max-width: 1200px) {
     .formError{
         left: 300px !important;
     }

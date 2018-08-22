@@ -37,7 +37,7 @@
 }
 
 .icon_align {
-  padding: 20px 10px 5px ;
+  padding: 20px 10px 15px ;
   border-radius: 5px;
 }
 
@@ -304,11 +304,7 @@
 .m-b-15{
   margin-bottom: 15px;
 }
-/*@media(min-width: 320px) and (max-width: 414px){*/
-/*.icon_margin{*/
-/*margin-top: -80px;*/
-/*}*/
-/*}*/
+
 /*widgets page2*/
 /*============packages start=================*/
 .amount span {
@@ -327,18 +323,9 @@ ul {
 .payment:hover .btn-secondary {
   color: #fff;
 }
-/*.payment:hover .get_plan_success {*/
-/*background-color: #0fb0c0;*/
-/*}*/
 .payment:hover .get_plan_warning {
   background-color: #ffa000;
 }
-/*.payment:hover .get_plan_primary {*/
-/*background-color: #00c0ef;*/
-/*}*/
-/*.payment:hover .get_plan_info {*/
-/*background-color: #668cff;*/
-/*}*/
 /*==============packages end========*/
 /*=====shoes section css=====*/
 .header_align
@@ -355,7 +342,7 @@ ul {
 }
 .social-counter li {
   border: 1px solid #dcdcdc;
-  padding: 15px;
+  padding: 14px;
 }
 .social-counter li a {
   color: #333;
@@ -456,6 +443,9 @@ ul {
   width: 20px;
 }
 /*======social-counter end=========*/
+#widgets_login_validator .form-group{
+  margin-bottom: 0;
+}
 /*==========pricing section==============*/
 .pricing_bg {
   transition: 0.2s;
@@ -478,7 +468,7 @@ ul {
   margin-bottom: 20px;
 }
 .pricing_align {
-  padding: 17px;
+  padding: 20px;
 }
 .dollar_symbol {
   font-size: 18px;
@@ -487,42 +477,15 @@ ul {
 .top,.bottom{
   transition: 0.2s;
 }
-/*.pricing_success:hover ,.pricing_success .top, .pricing_success .btn {*/
-/*background-color: #0fb0c0;*/
-/*}*/
-/*.pricing_warning:hover ,.pricing_warning .top,.pricing_warning .btn {*/
-/*background-color: #ffa000;*/
-/*}*/
-/*.pricing_primary:hover ,.pricing_primary .top,.pricing_primary .btn  {*/
-/*background-color: #00c0ef;*/
-/*}*/
 .pricing_info:hover ,.pricing_info .top,.pricing_info .btn {
   background-color: #668cff;
 }
-/*.pricing_success:hover .btn {*/
-/*color: #0fb0c0;*/
-/*}*/
-/*.pricing_warning:hover .btn {*/
-/*color: #ffa000;*/
-/*}*/
-/*.pricing_primary:hover .btn  {*/
-/*color: #00c0ef;*/
-/*}*/
 .pricing_info:hover .btn {
   color: #668cff;
 }
 .pricing_bg:hover .btn{
   background-color: #fff;
 }
-/*.pricing_success .bottom {*/
-/*background-color: #96b951;*/
-/*}*/
-/*.pricing_primary .bottom{*/
-/*background-color: #69adcd;*/
-/*}*/
-/*.pricing_warning .bottom{*/
-/*background-color: #e5a051;*/
-/*}*/
 .pricing_info .bottom{
   background-color: #668cff;
 }
@@ -565,7 +528,7 @@ ul {
   font-size: 25px;
 }
 .men_shoes_swiper, .women_shoes_swiper{
-  padding: 34px 0;
+  padding: 26px 0;
 }
 .fa_heart_size{
   font-size: 24px;
@@ -663,7 +626,7 @@ ul
 }
 .pinterest_font,.gplus_font,.youtube_font,.linkedin_font,.instagram_font,.flickr_font{
   font-size: 32px;
-  padding: 21px 0;
+  padding: 22px 0;
 }
 .bg-pinterest,.bg-instagram,.bg-youtube{
   border-right: 3px solid #fff;
@@ -708,23 +671,27 @@ ul
 .progress_ltr{
   padding-left: 0;
 }
-@media screen and (max-width: 375px) {
+@media (max-width: 375px) {
   .match_text{
     margin-top: 2%;
   }
 }
-@media screen and (min-width: 376px) and (max-width: 599px) {
+@media (min-width: 376px) and (max-width: 599px) {
   .match_text{
     margin-top: 6%;
   }
 }
-@media screen and (min-width: 600px) and (max-width: 991px) {
+@media (min-width: 600px) and (max-width: 991px) {
   .match_text{
     margin-top: 9%;
   }
 }
-@media screen and (min-width: 1200px) {
+@media (min-width: 1200px) {
   .match_text{
     margin-top: 5%;
+    margin-bottom: 8%;
   }
+}
+.signin_wid .form-group{
+  margin-bottom: 0.6rem;
 }

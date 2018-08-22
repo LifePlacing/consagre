@@ -121,7 +121,7 @@ label {
 	border-top-color: #0fb0c0;
 }
 
-@media screen and (min-width: 992px) {
+@media (min-width: 992px) {
     .trans_ir_label label{
         padding-top: 20px;
     }
