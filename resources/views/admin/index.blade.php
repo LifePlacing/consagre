@@ -1,220 +1,228 @@
-@extends('layouts/admin')
+@extends('admin/layouts/default')
 
-{{-- Page title --}}
-@section('title')
-    Dashboard
+    {{-- Page title --}}
+    @section('title')
+        Consagre Imoveis Admin
     @parent
+
 @stop
+
 {{-- page level styles --}}
-
-
 @section('header_styles')
-    <!--Plugin styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/c3/css/c3.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/toastr/css/toastr.min.css')}}"/>
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/vendors/switchery/css/switchery.min.css')}}" />
-    <!--page level styles-->
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/css/pages/new_dashboard.css')}}"/>
-    <!-- end of page level styles -->
+
+<link href="{{ asset('assets/vendors/fullcalendar/css/fullcalendar.css') }}" rel="stylesheet" type="text/css"/>
+<link href="{{ asset('assets/css/pages/calendar_custom.css') }}" rel="stylesheet" type="text/css"/>
+
+<link rel="stylesheet" href="{{ asset('assets/vendors/animate/animate.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/pages/only_dashboard.css') }}"/>
+<meta name="_token" content="{{ csrf_token() }}">
+<link rel="stylesheet" type="text/css"
+      href="{{ asset('assets/vendors/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css') }}">
+
 @stop
 
 
 {{-- Page content --}}
 @section('content')
 
-<header class="head">
-    <div class="main-bar">
-        <div class="row">
-            <div class="col-6">
-                <h4 class="m-t-5">
-                    <i class="fa fa-home"></i>
-                    Painel de Controle 
-                </h4>
-            </div>
-        </div>
-    </div>
-</header>
-<div class="outer">
-    <div class="inner bg-container">
-        <div class="row">
-            <div class="col-xl-6 col-lg-7 col-12">
-                <div class="row">
-                    <div class="col-sm-6 col-12">
-                        <div class="bg-primary top_cards">
-                            <div class="row icon_margin_left">
+<section class="content-header">
+    <h1>Bem vindo ao Painel Administrativo</h1>
+    <ol class="breadcrumb">
+        <li class=" breadcrumb-item active">
+            <a href="#">
+            <i class="livicon" data-name="home" data-size="16" data-color="#333" data-hovercolor="#333"></i>
+                Dashboard
+            </a>
+        </li>
+    </ol>
+</section>
 
-                                <div class="col-lg-5 col-5 icon_padd_left">
-                                    <div class="float-left">
-                                        <span class="fa-stack fa-sm">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-user fa-stack-1x fa-inverse text-primary sales_hover"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-7 icon_padd_right">
-                                    <div class="float-right cards_content">
-                                        <span class="number_val" id="sales_count"></span><i
-                                                class="fa fa-arrow-up fa-2x"></i>
-                                        <br/>
-                                        <span class="card_description">Novo Usuario</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="col-sm-6 col-12">
-                    <div class="bg-success top_cards">
-                        <div class="row icon_margin_left">
-                            <div class="col-lg-5  col-5 icon_padd_left">
-                                <div class="float-left">
-                                    <span class="fa-stack fa-sm">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-home fa-stack-1x fa-inverse text-success visit_icon"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-7 icon_padd_right">
-                                <div class="float-right cards_content">
-                                    <span class="number_val" id="visitors_count"></span><i
-                                            class="fa fa-arrow-up fa-2x"></i>
-                                    <br/>
-                                    <span class="card_description">Novo Imovel</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-12">
-                    <div class="bg-warning top_cards">
-                        <div class="row icon_margin_left">
-                            <div class="col-lg-5 col-5 icon_padd_left">
-                                <div class="float-left">
-                                    <span class="fa-stack fa-sm">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-usd fa-stack-1x fa-inverse text-warning revenue_icon"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-7 icon_padd_right">
-                                <div class="float-right cards_content">
-                                    <span class="number_val" id="revenue_count"></span>
-                                        <i class="fa fa-arrow-up fa-2x"></i>
-                                    <br/>
-                                    <span class="card_description">Pagamentos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-12">
-                    <div class="bg-mint top_cards">
-                        <div class="row icon_margin_left">
-                            <div class="col-lg-5 col-5 icon_padd_left">
-                                <div class="float-left">
-                                    <span class="fa-stack fa-sm">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-users  fa-stack-1x fa-inverse text-mint sub"></i>
-                                    </span>
-                                </div>
-                            </div>
-                                <div class="col-lg-7 col-7 icon_padd_right">
-                                    <div class="float-right cards_content">
-                                        <span class="number_val" id="subscribers_count"></span>
-                                        <i class="fa fa-arrow-up fa-2x"></i><br/>
-                                        <span class="card_description">Inscritos</span>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="content indexpage">
+    <div class="row">
+        <div class="col-lg-6 col-xl-3 col-md-6 col-sm-6 margin_10 animated fadeInLeftBig">
+            <!-- Trans label pie charts strats here-->
+            <div class="lightbluebg no-radius">
+                <div class="card-body squarebox square_boxs cardpaddng">
+                    <div class="row">
+                        <div class="col-12 float-left nopadmar">
+                            <div class="row">
+                                <div class="square_box col-6 text-right">
+                                    <span>Views Today</span>
 
-            <div class="col-xl-6 col-lg-5 col-12 stat_align">
-            <div class="card weather_section md_align_section">
-                <div class="card-block">
-                    <div class="row margin_align">
-                        <div class="col-12">
+                                    <div class="number" id="myTargetElement1"></div>
+                                </div>
+                                <div class="col-6">
+                                    <i class="livicon  float-right" data-name="eye-open" data-l="true" data-c="#fff"
+                                       data-hc="#fff" data-s="70"></i>
+                                </div>
+
+                            </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <div class="icon sun-shower">
-                                        <div class="cloud"></div>
-                                        <div class="sun">
-                                            <div class="rays"></div>
-                                        </div>
-                                        <div class="rain"></div>
-                                    </div>
+                                    <small class="stat-label">Last Week</small>
+                                    <h4 id="myTargetElement1.1"></h4>
                                 </div>
-                                <div class="col-6">
-                                    <div class="weather-value">
-                                    <span class=" text-white"><span class="degree">25&deg;</span></span>
-                                    </div>
-                                    <div class="weather_location">
-                                        <span class="text-white"><i class="fa fa-map-marker"></i> London</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row weekly_report">
-                                <div class="col-3">
-                                    <span>Mon</span>
-                                    <br/>
-                                    <img src="{{asset('assets/img/w1.png')}}" alt="weather">
-                                    <p>27&deg;</p>
-                                </div>
-                                <div class="col-3">
-                                    <span>Tue</span>
-                                    <br/>
-                                    <img src="{{asset('assets/img/w2.png')}}" alt="weather">
-                                    <p>23&deg;</p>
-                                </div>
-                                <div class="col-3">
-                                    <span>Wed</span>
-                                    <br/>
-                                    <img src="{{asset('assets/img/w3.png')}}" alt="weather">
-                                    <p>19&deg;</p>
-                                </div>
-                                <div class="col-3">
-                                    <span>Thu</span>
-                                    <br/>
-                                    <img src="{{asset('assets/img/w4.png')}}" alt="weather">
-                                    <p>38&deg;</p>
+                                <div class="col-6 text-right">
+                                    <small class="stat-label">Last Month</small>
+                                    <h4 id="myTargetElement1.2"></h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 col-md-6 col-sm-6 margin_10 animated fadeInUpBig">
+            <!-- Trans label pie charts strats here-->
+            <div class="redbg no-radius">
+                <div class="card-body squarebox square_boxs cardpaddng">
+                    <div class="row">
+                        <div class="col-12 float-left nopadmar">
+                            <div class="row">
+                                <div class="square_box col-6 float-left">
+                                    <span>Today's Sales</span>
+
+                                    <div class="number" id="myTargetElement2"></div>
+                                </div>
+                                <div class="col-6">
+                                    <i class="livicon float-right" data-name="piggybank" data-l="true" data-c="#fff"
+                                       data-hc="#fff" data-s="70"></i>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small class="stat-label">Last Week</small>
+                                    <h4 id="myTargetElement2.1"></h4>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <small class="stat-label">Last Month</small>
+                                    <h4 id="myTargetElement2.2"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 col-sm-6 col-md-6 margin_10 animated fadeInDownBig">
+            <!-- Trans label pie charts strats here-->
+            <div class="goldbg no-radius">
+                <div class="card-body squarebox square_boxs cardpaddng">
+                    <div class="row">
+                        <div class="col-12 float-left nopadmar">
+                            <div class="row">
+                                <div class="square_box col-6 pull-left">
+                                    <span>Subscribers</span>
+
+                                    <div class="number" id="myTargetElement3"></div>
+                                </div>
+                             <div class="col-6">
+                                 <i class="livicon float-right" data-name="archive-add" data-l="true" data-c="#fff"
+                                    data-hc="#fff" data-s="70"></i>
+                             </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small class="stat-label">Last Week</small>
+                                    <h4 id="myTargetElement3.1"></h4>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <small class="stat-label">Last Month</small>
+                                    <h4 id="myTargetElement3.2"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-xl-3 col-md-6 col-sm-6 margin_10 animated fadeInRightBig">
+            <!-- Trans label pie charts strats here-->
+            <div class="palebluecolorbg no-radius">
+                <div class="card-body squarebox square_boxs cardpaddng">
+                    <div class="row">
+                        <div class="col-12 float-left nopadmar">
+                            <div class="row">
+                                <div class="square_box col-6 pull-left">
+                                    <span>Registered Users</span>
+
+                                    <div class="number" id="myTargetElement4"></div>
+                                </div>
+                               <div class="col-6">
+                                   <i class="livicon float-right" data-name="users" data-l="true" data-c="#fff"
+                                      data-hc="#fff" data-s="70"></i>
+                               </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <small class="stat-label">Last Week</small>
+                                    <h4 id="myTargetElement4.1"></h4>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <small class="stat-label">Last Month</small>
+                                    <h4 id="myTargetElement4.2"></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-           
-</div>
-
-</div>
+    <!--/row-->
+</section>
 
 
-    <!-- /.outer -->
+<div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Alert</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <p>Você já está editando uma linha, você deve salvar ou cancelar essa linha antes de editar / excluir uma nova linha</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 @stop
+
 {{-- page level scripts --}}
 @section('footer_scripts')
-    <!--  plugin scripts -->
-    <script type="text/javascript" src="{{asset('assets/vendors/raphael/js/raphael-min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/d3/js/d3.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/c3/js/c3.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/toastr/js/toastr.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/switchery/js/switchery.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.js')}}" ></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.resize.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.stack.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.time.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotspline/js/jquery.flot.spline.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.categories.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flotchart/js/jquery.flot.pie.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/flot.tooltip/js/jquery.flot.tooltip.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/jquery_newsTicker/js/newsTicker.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/vendors/countUp.js/js/countUp.min.js')}}"></script>
-    <!--end of plugin scripts-->
-    <script type="text/javascript" src="{{asset('assets/js/pages/new_dashboard.js')}}"></script>
-    <!-- end page level scripts -->
+<script type="text/javascript" src="{{ asset('assets/vendors/moment/js/moment.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ asset('assets/vendors/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<!-- EASY PIE CHART JS -->
+<script src="{{ asset('assets/vendors/bower-jquery-easyPieChart/js/easypiechart.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/bower-jquery-easyPieChart/js/jquery.easypiechart.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/bower-jquery-easyPieChart/js/jquery.easingpie.js') }}"></script>
+<!--for calendar-->
+<script src="{{ asset('assets/vendors/moment/js/moment.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/vendors/fullcalendar/js/fullcalendar.min.js') }}" type="text/javascript"></script>
+<!--   Realtime Server Load  -->
+<script src="{{ asset('assets/vendors/flotchart/js/jquery.flot.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/vendors/flotchart/js/jquery.flot.resize.js') }}" type="text/javascript"></script>
+<!--Sparkline Chart-->
+<script src="{{ asset('assets/vendors/sparklinecharts/jquery.sparkline.js') }}"></script>
+<!-- Back to Top-->
+<script type="text/javascript" src="{{ asset('assets/vendors/countUp.js/js/countUp.js') }}"></script>
+
+<!--  todolist-->
+<script src="{{ asset('assets/js/pages/todolist.js') }}"></script>
+<script src="{{ asset('assets/js/pages/dashboard.js') }}" type="text/javascript"></script>
+
+
+<!--//jquery-ui-->
+
+{{--<script src="{{ asset('assets/js/pages/jquery-ui.min.js') }}" type="text/javascript"></script>--}}
+
 @stop

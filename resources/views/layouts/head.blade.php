@@ -16,6 +16,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mobile.css') }}" rel="stylesheet"> 
@@ -122,65 +123,25 @@
 
 		</div>
 
-	<div class="search">
+<!-- ===== Mostrar Breadcrumbs ========-->
+	@section('breadcrumbs')
+	@show
 
-		<div class="busca-filtro">
+<!-- ===== Inicio sessão de buscas ========-->
+	@section('search')
+	@show
+<!-- ======= Fim sessão de buscas ==========-->
 
-			<form>
-				<div class="form-inline">
-					<div class="form-group col-sm-4 col-xs-12 xs-12">
-						<span>Do que você precisa?</span>
-						<div class="btn-group btn-group-toggle col-sm-12" data-toggle="buttons">
-							  <label class="btn btn-primary active">
-							    <input type="radio" name="options" id="comprar" value="comprar"autocomplete="off"> Comprar
-							  </label>
-							  <label class="btn btn-primary">
-							    <input type="radio" name="options" value="alugar" id="alugar" autocomplete="off"> Alugar
-							  </label>
-							  <label class="btn btn-primary">
-							    <input type="radio" name="options" id="destaques" autocomplete="off"> Destaques
-							  </label>
-
-						</div>
-					</div>
-
-					<div class="form-group col-sm-4 col-xs-12 xs-6">
-						<span>Qual tipo?</span>
-						<select class=" dropdown-toggle custom-select col-sm-12" >
-						  <option selected>Escolha o tipo de imóvel</option>
-						  @if($tipos)
-							@foreach($tipos as $tipo => $id)
-						  		<option value="{{ $id }}">{{ $tipo }}</option>
-						  	@endforeach
-						  @endif
-						</select>
-					</div>
-
-				    <div class="form-group col-sm-4 col-xs-12 xs-6">
-				    	<span>Onde?</span>
-				       	<input type="text" class="form-control col-sm-12" id="cidade" placeholder="Qual cidade do Litoral Paulista?">
-				    </div>
-
-					<button type="submit" class="btn-buscar">BUSCAR</button>
-				</div>			
-
-			</form>
-		</div>	
-
-		<div class="planos">
-			<h4 class="center">Confira nossos planos</h4>
-			<button class="anunciar">Anunciar meu imóvel</button>
-		</div>	
-
-		</div>
 
 	</div>
-		
-
-
         <main class="py-4">
-            @yield('content')            
+        	@yield('sidebar')
+            @yield('content')
+            @yield('sidebar-right')            
         </main>
+
+	@section('relacionados')
+	@show        
         
 <footer>
 	<div class="anuncie">
@@ -217,5 +178,12 @@
 	</div>
 </footer>	
 </div>
+
+<script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 
+<script type="text/javascript">
+    $("#InputPhone").mask("(00) 00000-0000");
+</script>
+
 </body>
 </html>    

@@ -32,6 +32,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'sexo' => 'required|string',
         ]);
     }
 
@@ -43,6 +44,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']), 
+            'sexo' => $data['sexo'], 
         ]);
 
         $verifyUser = VerifyUser::create([

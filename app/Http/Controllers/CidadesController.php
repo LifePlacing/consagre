@@ -9,8 +9,5 @@ use App\Imovel;
 
 class CidadesController extends Controller
 {
-    public function getCidade()
-    {
-    	$ImovelCidade = 
-    }
+
 }

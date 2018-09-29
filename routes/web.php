@@ -2,15 +2,35 @@
 
 Auth::routes();
 
-/*Route::get('/', function () {
-    return view('app.index');
-});*/
-
-
 Route::get('/', 'HomeController@app')->name('index');
 
+
+/*====================== ROTAS DOS USUARIOS ====================================*/
+
 Route::get('/usuario/confirmar/{token}', 'Auth\RegisterController@verifyUser');
+
 Route::get('/usuario/profile/home', 'HomeController@index')->name('home');
+
+Route::get('/usuario/profile/my-account', 'UserController@account')->name('account.show');
+
+Route::get('/usuario/profile/show', 'UserController@show')->name('perfil.show');
+
+Route::get('/usuario/profile/anuncios/listar', 'UserController@listarAnucios')->name('anuncios.listar');
+
+Route::post('/usuario/profile/show', 'UserController@avatar')->name('avatar');
+
+
+
+
+/*======================ROTAS DAS BUSCAS DOS IMOVEIS ============================*/
+
+Route::get('/busca/imoveis/{cidade}', 'BuscaController@getCidade')->name('buscaCidade');
+
+Route::post('/buscar/imoveis/filtro', 'BuscaController@getImoveis')->name('buscaImoveis');
+
+Route::get('/buscar/imoveis/filtro', 'BuscaController@searchImoveis')->name('searchImoveis');
+
+Route::get('/{titulo?}/{id}/{meta}/{cidade}', 'BuscaController@singleImovel' )->name('imovel');
 
 
 /*=====================ROTAS DOS CADASTROS=========================== */
@@ -34,9 +54,20 @@ Route::post('/images-upload', 'MediaController@upload');
 
 /*=====================ROTAS DOS ADMINISTRADORES===================== */
 
-Route::prefix('sis/admin')->middleware(['role', 'auth'])->group(function(){
+Route::prefix('admin')->middleware(['role', 'auth'])->group(function(){
 
-	/*=================== PAINEL DO ADMINISTRADOR============================= */
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+	/*============ PAINEL DO ADMINISTRADOR=================== */
+	Route::get('/', 'AdminController@index')->name('admin.dashboard');   
+
+});
+
+/*============ Rotas de Agendamentos ========================*/
+
+Route::group(['middleware' => 'role'], function(){
+    //tasks section
+    Route::post('task/create', 'TaskController@store')->name('store');
+    Route::get('task/data', 'TaskController@data')->name('data');
+    Route::post('task/{task}/edit', 'TaskController@update')->name('update');
+    Route::post('task/{task}/delete', 'TaskController@delete')->name('delete');
 
 });

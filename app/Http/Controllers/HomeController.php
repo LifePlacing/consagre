@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Gate;
 use App\Imovel;
 use App\ImovelType;
-use App\Categoria;
+use App\Cidade;
 
 class HomeController extends Controller
 {
@@ -24,21 +24,21 @@ class HomeController extends Controller
     		
     		abort(404, "Não permitido");
     	}*/
-        return view('home');
+        return view('users.index');
     }
 
     public function app()
     {
-        $imoveislist = Imovel::where('status', '=', '0')->latest()->get();
+        $imoveislist = Imovel::hasStatus()->latest()->get();
+
+        $imoveisAluguel = $imoveislist->where('meta', '=', 'aluguel')->take(4);
+        $imoveisVenda = $imoveislist->where('meta', '=', 'venda')->take(4);
         
-        /* Região pelo CEP */
-        $regSantos = Imovel::whereBetween('cep', [11000000, 11729999])->latest()->get();
+        $tipos = ImovelType::pluck('id', 'tipo');
 
-        $tipos = ImovelType::pluck('id', 'tipo');;
+        $cidades = Cidade::pluck('id', 'nome'); 
 
-        $categorias = Categoria::pluck('id', 'name'); 
-
-        return view('app.index', compact(['imoveislist', 'tipos', 'categorias', 'regSantos'], [$imoveislist, $tipos, $categorias, $regSantos]));
+        return view('app.index', compact(['imoveislist', 'tipos', 'cidades', 'imoveisAluguel', 'imoveisVenda'], [$imoveislist, $tipos, $cidades, $imoveisAluguel, $imoveisVenda ]));
     }
 
 

@@ -18,8 +18,9 @@ class AlterarCampoPrecoImovel extends Migration
 
         }); 
         Schema::table('imovels', function(Blueprint $table) { 
-            $table->integer('preco');
+            $table->decimal('preco', 10,2);
             $table->string('estado', 20);
+            $table->softDeletes();
 
         });
 

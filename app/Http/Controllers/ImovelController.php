@@ -8,7 +8,12 @@ use App\ImovelType;
 use App\Categoria;
 use App\User;
 use App\Media;
+use App\Cidade;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+use Validator;
 
 class ImovelController extends Controller
 {
@@ -27,15 +32,20 @@ class ImovelController extends Controller
 /*============= Passos do Cadastro de imovel ====================*/
 
 /* Primeiro Passo GET & POST */
+
     public function createStep1(Request $request)
     {
-
         $valor = 16.66;
         $imovel = $request->session()->get('imovel');
         $categorias = Categoria::pluck('id', 'name');
         $tipos = ImovelType::pluck('id', 'tipo');
+
+        /*======== Verificação da quantidade de anuncios=========*/
+            $user = Auth::user();
+            $quant = $user->imovels()->count();           
+            
         
-        return view('app.steps.create', compact(['valor', 'imovel', 'categorias', 'tipos']));
+        return view('app.steps.create', compact(['valor', 'imovel', 'categorias', 'tipos', 'quant'], [$valor, $imovel, $categorias, $tipos, $quant]));
     }
 
     public function postCreateStep1(Request $request)
@@ -44,17 +54,14 @@ class ImovelController extends Controller
         /*Validando os dados */
 
         $validatedData = $request->validate([
-            'cpf' => 'required',
             'phone' => 'required',
             'meta'=> 'required',
             'banheiros' => 'required|numeric',
             'quartos' => 'required|numeric',
-            'suites' => '',
-            'garagem' => 'numeric',
             'area_util' => 'required|numeric',
             'area_total' => 'required|numeric',            
             'estado'=>'string|required',
-            'cidade' => 'string|required',
+            'localidade' => 'string|required',
             'bairro' => 'string|required',
             'logradouro' => 'string|required',
             'unidade' => 'required',
@@ -69,10 +76,27 @@ class ImovelController extends Controller
        if (Auth::check()) 
         { 
             $usuario = Auth::user();
-            $usuario->name = $request['name'];
-            $usuario->cpf = preg_replace( array('/[^\d]+/'), array(''), $request['cpf']);
-            $usuario->phone =  preg_replace( array('/[^\d]+/'), array(''), $request['phone']);
 
+            if(empty($usuario->cpf) || $usuario->cpf == null ){
+
+                $cpf = ['cpf' => preg_replace( array('/[^\d]+/'), array(''), $request['cpf'])];
+
+                $validator = Validator::make($cpf, [            
+                    'cpf' => 'required|unique:users'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect('/anunciar')
+                                ->withErrors($validator)
+                                ->withInput();
+                }else{
+                    $usuario->cpf = $cpf['cpf'];
+                }
+
+            } 
+
+            $usuario->name = $request['name'];            
+            $usuario->phone =  preg_replace( array('/[^\d]+/'), array(''), $request['phone']);  
             $usuario->save();
         }    
 
@@ -84,10 +108,50 @@ class ImovelController extends Controller
                 $imovel->user_id = $usuario->id;
                 $imovel->fill($validatedData);
 
-             /* DEFININDO FORMATO PRECO COMO INTEIRO */
+                $imovel->localidade = $request['localidade'];
+
+                if (isset($request['suites']) && !empty($request['suites'])) {
+                    
+                    $imovel->suites = $request['suites'];
+                }
+
+
+                if (isset($request['garagem']) && !empty($request['garagem'])) {
+                    
+                    $imovel->garagem = $request['garagem'];
+                }
+
+                /* DEFININDO FORMATO IPTU COMO MONETÁRIO */
+
+                if(isset($request['iptu']) && !empty($request['iptu'])){
+
+                $iptu = str_replace(',','.',str_replace('.','',$request['iptu']));
+
+                $valorIptu = number_format( $iptu, 2, '.', '' );
+                
+                $imovel->iptu = floatval($valorIptu);
+
+                }
+
+                if(isset($request['condominio']) && !empty($request['condominio'])){
+
+                    $condominio = str_replace(',','.',str_replace('.','',$request['condominio']));
+
+                    $valorCondominio = number_format( $condominio, 2, '.', '' );
+                    
+                    $imovel->condominio = floatval($valorCondominio);
+
+                }
+
+
+             /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
+
                 $preco = str_replace(',','.',str_replace('.','',$request['preco']));
-                $valor = number_format( sprintf( '%f', $preco ), 2, '', '' );        
-                $imovel->preco = (int)$valor;
+
+                $valor = number_format( $preco, 2, '.', '' );
+                
+                $imovel->preco = floatval($valor);
+
 
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */    
 
@@ -105,8 +169,10 @@ class ImovelController extends Controller
             
             /* DEFININDO FORMATO PRECO COMO INTEIRO */
                 $preco = str_replace(',','.',str_replace('.','',$request['preco']));
-                $valor = number_format( sprintf( '%f', $preco ), 2, '', '' );        
-                $imovel->preco = (int)$valor;
+
+                $valor = number_format( $preco, 2, '.', '' );
+                
+                $imovel->preco = floatval($valor);
 
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */ 
                 $imovel->area_util = floatval($request['area_util']);
@@ -138,8 +204,8 @@ class ImovelController extends Controller
     {
 
         $validatedData = $request->validate([
-        'titulo' => 'required|string',
-        'descricao' => 'required|string',
+        'titulo' => 'required|string|min:5|max:50',
+        'descricao' => 'required|string|min:50',
         ]);
         
         
@@ -185,14 +251,45 @@ class ImovelController extends Controller
 
             $tmp = $request->session()->get('imovel');
 
+        /*============== Verifica se existe a cidade ==========*/    
+
+            $city = DB::table('cidades')->where('nome','=', $tmp->localidade)->first();
+
+            $cidadeImovel = '';
+
+            if (empty($city)) {
+                
+                /* ============= Criando slug da cidade ==============*/
+
+                $cidade  = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $tmp->localidade));
+
+                $slugCidade =  strtolower($cidade);       
+
+                $slug =  str_replace(' ', '_', $slugCidade); 
+
+                $cidadeImovel = Cidade::create([
+                    'nome' => $tmp->localidade,
+                    'slug' => $slug
+                ]);
+
+            }else{
+                    $cidadeImovel = $city;
+            }
+
+            /* ======== Identificação Codigo do imovel ======= */
+
+                $uid = mt_rand(100000, 999999);
+                $uuid = $uid.':'.uniqid(); 
+
+                                
+
             $imv = Imovel::create([
                 'user_id' => $tmp->user_id,
                 'titulo' => $tmp->titulo,
                 'meta' => $tmp->meta,
                 'imovel_type_id' => $tmp->imovel_type_id,
                 'categoria_id' => $tmp->categoria_id,
-                'cep' => $tmp->cep,
-                'cidade' => $tmp->cidade,
+                'cep' => $tmp->cep,                
                 'estado' => $tmp->estado,
                 'bairro' => $tmp->bairro,
                 'logradouro' => $tmp->logradouro,
@@ -204,11 +301,14 @@ class ImovelController extends Controller
                 'area_util' => $tmp->area_util,
                 'area_total' => $tmp->area_total,
                 'preco' => $tmp->preco,
-                'descricao' => $tmp->descricao
-            ]); 
+                'descricao' => $tmp->descricao,
+                'cidade_id' => $cidadeImovel->id,
+                'codigo' => $uuid,
+                'iptu' => $tmp->iptu,
+                'condominio' => $tmp->condominio
+            ]);   
 
      /*================Salvando Medias do imovel=================*/
-
            
                 foreach ($tmp->medias as $key => $m) {
                     $media = new Media();            
@@ -224,35 +324,10 @@ class ImovelController extends Controller
             
             
         }else{
-
-            abort(403, 'Tentativa não autorizada');           
+            abort(403, 'Tentativa não autorizada');         
 
         }  
 
-    }
-
-
-    public function show($id)
-    {
-       
-    }
-
-
-    public function edit($id)
-    {
-        
-    }
-
-
-    public function update(Request $request, $id)
-    {
-       
-    }
-
-
-    public function destroy($id)
-    {
-        
     }
 
     

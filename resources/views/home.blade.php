@@ -1,64 +1,76 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (session('warning'))
-                        <div class="alert alert-warning" role="alert">
-                            {{ session('warning') }}
-                        </div>
-                    @endif
-                    Você está Logado! Esta página ainda está em contrução 
-                    <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
+<div class="row container-fluid ">
 
-                    @can('isProprietario')
-                    <div class="proprietario">
-                        Eu Sou {{ Auth::user()->user_type }} .
+    <div class="col-12">
+        <header class="header">
+            cabeçalho
+        </header>
+    </div>
+
+    <div class="col-2">
+        
+        <h1>sidebar</h1>
+
+    </div>
+
+    <div class="col-10">
+
+            <div class="">
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
                     </div>
-                    @endcan
+                @endif
+                @if (session('warning'))
+                    <div class="alert alert-warning" role="alert">
+                        {{ session('warning') }}
+                    </div>
+                @endif
+                Você está Logado! Esta página ainda está em contrução 
+                <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                @can('isProprietario')
+                <div class="proprietario">
+                    Eu Sou {{ Auth::user()->user_type }} .
+                </div>
+                @endcan
 
 
-                    @if(Auth::user()->imovels)
+                @if(Auth::user()->imovels)
 
-                        <p>Imoveis deste usuario: 
+                    <p>Imoveis deste usuario: 
 
-                            @foreach(Auth::user()->imovels as $key => $imovel)
+                        @foreach(Auth::user()->imovels as $key => $imovel)
 
-                                {{$imovel->titulo}} <br>
-                                {{$imovel->descricao}} <br>
+                            {{$imovel->titulo}} <br>
+                            {{$imovel->descricao}} <br>
 
-                                @foreach($imovel->media as $medias)
+                            @foreach($imovel->media as $medias)
 
-                                    <img class="img-fluid img-thumbnail" src="{{asset('/imagens/imoveis/'.$medias->source)}}">
-
-                                @endforeach
+                                <img class="img-fluid img-thumbnail" src="{{asset($medias->source)}}">
 
                             @endforeach
 
-                         </p>
+                        @endforeach
 
-                    @endif    
+                     </p>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                               
-                </div>
+                @endif    
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                           
             </div>
-        </div>
+        
     </div>
+    
 </div>
+
 @endsection

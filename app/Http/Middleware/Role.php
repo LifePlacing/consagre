@@ -22,7 +22,6 @@ class Role
     public function handle($request, Closure $next)
     {
 
-
         if (!$this->auth->check() or $this->auth->user()->role !== 'admin') {
 
             if ($request->ajax()) {

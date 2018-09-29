@@ -130,33 +130,33 @@
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="quartos">Quartos</label>
-                    <input type="number" name="quartos" placeholder="0" class="form-control numero required" id="quartos" value="{{ old('quartos') }}" pattern="[0-9]+$" >
+                    <input type="number" name="quartos" placeholder="0" class="form-control numero required" id="quartos" min="0" value="{{ old('quartos') }}" pattern="[0-9]+$" >
                 </div>
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="garagem">Vagas de Garagem</label>
-                    <input type="number" name="garagem" placeholder="0" class="form-control numero" id="garagem" value="{{ old('garagem') }}" pattern="[0-9]+$">
+                    <input type="number" name="garagem" placeholder="0" class="form-control numero" id="garagem" min="0" value="{{ old('garagem') }}" pattern="[0-9]+$">
                 </div>
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="banheiros">Banheiros</label>
-                    <input type="number" name="banheiros" placeholder="0" class="form-control numero required" id="banheiros" value="{{ old('banheiros') }}" pattern="[0-9]+$">
+                    <input type="number" name="banheiros" placeholder="0" class="form-control numero required" id="banheiros" value="{{ old('banheiros') }}" pattern="[0-9]+$" min="0">
                 </div>
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="suites">Suítes</label>
                     <input type="number" name="suites" placeholder="0" class="form-control numero" id="suites" value="{{ old('suites') }}"
-                    pattern="[0-9]+$">
+                    pattern="[0-9]+$" min="0">
                 </div>
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="area_util">Área útil</label>
-                    <input type="number" name="area_util" placeholder="0" class="form-control numero required" id="area_util" value="{{ old('area_util') }}" >
+                    <input type="number" name="area_util" placeholder="0" class="form-control numero required" min="0" id="area_util" value="{{ old('area_util') }}" >
                 </div>
                 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="area_total">Área Total</label>
-                    <input type="number" name="area_total" placeholder="0" class="form-control numero required" id="area_total" value="{{ old('area_total') }}">
+                    <input type="number" name="area_total" placeholder="0" class="form-control numero required" min="0" id="area_total" value="{{ old('area_total') }}">
                 </div>
 
 
@@ -171,9 +171,32 @@
                         <label for="preco">
                             <div id="log">Valor total de venda :</div> 
                         </label>
-                        <input type="text" name="preco" id="preco" class="col-sm-12 required" value="{{ old('area_total') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$">
+                        <input type="text" name="preco" id="preco" class="col-sm-12 required" value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$">
                     </div>
-            </div>             
+            </div>
+
+            <h4><i class="fa fa-dollar"></i>
+                Taxas ou Impostos :
+            </h4>
+
+            <div class="form-row">
+
+                    <div class="form-group col-sm-4">
+                        <label for="iptu">
+                            <div id="log">Valor do IPTU :</div> 
+                        </label>
+                        <input type="text" name="iptu" id="iptu" class="col-sm-12" value="{{ old('iptu') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" placeholder="* Campo Opcional">
+                    </div>
+                    
+                    <div class="form-group col-sm-4">
+                        <label for="iptu">
+                            <div id="log">Valor do CONDOMINIO :</div> 
+                        </label>
+                        <input type="text" name="condominio" id="condominio" class="col-sm-12" value="{{ old('condominio') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" placeholder="*Campo Opcional">
+                    </div>                
+
+            </div> 
+
 
             <div class="f1-buttons">
                 <button type="submit" id="next" class="btn-wizard btn-next"  data-toggle="toggle" title="Ops!!" data-content="Preencha os campos corretamente"
@@ -197,5 +220,7 @@
     $("#cpf").mask("999.999.999-99");
     $("#phone").mask("(00) 00000-0000");
     $('#preco').mask('#.##0,00', {reverse: true});
+    $('#iptu').mask('#.##0,00', {reverse: true});
+    $('#condominio').mask('#.##0,00', {reverse: true});
 </script> 
 @stop

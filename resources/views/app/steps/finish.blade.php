@@ -148,8 +148,9 @@
                                     </tr>
                                     <tr>
                                         <td>
+
                                         @foreach($imovel->medias as $key => $media)
-                                        <img class="img-thumbnail img-fluid mx-auto d-flex flex-row img-amostra" src="{{asset('/imagens/imoveis/'.$media)}}">
+                                        <img class="img-thumbnail img-fluid mx-auto d-flex flex-row img-amostra" src="{{asset($media)}}" >
                                         @endforeach
                                         </td>
                                     </tr>
@@ -229,7 +230,7 @@
 
                                 <tr>
                                     <th>Cidade: </th>
-                                    <td>{{$imovel->cidade}}</td>
+                                    <td>{{$imovel->localidade}}</td>
                                     <th>Estado: </th>
                                     <td>{{$imovel->estado}}</td>
                                 </tr>  

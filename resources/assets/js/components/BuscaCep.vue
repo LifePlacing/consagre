@@ -16,7 +16,7 @@
           </div>
           
               <div class="form-group">
-                  <input type="text" class="form-control" name="cidade" id="cidade" v-model="endereco.localidade" placeholder="Cidade" aria-describedby="city" readonly>
+                  <input type="text" class="form-control" name="localidade" id="localidade" v-model="endereco.localidade" placeholder="Cidade" aria-describedby="city" readonly>
               </div>
 
               <div class="form-group">
@@ -35,8 +35,8 @@
               <div class="form-row">
                 <div class="col-sm-6 mb-2">
                   <label for="unidade" class="">Número</label>
-                  <input type="text" name="unidade" v-model="endereco.unidade" class="form-control numero required" pattern="[0-9]+$" id="unidade" placeholder="ex: 147" inputmode="numeric">
-                  <div class="erro-form erro-number"></div>
+                  <input type="text" name="unidade" v-model="endereco.unidade" class="form-control numero required" pattern="[0-9]+$" id="unidade" placeholder="Para melhor localização no mapa" inputmode="numeric">
+                  <div class="erro-form erro-number"></div>                  
               </div>
 
               <div class="col-sm-6 mb-2">

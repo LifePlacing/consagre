@@ -20,6 +20,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "vue-slider-component": "^2.7.7",
         "vue-toastr": "^2.0.14"
     }
 }

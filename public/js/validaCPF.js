@@ -7,7 +7,7 @@ function validarCPF(elemento){
 
                     $('.erro-cpf').show();
 
-                    return elemento.style.backgroundColor = "red";
+                    return elemento.style.borderColor = "red";
                 } 
                 // Elimina CPFs invalidos conhecidos 
 

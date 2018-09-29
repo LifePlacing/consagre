@@ -1,5 +1,6 @@
 <template>
 <div>
+
     <div class="uploader"
         @dragenter="OnDragEnter"
         @dragleave="OnDragLeave"
@@ -21,7 +22,8 @@
 
             <div class="file-input">
                 <label for="file">Selecionar Fotos</label>
-                <input type="file" id="file" ref="file" @change="onInputChange" multiple>
+                <input type="file" id="file" ref="file" @change="onInputChange" multiple >
+                <input type="hidden" name="_token" :value="csrf">
             </div>
 
         </div>
@@ -29,8 +31,7 @@
         <div class="images-preview" v-show="images.length">
             <div class="img-wrapper" v-for="(image, index) in images" :key="index">
                 <img :src="image" :alt="`Image Uplaoder ${index}`" >
-                <div class="details">
-                    
+                <div class="details">                    
                     <span class="size" v-text="getFileSize(files[index].size)"></span>
                 </div>
                 <div class="remove-container" v-bind:class="{'d-none' : submited }" > 
@@ -59,7 +60,11 @@ export default {
         files: [],
         images: [],
         uploadPercentage: 0,        
-        submited: false
+        submited: false,
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+
+
+
     }),
 
     methods: {
@@ -101,6 +106,14 @@ export default {
                 return;
             }
 
+            let fileMegabyte = file.size /1024;
+
+            
+            if( fileMegabyte > 1024 ){
+                this.$toastr.e(`${file.name} não pode ser maior que 1MB`);
+                return;
+            }
+
             this.files.push(file);
 
             const img = new Image(),
@@ -138,10 +151,10 @@ export default {
                 .then(response => {
                     this.$toastr.s('Todas as imagens foram enviadas com sucesso');
                     this.submited = true;
-                    console.log('success');                    
+                                        
                 }).catch(error =>{
                     this.$toastr.w(`Ops! Talvez você já tenha imagens suficiente neste imóvel`);
-                    console.log(error.response);
+                    
                   })
         }
 

@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container">
+
     <div class="justify-content-center">
+
         <div class="col-md-12 col-sm-12 col-xs-12" id="auth">
 
             <a class="navbar-brand" href="{{ url('/') }}">            
@@ -63,6 +65,26 @@
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                     </div>
                 </div>
+
+                
+                <div class="form-group col-md-7 offset-md-3">                 
+                    <legend>Sexo</legend>  
+
+                <div class="radio col-md-10 offset-md-2">                 
+                               
+                        <div class="col-md-6">
+                        <input type="radio" name="sexo" value="masculino" checked="checked" id="male" 
+                        class="form-control ">
+                        <label for="male" class="col-form-label" >Masculino</label>
+                        </div>
+
+                        <div class="col-md-6">
+                        <input type="radio" name="sexo" value="feminino" id="female" class="form-control col-md-4">
+                        <label for="female" class="col-form-label" >Feminino</label>
+                        </div>
+                </div>
+                </div> 
+
 
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">

@@ -7,11 +7,13 @@ window.axios.defaults.headers.common = {
 };
 
 import Toastr from 'vue-toastr';
+import vueSlider from 'vue-slider-component';
 
 Vue.use(Toastr);
 
 Vue.component('busca-cep', require('./components/BuscaCep.vue'));
 Vue.component('fotos', require('./components/Fotos.vue'));
+Vue.component('search-avc', require('./components/SearchAvancado.vue'));
 
 
 const app = new Vue({

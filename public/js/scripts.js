@@ -8,6 +8,15 @@ function scroll_to_class(element_class, removed_height) {
 
 jQuery(document).ready(function(){
 
+
+    $('.char-count').keyup(function() {
+        var maxLength = parseInt($(this).attr('maxlength')); 
+        var length = $(this).val().length;
+        var newLength = maxLength-length;
+        var name = $(this).attr('name');
+        $('span[name="'+name+'"]').text(newLength);
+    });    
+
     
     $('.f1 fieldset:first').fadeIn('slow');
     
@@ -19,7 +28,7 @@ jQuery(document).ready(function(){
 
     /*Função para input number*/
     
-    $(".f1 .btn-primary input[name='imovel_prop']").on('focus', function(){ 
+    $(".f1 .btn-primary input[name='meta']").on('focus', function(){ 
        
        $('#log').html("Valor total de " + $("input:checked").val() + " :");       
         

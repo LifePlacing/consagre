@@ -10,7 +10,7 @@
 input:required:invalid{
     border-color: red;
 }
-input:required:valid {
+input:required:valid{
     border-color: green;
 }
 
@@ -91,11 +91,12 @@ select:focus,
 textarea:focus, 
 textarea.form-control:focus,
 .form-control:focus,
-select.form-control:focus{
+select.form-control:focus,
+input[type="range"]{
 	outline: 0;
 	background: #fff;
     border: 1px solid #ccc;
-    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -moz-box-shadow: none!important; -webkit-box-shadow: none!important;box-shadow: none!important;
 }
 
 input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, 
