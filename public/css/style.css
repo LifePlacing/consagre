@@ -1,4 +1,4 @@
-html,body{
+.top-content{
 	text-align: center!important;
 }
 
@@ -47,8 +47,8 @@ img { max-width: 100%; }
 
 
 
-::-moz-selection { background: rgb(255,90,0); color: #fff; text-shadow: none; }
-::selection { background: rgb(255,90,0); color: #fff; text-shadow: none; }
+::-moz-selection { color: #000; text-shadow: none; }
+::selection { color: #000; text-shadow: none; }
 
 /*=====componente cep ==========*/
 

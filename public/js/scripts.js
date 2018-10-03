@@ -9,6 +9,39 @@ function scroll_to_class(element_class, removed_height) {
 jQuery(document).ready(function(){
 
 
+           if ($(".f1 .btn-primary input[name='meta']:checked").val() == "venda") {
+
+                    $( "#percetual" ).show();
+                    $("#preco").val("");
+
+                    $('#log').html("Valor da " + $("input:checked").val() + ":"); 
+                    $('#log_2').html("Valor total da " + $("input:checked").val() + " :"); 
+
+                var precoAluguel = $("#valor");
+
+                    precoAluguel.focusout( function(){
+                        
+                        var valor = precoAluguel.val().replace(/\./, "" );
+
+                        var split = valor.split(',')[0];
+                        var formatado = parseFloat(split.replace(".","")).toFixed(2); 
+
+                        var valorPorcentagem = formatado * (6 / 100);
+                        
+                        var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' };
+
+                        $("#percent").val(valorPorcentagem.toLocaleString('pt-BR', formato) );
+
+                        var total = parseFloat(formatado) + parseFloat(valorPorcentagem);
+
+                       $("#preco").val(total.toLocaleString('pt-BR', formato) );
+
+                        
+                    });
+            }
+
+
+
     $('.char-count').keyup(function() {
         var maxLength = parseInt($(this).attr('maxlength')); 
         var length = $(this).val().length;
@@ -27,10 +60,70 @@ jQuery(document).ready(function(){
     $('.f1 input[type="tel"]').attr('autocomplete','off');
 
     /*Função para input number*/
+
     
     $(".f1 .btn-primary input[name='meta']").on('focus', function(){ 
-       
-       $('#log').html("Valor total de " + $("input:checked").val() + " :");       
+
+           if ($("input:checked").val() == "aluguel") {
+
+                    $( "#percetual" ).hide(); 
+                    $("#preco").val("");
+
+                    $('#log').html("Valor Mensal do " + $("input:checked").val() + ":"); 
+                    $('#log_2').html("Valor Anual do " + $("input:checked").val() + " :"); 
+
+                    var precoAluguel = $("#valor");
+
+                    precoAluguel.focusout( function(){
+
+                        //var valor = parseInt(precoAluguel.val().replace(/[^\d]+/g, ""));
+                        var valor = precoAluguel.val().replace(/\./, "" );
+
+                        var split = valor.split(',')[0];
+                        var formatado = parseFloat(split.replace(".","")).toFixed(2); 
+
+                        var total = formatado * 12;
+
+                        var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' }
+
+                        $("#preco").val(total.toLocaleString('pt-BR', formato) );
+
+                        
+                    });
+               
+           }else{
+
+                    $( "#percetual" ).show();
+                    $("#preco").val("");
+
+                    $('#log').html("Valor da " + $("input:checked").val() + ":"); 
+                    $('#log_2').html("Valor total da " + $("input:checked").val() + " :"); 
+
+                var precoAluguel = $("#valor");
+
+                    precoAluguel.focusout( function(){
+                        
+                        var valor = precoAluguel.val().replace(/\./, "" );
+
+                        var split = valor.split(',')[0];
+                        var formatado = parseFloat(split.replace(".","")).toFixed(2); 
+
+                        var valorPorcentagem = formatado * (6 / 100);
+                        
+                        var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' };
+
+                        $("#percent").val(valorPorcentagem.toLocaleString('pt-BR', formato) );
+
+
+                        var total = parseFloat(formatado) + parseFloat(valorPorcentagem);
+
+                        $("#preco").val(total.toLocaleString('pt-BR', formato) );
+
+                        
+                    });
+            }
+
+
         
     });
 
@@ -166,6 +259,7 @@ jQuery(document).ready(function(){
 });
 
 function maskIt(w,e,m,r,a){
+
 // Cancela se o evento for Backspace
 if (!e) var e = window.event
 if (e.keyCode) code = e.keyCode;
@@ -184,8 +278,11 @@ ret += mask.charAt(x); x++; }
 else {
 ret += txt.charAt(y); y++; x++; } }
 // Retorno da função
-ret = (!r) ? ret : ret.reverse()    
-w.value = pre+ret+pos; }
+ret = (!r) ? ret : ret.reverse() 
+
+w.value = pre+ret+pos; 
+
+}
 
 // Novo método para o objeto 'String'
 String.prototype.reverse = function(){

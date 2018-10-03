@@ -10,6 +10,7 @@ use App\Categoria;
 use App\Cidade;
 
 
+
 class BuscaController extends Controller
 {
 
@@ -114,6 +115,7 @@ class BuscaController extends Controller
         $c = Cidade::where('slug', '=', $cidade)->first();
 
         $usuario = $propriedade->user;
+
 
 
         if ($c != null && !empty($c) && $c->imovels->count() > 1 ) {

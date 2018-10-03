@@ -11,7 +11,7 @@ class Imovel extends Model
   use SoftDeletes;
 
 	protected $fillable = [
-	    'titulo','meta', 'preco', 'cep','suites', 
+	    'titulo','meta', 'preco','preco_venda', 'cep','suites', 
 	    'banheiros', 'quartos', 'area_total', 'cidade_id', 'logradouro', 'bairro', 'user_id', 'imovel_type_id', 'categoria_id', 'unidade', 'estado', 'garagem', 'area_util', 'descricao', 'codigo', 'iptu', 'condominio'
 	];
 
@@ -46,7 +46,7 @@ class Imovel extends Model
 
   public function scopeHasStatus($query)
   {
-      return $query->where('status', '=', '0');
+      return $query->where('status', '=', '1');
   }
 
   public function scopePrecoMinMax($query, $opt, $valorMin, $valorMax)

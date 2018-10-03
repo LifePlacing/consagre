@@ -9,15 +9,21 @@ Route::get('/', 'HomeController@app')->name('index');
 
 Route::get('/usuario/confirmar/{token}', 'Auth\RegisterController@verifyUser');
 
-Route::get('/usuario/profile/home', 'HomeController@index')->name('home');
+Route::get('/usuario/profile/home', 'UserController@index')->name('home');
 
 Route::get('/usuario/profile/my-account', 'UserController@account')->name('account.show');
 
 Route::get('/usuario/profile/show', 'UserController@show')->name('perfil.show');
 
+Route::post('/usuario/profile/show', 'UserController@avatar')->name('avatar');
+
 Route::get('/usuario/profile/anuncios/listar', 'UserController@listarAnucios')->name('anuncios.listar');
 
-Route::post('/usuario/profile/show', 'UserController@avatar')->name('avatar');
+Route::get('/usuario/profile/show/update/{id}', function($id){
+	abort(403, 'Solicitação não permitida');
+});
+
+Route::post('/usuario/profile/show/update/{id}', 'UserController@update')->name('updateUser');
 
 
 
@@ -35,7 +41,9 @@ Route::get('/{titulo?}/{id}/{meta}/{cidade}', 'BuscaController@singleImovel' )->
 
 /*=====================ROTAS DOS CADASTROS=========================== */
 
-Route::get('/anunciar', 'ImovelController@createStep1');
+Route::get('/perfil/anuncio', 'HomeController@anuncio')->name('anuncio');
+
+Route::get('/anunciar', 'ImovelController@createStep1')->name('anunciar');
 Route::post('/anunciar', 'ImovelController@postCreateStep1');
 
 Route::get('/anunciar/anunciar-step2', 'ImovelController@createStep2');
@@ -44,7 +52,7 @@ Route::post('/anunciar/anunciar-step2', 'ImovelController@postCreateStep2');
 Route::get('/anunciar/finish', 'ImovelController@createFinish');
 Route::post('/anunciar/finish', 'ImovelController@store');
 
-Route::get('/planos/anuncio', 'ImovelController@index');
+
 
 /*===================== ROTAS DAS IMAGENS ===========================*/
 

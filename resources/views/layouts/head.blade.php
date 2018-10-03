@@ -21,11 +21,16 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mobile.css') }}" rel="stylesheet"> 
 
+    <!-- end of global styles-->
+    @yield('header_styles')
+
+
 </head>
 <body>
 
 <div id="app">
 	<div class="position-ref">
+
 		<div class="top">
 
 		<div class="navbar-superior">
@@ -66,7 +71,7 @@
 	                        <a href="{{ route('register') }}">Cadastre-se</a>
 	                    @endauth                            
 	                    </div>
-	                   	<a class="button" href="{{url('planos', ['anuncio'])}}">
+	                   	<a class="button" href="{{route('anuncio')}}">
 	                   	Anunciar meu Imóvel
 	                   </a>                     
 
@@ -83,39 +88,35 @@
                 	<img src="{{asset('imagens/logomarca-consagre-vetor.svg')}}">
                 </a>
 
-            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-top" aria-controls="navbar-top" aria-expanded="false" aria-label="{{ __('Menu') }}">
-                <i class="fa fa-bars fa-3x"></i>
-            </button>
+	            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar-top" aria-controls="navbar-top" aria-expanded="false" aria-label="{{ __('Menu') }}">
+	                <i class="fa fa-bars fa-3x"></i>
+	            </button>
 
-            <div class="collapse navbar-collapse" id="navbar-top" aria-hidden="true">
+	            <div class="collapse navbar-collapse" id="navbar-top" aria-hidden="true">
 
-            	<!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto menu">
+	            	<!-- Left Side Of Navbar -->
+	                <ul class="navbar-nav mr-auto menu">
 
-                	<li class="nav-item">
-                		<a href="{{ url('/') }}" class="active">HOME</a> 
-                	</li>
+	                	<li class="nav-item">	                		
+	                		<a href="{{ url('/') }}" class="active">HOME</a> 
+	                	</li>
 
-                	<li class="nav-item">
-                		<a href="">BUSCAR</a>
-                	</li>
+	                	<li class="nav-item">
+	                		<a href="">COMPRAR</a>
+	                	</li>
 
-                	<li class="nav-item">
-                		<a href="">COMPRAR</a>
-                	</li>
+	                	<li class="nav-item">
+	                		<a href="">ALUGAR</a>
+	                	</li>
 
-                	<li class="nav-item">
-                		<a href="">ALUGAR</a>
-                	</li>
+	                	<li class="nav-item">
+	                		<a href="">TODOS</a>
+	                	</li>                	
 
-                	<li class="nav-item">
-                		<a href="">TEMPORADA</a>
-                	</li>
-
-                </ul>
+	                </ul>
 
 
-            </div>					
+	            </div>					
 
 			</div>
 			
@@ -130,8 +131,9 @@
 <!-- ===== Inicio sessão de buscas ========-->
 	@section('search')
 	@show
-<!-- ======= Fim sessão de buscas ==========-->
-
+<!-- ======= Mostrar para Cadastro ==========-->
+	@section('wizard')
+	@show   
 
 	</div>
         <main class="py-4">
@@ -146,7 +148,7 @@
 <footer>
 	<div class="anuncie">
 		<span>Conheça nossos planos de anúncio</span>
-		<button onclick="location.href='/planos/anuncio'">Anunciar meu imóvel</button>		
+		<button onclick="location.href='/perfil/anuncio'">Anunciar meu imóvel</button>		
 	</div>
 	<div class="container">	
 		<div class="row">
@@ -176,7 +178,8 @@
 	<div class="container">
 		<div class="copyright">Copyright <code>c</code> {{date('Y')}} |  Marcos Vinicius Nunes - (13)98101-1263 </div>
 	</div>
-</footer>	
+</footer>
+
 </div>
 
 <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
@@ -184,6 +187,8 @@
 <script type="text/javascript">
     $("#InputPhone").mask("(00) 00000-0000");
 </script>
+
+@yield('footer_scripts') 
 
 </body>
 </html>    

@@ -14,7 +14,6 @@
                 </div>
             @endif
 
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -24,7 +23,7 @@
                                 <h4 class="title">Editar Perfil</h4>
                             </div>
                             <div class="content">
-                                <form>
+                                <form method="post" action="{{ url('/usuario/profile/show/update/'.Auth::user()->id) }}">
                                 	@csrf
                                     <div class="row">
                                         <div class="col-md-4">
@@ -36,7 +35,14 @@
                                                 disabled placeholder="CPF" value="{{ Auth::user()->cpf }}">
                                                 @else
                                                 <label>CPF</label>
-                                                <input type="text" class="form-control" placeholder="CPF" name="cpf">
+                                                <input type="text" class="form-control {{ $errors->has('cpf') ? ' is-invalid' : '' }}" placeholder="CPF" name="cpf" maxlength="14">
+
+                                                @if ($errors->has('cpf'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('cpf') }}</strong>
+                                                    </span>
+                                                @endif
+
                                                 @endif
 
                                             </div>
@@ -44,14 +50,22 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Telefone</label>
-                                                <input type="text" class="form-control" placeholder="Telefone" value="{{ Auth::user()->phone }}" id="phone">
+                                                <input type="text" class="form-control {{ $errors->has('cpf') ? ' is-invalid' : '' }}" placeholder="Telefone" value="{{ Auth::user()->phone }}" id="phone" name="phone">
+
+                                                @if ($errors->has('phone'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('phone') }}</strong>
+                                                    </span>
+                                                @endif
+
+
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email</label>
-                                                <input type="email" class="form-control" placeholder="Email"
-                                                	value=" {{ Auth::user()->email }}">
+                                                <input type="email" disabled class="form-control" placeholder="Email" value="{{ Auth::user()->email }}" name="email" >
+
                                             </div>
                                         </div>
                                     </div>
@@ -60,13 +74,24 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Nome</label>
-                                                <input type="text" class="form-control" placeholder="Nome" value=" {{ Auth::user()->name }}">
+                                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="Nome" value=" {{ Auth::user()->name }}" name="name">
+                                                @if ($errors->has('name'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Sobrenome</label>
-                                                <input type="text" class="form-control" placeholder="Sobrenome" value="{{ Auth::user()->sobrenome}}">
+                                                <input type="text" class="form-control {{ $errors->has('sobrenome') ? ' is-invalid' : '' }}" placeholder="Sobrenome" value="{{ Auth::user()->sobrenome }}" name="sobrenome">
+                                                @if ($errors->has('sobrenome'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('sobrenome') }}</strong>
+                                                    </span>
+                                                @endif                                                
                                             </div>
                                         </div>
                                     </div>
@@ -75,7 +100,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Sobre</label>
-                                                <textarea rows="5" class="form-control char-count" id="sobre" placeholder="Uma breve descrição sobre você ou sua empresa | Máximo 100 caracteres" name="sobre" maxlength="100"></textarea>
+                                                <textarea rows="5" class="form-control char-count" id="sobre" placeholder="Uma breve descrição sobre você ou sua empresa | Máximo 100 caracteres" name="sobre" maxlength="100">{{ Auth::user()->sobre }}</textarea>
                                                 <p class="text-muted"><small><span name="sobre">100</span></small> caracteres restantes</p>
                                             </div>
                                         </div>

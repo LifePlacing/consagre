@@ -24,15 +24,10 @@ class ImovelController extends Controller
     }
 
 
-    public function index()
-    {
-        return view('app.anunciante');        
-    }
 
-/*============= Passos do Cadastro de imovel ====================*/
+    /* ============= Passos do Cadastro de imovel ==================== */
 
-/* Primeiro Passo GET & POST */
-
+    
     public function createStep1(Request $request)
     {
         $valor = 16.66;
@@ -51,25 +46,26 @@ class ImovelController extends Controller
     public function postCreateStep1(Request $request)
     {
 
-        /*Validando os dados */
 
-        $validatedData = $request->validate([
-            'phone' => 'required',
-            'meta'=> 'required',
-            'banheiros' => 'required|numeric',
-            'quartos' => 'required|numeric',
-            'area_util' => 'required|numeric',
-            'area_total' => 'required|numeric',            
-            'estado'=>'string|required',
-            'localidade' => 'string|required',
-            'bairro' => 'string|required',
-            'logradouro' => 'string|required',
-            'unidade' => 'required',
-            'cep' => 'required|string|max:8|regex:/^[0-9]{8}$/', 
-            'preco' => 'required',           
-            'imovel_type_id' => 'required',
-            'categoria_id' => 'required',                        
-        ]);
+            $validatedData = $request->validate([
+                'phone' => 'required',
+                'meta'=> 'required',
+                'banheiros' => 'required|numeric',
+                'quartos' => 'required|numeric',
+                'area_util' => 'required|numeric',
+                'area_total' => 'required|numeric',            
+                'estado'=>'string|required',
+                'localidade' => 'string|required',
+                'bairro' => 'string|required',
+                'logradouro' => 'string|required',
+                'unidade' => 'required',
+                'cep' => 'required|string|max:8|regex:/^[0-9]{8}$/', 
+                'preco_venda' => 'required',           
+                'preco' => 'required',           
+                'imovel_type_id' => 'required',
+                'categoria_id' => 'required',                        
+            ]);        
+
 
         
 
@@ -77,7 +73,8 @@ class ImovelController extends Controller
         { 
             $usuario = Auth::user();
 
-            if(empty($usuario->cpf) || $usuario->cpf == null ){
+            if(empty($usuario->cpf) || $usuario->cpf == null )
+            {
 
                 $cpf = ['cpf' => preg_replace( array('/[^\d]+/'), array(''), $request['cpf'])];
 
@@ -100,9 +97,9 @@ class ImovelController extends Controller
             $usuario->save();
         }    
 
-/* ==================== Cadastro no novo imovel =========================== */
         
-         if (empty($request->session()->get('imovel'))){ 
+         if (empty($request->session()->get('imovel')))
+         { 
 
                 $imovel = new Imovel();
                 $imovel->user_id = $usuario->id;
@@ -146,11 +143,34 @@ class ImovelController extends Controller
 
              /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
 
-                $preco = str_replace(',','.',str_replace('.','',$request['preco']));
 
-                $valor = number_format( $preco, 2, '.', '' );
+            /* Preco sem comissão ou  Preço Mensal do Aluguel */
+
+                $preco = str_replace(',','.',str_replace('.','',$request['preco_venda']));
+
+                $valor = number_format( $preco, 2, '.', '' ); 
+
+                $imovel->preco_venda = floatval($valor);
+
+
+
+            /* Preco com comissão ou  Preço Anual do Aluguel */
+
+
+                $simbol = array('R$');                
+
+                $str = str_replace($simbol, '', $request['preco']); 
+
+                $limpa = substr($str, 2);                               
+
+                $total = str_replace(',','.',str_replace('.','',$limpa));         
                 
-                $imovel->preco = floatval($valor);
+                
+                $t_preco = number_format( $total, 2, '.', '' );
+
+
+                $imovel->preco = floatval($t_preco);                               
+
 
 
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */    
@@ -161,24 +181,48 @@ class ImovelController extends Controller
                 /* Atualiza a sessão do imovel */
                 $request->session()->put('imovel', $imovel);       
 
-         } else { 
+         }else{ 
 
              $imovel  =  $request->session()->get('imovel');
              $imovel->user_id = $usuario->id;  
              $imovel->fill($validatedData); 
             
-            /* DEFININDO FORMATO PRECO COMO INTEIRO */
-                $preco = str_replace(',','.',str_replace('.','',$request['preco']));
+             /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
 
-                $valor = number_format( $preco, 2, '.', '' );
+            /* Preco sem comissão ou  Preço Mensal do Aluguel */
+
+                $preco = str_replace(',','.',str_replace('.','',$request['preco_venda']));
+
+                $valor = number_format( $preco, 2, '.', '' );                
                 
-                $imovel->preco = floatval($valor);
+                $imovel->preco_venda = floatval($valor);
+
+
+            /* Preco com comissão ou  Preço Anual do Aluguel */
+
+                $simbol = array('R$');                
+
+                $str = str_replace($simbol, '', $request['preco']); 
+
+                $limpa = substr($str, 2);                               
+
+                $total = str_replace(',','.',str_replace('.','',$limpa));         
+                
+                
+                $t_preco = number_format( $total, 2, '.', '' );
+
+
+                $imovel->preco = floatval($t_preco);                             
+
+            
 
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */ 
+
                 $imovel->area_util = floatval($request['area_util']);
                 $imovel->area_total = floatval($request['area_total']);                    
             
             /* Atualiza a sessão do imovel */
+
                 $request->session()->put('imovel', $imovel);
          } 
 
@@ -189,13 +233,14 @@ class ImovelController extends Controller
 
 
 
-/* Segundo Passo GET & POST */
+    /* Segundo Passo GET & POST */
 
     public function createStep2(Request $request)
     {
         $imovel = $request->session()->get('imovel'); 
         $percent = round((1/3)*100, 1); 
-        $valor = 16.66 + ($percent);     
+        $valor = 16.66 + ($percent);  
+
         return view('app.steps.details', compact(['imovel', 'valor'], [$imovel, $valor]));
     }
 
@@ -210,7 +255,7 @@ class ImovelController extends Controller
         
         
 
-        if (empty($request->session()->get('imovel'))) {
+        if (empty($request->session()->get('imovel'))){
             
             return back()->withErrors('Ocorreu um erro.');
            
@@ -229,14 +274,13 @@ class ImovelController extends Controller
 
     }
 
-   public function createFinish(Request $request)
+    public function createFinish(Request $request)
     {
         $imovel = $request->session()->get('imovel'); 
         $percent = round((3/3)*100, 1); 
         $valor = 16.66 + ($percent); 
 
-        if (empty($imovel->medias)) {
-           
+        if (empty($imovel->medias)){           
            return back()->withErrors('Você esqueceu de enviar suas imagens');
         }
 
@@ -251,13 +295,13 @@ class ImovelController extends Controller
 
             $tmp = $request->session()->get('imovel');
 
-        /*============== Verifica se existe a cidade ==========*/    
+            /*============== Verifica se existe a cidade ==========*/    
 
             $city = DB::table('cidades')->where('nome','=', $tmp->localidade)->first();
 
             $cidadeImovel = '';
 
-            if (empty($city)) {
+            if (empty($city)){
                 
                 /* ============= Criando slug da cidade ==============*/
 
@@ -273,7 +317,9 @@ class ImovelController extends Controller
                 ]);
 
             }else{
-                    $cidadeImovel = $city;
+                
+                $cidadeImovel = $city;
+
             }
 
             /* ======== Identificação Codigo do imovel ======= */
@@ -281,7 +327,8 @@ class ImovelController extends Controller
                 $uid = mt_rand(100000, 999999);
                 $uuid = $uid.':'.uniqid(); 
 
-                                
+           
+
 
             $imv = Imovel::create([
                 'user_id' => $tmp->user_id,
@@ -301,6 +348,7 @@ class ImovelController extends Controller
                 'area_util' => $tmp->area_util,
                 'area_total' => $tmp->area_total,
                 'preco' => $tmp->preco,
+                'preco_venda' => $tmp->preco_venda,
                 'descricao' => $tmp->descricao,
                 'cidade_id' => $cidadeImovel->id,
                 'codigo' => $uuid,
@@ -324,11 +372,11 @@ class ImovelController extends Controller
             
             
         }else{
+
             abort(403, 'Tentativa não autorizada');         
 
         }  
 
     }
 
-    
 }

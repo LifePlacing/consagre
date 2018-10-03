@@ -1,4 +1,4 @@
-@extends('layouts/wizard')
+@extends('layouts/head')
 @section('title')
     Anunciar
     @parent
@@ -43,12 +43,12 @@
                 <div class="btn-group btn-group-toggle col-sm-12" data-toggle="buttons">
 
                     <label class="btn btn-primary active">
-                        <input type="radio" name="meta" value="venda" 
-                        checked="checked"> Vender
+                        <input type="radio" name="meta" value="venda" id="venda" checked="checked" 
+                         > Vender
                     </label>
 
                     <label class="btn btn-primary">
-                        <input type="radio" name="meta" value="aluguel"> Alugar
+                        <input type="radio" name="meta" value="aluguel" id="alugar"> Alugar
                     </label>
 
                 </div>
@@ -59,16 +59,26 @@
                     <label for="f1-first-name">Nome</label>
                     <input type="text" name="name" placeholder="Seu Nome Completo" class="required form-control" id="name"
                     value="{{ Auth::user()->name }}">
-                    <div class="erro-form erro-name"> Preecha Corretamente</div>
+                    <div class="erro-form erro-name"> Preecha Corretamente </div>
                 </div>
             </div>   
 
             <div class="form-row">
 
+                @if(isset(Auth::user()->cpf) && !empty(Auth::user()->cpf))
+
+                <div class="form-group col-sm-6 ">
+                    <input type="tel" name="cpf" class="cpf form-control col-sm-12" tipo_dado="cpf" maxlength="14" id="cpf" value="{{ Auth::user()->cpf }}" onblur="validarCPF(this)" readonly="readonly">
+                    
+                </div>
+
+                @else
+
 	            <div class="form-group col-sm-6 ">
 	                <input type="tel" name="cpf" placeholder="Seu CPF" class="cpf form-control col-sm-12 required" tipo_dado="cpf" maxlength="14" id="cpf" value="{{ Auth::user()->cpf }}" onblur="validarCPF(this)">
 	                <div class="erro-cpf erro-form"> CPF inválido </div>
 	            </div>
+                @endif
 
 	            <div class="form-group col-sm-6 ">
 	                <input type="tel" name="phone" placeholder="Seu Telefone" class="phone form-control col-sm-12 required" id="phone" value="{{ Auth::user()->phone }}">
@@ -167,12 +177,29 @@
             </h4>
 
             <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="preco">
-                            <div id="log">Valor total de venda :</div> 
+
+                    <div class="form-group col-sm-4">
+                        <label for="valor">
+                            <div id="log">Valor de Venda :</div> 
                         </label>
-                        <input type="text" name="preco" id="preco" class="col-sm-12 required" value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$">
+                        <input type="text" id="valor" class="col-sm-12 required" value="{{ old('preco_venda') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" name="preco_venda">
                     </div>
+
+                    <div class="form-group col-sm-4" id="percetual">
+                        <label for="percent">
+                            <div>Comissão Base 6% para venda:</div> 
+                        </label>
+                        <input type="text" id="percent" readonly  class="col-sm-12 form-control" name="comissao">
+                    </div>
+
+                    <div class="form-group col-sm-4" id="preco_total">
+                        <label for="preco">
+                            <div id="log_2">Valor total de venda :</div> 
+                        </label>
+                        <input type="text" name="preco" id="preco" class="col-sm-12 required form-control " value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" readonly>
+                    </div>
+
+
             </div>
 
             <h4><i class="fa fa-dollar"></i>
@@ -220,6 +247,8 @@
     $("#cpf").mask("999.999.999-99");
     $("#phone").mask("(00) 00000-0000");
     $('#preco').mask('#.##0,00', {reverse: true});
+    $('#valor').mask('#.##0,00', {reverse: true, style: 'currency', currency: 'BRL'});
+    $('#percent').mask('#.##0,00', {reverse: true});
     $('#iptu').mask('#.##0,00', {reverse: true});
     $('#condominio').mask('#.##0,00', {reverse: true});
 </script> 

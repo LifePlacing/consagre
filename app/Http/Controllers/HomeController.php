@@ -12,19 +12,9 @@ use App\Cidade;
 class HomeController extends Controller
 {
 
-    public function __construct()
+    public function anuncio()
     {
-        $this->middleware('auth')->except('app');
-    }
-
-
-    public function index()
-    {
-    	/*if (!Gate::allows('isProprietario')) {
-    		
-    		abort(404, "Não permitido");
-    	}*/
-        return view('users.index');
+        return view('app.anunciante');
     }
 
     public function app()

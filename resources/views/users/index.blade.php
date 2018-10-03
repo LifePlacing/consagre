@@ -5,8 +5,14 @@
 	<div class="col-md-4">
 		<div class="panel-primary panel">
 			<div class="panel-heading ">Anuncios Pendentes</div>
-			<div class="panel-body bg-primary">			
-				{{ Auth::user()->imovels->count() }}
+			<div class="panel-body bg-primary">		
+
+				@if(isset($pendentes))
+
+					{{ $pendentes->count() }}
+
+				@endif
+				
 			</div>			
 		</div>
 	</div>

@@ -19,6 +19,7 @@ function formataMoney($valor)
 	if($valor == null || empty($valor)){
 
 		return " <h5>Sob Consulta</h5> ";
+
 	}else{
 
 		$currency = number_format($valor, 2, ',', '.');
@@ -74,12 +75,14 @@ $type = exif_imagetype($filepath);
 	$image = imagebmp($file, $url, $qualidade);
 	break;
 	}
-return $image ;
+
+	return $image ;
 
 }
 
 
-function imageCreateFromAny($filepath) {
+function imageCreateFromAny($filepath){
+
 $type = exif_imagetype($filepath); 
 
 	$allowedTypes = array(
@@ -141,6 +144,13 @@ function formataPhone($numero)
 		}
 
 
+}
+
+function calculaPorcentagem($valor, $porcentagem)
+{
+	$resultado = $valor * ($porcentagem / 100);
+
+	return $resultado;
 }
 
 

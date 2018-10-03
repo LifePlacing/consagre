@@ -1,4 +1,4 @@
-@extends('layouts/wizard')
+@extends('layouts/head')
 @section('title')
     Anunciar
     @parent
