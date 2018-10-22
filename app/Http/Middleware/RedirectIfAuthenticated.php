@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
@@ -13,21 +14,38 @@ class RedirectIfAuthenticated
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
-    }    
+    } 
 
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->check()) {            
+
+
+        if (Auth::guard($guard)->check()) {
             
-            if ($this->auth->user()->role == 'admin') {
-                
-                return redirect()->route('admin.dashboard');
-               
+
+            if($guard == 'anuncios'){
+
+                return redirect()->route('anunciante.dashboard');
+
             }
-            if ($this->auth->user()->role == 'membro') {
-                
-                return redirect()->intended('/');
+
+            if($guard == 'web'){
+
+                if ($this->auth->check()) { 
+                    
+                    if ($this->auth->user()->role == 'admin') {
+                        
+                        return redirect()->route('admin.dashboard');
+                       
+                    }
+                    if ($this->auth->user()->role == 'membro') {
+                        
+                        return redirect()->intended('/');
+                    }
+                }
+
             }
+
         }
 
         return $next($request);

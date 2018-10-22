@@ -11,6 +11,31 @@
         left: 0px;
         position: absolute;
     }
+
+    .panel-heading > p > i{
+        padding: 0px 8px!important;
+    }
+
+    .panel-body > .col{
+        display: inline-flex;
+        padding: 5px;
+        width: 45%;
+    }
+
+    .panel-body > .col > i{
+        padding: 0px 5px!important;
+    }
+
+    .panel-body > .col > .count{
+        padding: 0px 8px;
+    }
+
+
+}
+
+.td-picture{
+    max-width: 150px!important;
+    height: auto;
 }
 
 .all-icons [class*="pe-"]{
@@ -60,8 +85,18 @@
     text-align: center;
 }
 
+.fc-left > h2{
+    font-size: 1.8rem!important;
+    text-align: center;
+}
+
 @media all and (max-width: 991px)  {
     .sidebar .nav > li.active-pro{
         position: initial;
     }
+
+.panel-body > .col{
+    display: inline-flex;
+}
+
 }

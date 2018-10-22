@@ -571,6 +571,38 @@ display: none!important;
 }
 
 
+/*==========Perfil do anunciante================== */
+
+.perfil{
+	width: 100%;
+	height: auto;	
+	overflow: hidden;		
+}
+
+.perfil > li{
+	width: 100%;		
+	list-style: none;	
+	text-align: center;	
+	margin-bottom: 15px;
+	 
+}
+
+.perfil > li a{	
+	color: rgb(0,122,165)!important;
+	padding: 0!important;
+	margin: 0!important;
+	text-decoration: none;
+}
+
+.perfil > li > i{	
+	
+	white-space: normal; 
+}
+
+
+
+
+
 
 /*================= Estilo Footer ========================*/
 
@@ -884,6 +916,34 @@ h4{
 		max-width: 600px!important;
 	}
 
+/*Perfil do anunciante */
+
+.perfil{
+	width: 100%;
+	display: flex;
+		
+}
+
+.perfil > li{
+	width: 33%;		
+	list-style: none;
+	color: #ccc;
+	text-align: center;
+	margin: 1rem;	
+}
+
+.perfil > li a{
+	color: rgb(0,122,165)!important;
+	padding: 0!important;
+	margin: 0!important;
+	text-decoration: none;
+}
+
+
+.perfil > li > i{	
+	width: 100%;
+	white-space: normal; 
+}
 
 
 
@@ -929,6 +989,8 @@ h4{
 		height: 65vh!important;
 		top: 5.5%!important;
 	}
+
+
 
 }
 
@@ -978,6 +1040,30 @@ h4{
 
 }
 
+@media only screen and (min-width:769px) and (max-width:1024px){
+
+	.form-group > .btn-group > .btn{		    
+		    height: 47px!important;
+		    width: 75px;
+		    padding: 0.5rem 0.5rem!important;
+		    font-size: 0.8rem;
+		    text-align: center!important;
+	}
+
+	.navbar-brand > img{
+		max-height: 90px!important;
+	}
+
+	.media > img{
+		width: 70px!important;
+		height: 70px!important;
+	}
+
+
+}
+
+
+
 
 /*========= COMPUTADORES OU TABLESTS ===================*/
 
@@ -992,7 +1078,7 @@ h4{
 	
 	.links{
 		width: auto!important;
-		left: 60%;
+		left: 50%;
 	}
 
 	.links > a {
@@ -1870,14 +1956,14 @@ li.page-item.active > .page-link{
 }
 
 .perfil > li a{
-	color: #ccc!important;
+	color: rgb(0,122,165)!important;
 	padding: 0!important;
 	margin: 0!important;
 	text-decoration: none;
 }
 
 .perfil > li a:hover{
-	color: rgb(0,122,165)!important;
+	color: rgb(0,84,114)!important;
 	cursor: pointer;	
 }
 

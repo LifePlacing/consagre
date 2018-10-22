@@ -1,3 +1,11 @@
+$(document).ready(function() {
+      $('#calendar').fullCalendar({
+        defaultView: 'listWeek',
+        default: 'standard'
+      });
+});
+
+
 type = ['','info','success','warning','danger'];
 
 

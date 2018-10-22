@@ -8,6 +8,7 @@ function scroll_to_class(element_class, removed_height) {
 
 jQuery(document).ready(function(){
 
+    
 
            if ($(".f1 .btn-primary input[name='meta']:checked").val() == "venda") {
 
@@ -257,6 +258,82 @@ jQuery(document).ready(function(){
     
     
 });
+
+
+
+// formulário cadastro imobiliarias e corretores
+
+
+
+//Inicio do Buscador de CEP
+
+    function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('rua_imobi').value=("");
+            document.getElementById('bairro_imobi').value=("");
+            document.getElementById('city_imobi').value=("");           
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('rua_imobi').value=(conteudo.logradouro);
+            document.getElementById('bairro_imobi').value=(conteudo.bairro);
+            document.getElementById('city_imobi').value=(conteudo.localidade);            
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+
+function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('rua_imobi').value="carregando...";
+                document.getElementById('bairro_imobi').value="carregando...";
+                document.getElementById('city_imobi').value="carregando...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    };
+
+//FIM do Buscador de CEP
+
+
+
+
 
 function maskIt(w,e,m,r,a){
 

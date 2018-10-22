@@ -57,6 +57,14 @@ class UserController extends Controller
     }
 
 
+    public function getUpdate($id){
+
+        abort(403, 'Solicitação não permitida');
+        
+        return redirect()->route('home');
+    }
+
+
     public function update($id, Request $request)
     {
 

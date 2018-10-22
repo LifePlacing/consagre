@@ -35,14 +35,6 @@
 
 	</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 
-
-<script type="text/javascript">
-
-$("#phone").mask("(00) 00000-0000");
-
-</script> 
-
 
 </body>
 </html>   

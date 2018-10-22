@@ -1,8 +1,13 @@
 <?php
 
+use App\Anunciante;
+
 Auth::routes();
 
 Route::get('/', 'HomeController@app')->name('index');
+
+
+//Route::get('/upload', 'MediaController@index')->name('imgtemporario');
 
 
 /*====================== ROTAS DOS USUARIOS ====================================*/
@@ -19,9 +24,7 @@ Route::post('/usuario/profile/show', 'UserController@avatar')->name('avatar');
 
 Route::get('/usuario/profile/anuncios/listar', 'UserController@listarAnucios')->name('anuncios.listar');
 
-Route::get('/usuario/profile/show/update/{id}', function($id){
-	abort(403, 'Solicitação não permitida');
-});
+Route::get('/usuario/profile/show/update/{id}', 'UserController@getUpdate')->name('get.update');
 
 Route::post('/usuario/profile/show/update/{id}', 'UserController@update')->name('updateUser');
 
@@ -79,3 +82,15 @@ Route::group(['middleware' => 'role'], function(){
     Route::post('task/{task}/delete', 'TaskController@delete')->name('delete');
 
 });
+
+
+/*===================ROTAS DOS ANUNCIANTES================*/
+
+
+Route::post('perfil/anuncio/{perfil}', 'Auth\AnuncianteRegisterController@create')->name('anunciante.store');
+
+Route::get('anunciante/login', 'Auth\AnuncianteLoginController@index')->name('anunciante.login');
+Route::post('anunciante/login', 'Auth\AnuncianteLoginController@login')->name('anunciante.login.submit');
+
+Route::get('perfil/anuncio/{perfil}', 'AnunciantesController@cadastro')->name('anunciante.cadastro');
+Route::get('anunciante', 'AnunciantesController@index')->name('anunciante.dashboard');

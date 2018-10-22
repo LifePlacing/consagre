@@ -11,7 +11,7 @@
         <div class="upload-control" v-show="images.length">
 
             <label for="file">Selecione suas imagens</label>
-            <button v-on:click.once="upload">Enviar</button>
+            <button v-on:click="upload" v-bind="{ 'disabled' : submited }">Enviar</button>
         </div>
 
 
@@ -100,6 +100,7 @@ export default {
 
             Array.from(files).forEach(file => this.addImage(file));
         },
+
         addImage(file) {
             if (!file.type.match('image.*')) {
                 this.$toastr.e(`${file.name} não é uma imagem`);
@@ -109,8 +110,8 @@ export default {
             let fileMegabyte = file.size /1024;
 
             
-            if( fileMegabyte > 1024 ){
-                this.$toastr.e(`${file.name} não pode ser maior que 1MB`);
+            if( fileMegabyte > 2048 ){
+                this.$toastr.e(`${file.name} não pode ser maior que 2MB`);
                 return;
             }
 
@@ -125,7 +126,7 @@ export default {
         },
 
         removeFile(key){ 
-        this.images.splice(key, 1); 
+            this.images.splice(key, 1); 
         },
 
         getFileSize(size) {
@@ -143,9 +144,17 @@ export default {
 
             const formData = new FormData();
             
-            this.files.forEach(file => {
-                formData.append('images[]', file, file.name);
-            });
+            if(this.images.length < 16){
+
+                this.files.forEach(file => {
+                    formData.append('images[]', file, file.name);
+                });
+
+                }else{
+
+                    this.$toastr.e(`Você só pode fazer o upload de até 15 imagens`);
+                    return;
+                }
 
             axios.post('/images-upload', formData, {onUploadProgress: function( progressEvent ) { this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) ); }.bind(this) })
                 .then(response => {
@@ -216,7 +225,7 @@ export default {
         }
     }
 
-    .images-preview {
+    .images-preview{
     
         display: flex;
         flex-wrap: wrap;

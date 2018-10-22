@@ -11,7 +11,7 @@ class CriarCampoCodigoImovel extends Migration
     {
       Schema::table('imovels', function (Blueprint $table) {           
 
-        $table->string('codigo')->unique()->nullable();
+        $table->string('codigo', 60)->unique()->nullable();
         
         });    
     }

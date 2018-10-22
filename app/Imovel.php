@@ -40,7 +40,19 @@ class Imovel extends Model
 
  public function categoria(){
        return $this->belongsTo('App\Categoria');
- }   
+ }  
+
+
+ public function anunciante(){
+      return $this->belongsToMany("App\Anunciante", "alocacoes");
+ } 
+
+
+
+
+
+
+ 
 
  /*escopos da busca de Imoveis ativos */
 

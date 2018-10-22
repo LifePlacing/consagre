@@ -23,14 +23,14 @@
 			</li>
 
 			<li>
-				<a href="">
+				<a href="{{route('anunciante.cadastro', 'imobiliaria')}}">
 					<i class="fa fa-building-o fa-5x" ></i> 
 					<h4 class="azul">Imobiliaria</h4>
 				</a>	
 			</li>
 
 			<li>
-				<a href="">
+				<a href="{{route('anunciante.cadastro', 'corretor')}}">
 					<i class="fa fa-user fa-5x" aria-hidden="true"></i> 
 					<h4 class="azul">Corretor</h4>
 				</a>
@@ -38,7 +38,11 @@
 		</ul>
 
 		<span class="text-informativo" ><i class="fa fa-exclamation-triangle fa-4x"></i> <p class="text-muted"> 
-	Sr(a). Proprietário(a), seu imóvel ficará disponível às imobiliárias conveniadas ao Portal para intermediação da venda ou locação. O anúncio é gratuito, porem não é divulgado ao consumidor final. <strong>"Anúncio Gratuito".</strong></p> </span> <small>* Temos planos para anuncios premium disponivel. Confira</small>
+	Sr(a). Proprietário(a), seu imóvel ficará disponível às imobiliárias conveniadas ao Portal para intermediação da venda ou locação. O anúncio é gratuito, porem não é divulgado ao consumidor final. <strong>"Anúncio Gratuito".</strong></p> </span> 
+		<br>
+		<p>
+			<small>* Temos planos para anuncios premium disponivel. Confira</small>
+		</p>
 
 	</div>
 	

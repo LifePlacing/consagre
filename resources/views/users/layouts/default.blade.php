@@ -21,14 +21,16 @@
     <link href="{{ asset('users/css/animate.min.css')}}" rel="stylesheet"/>
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="{{asset('users/css/demo.css') }}" rel="stylesheet" />    
+    <link href="{{asset('users/css/demo.css') }}" rel="stylesheet" />
+
+    <link href="{{asset('users/css/fullcalendar.min.css') }}" rel="stylesheet" />    
 
     <!--  Light Bootstrap Table core CSS    -->
     <link href="{{ asset('users/css/light-bootstrap-dashboard.css?v=1.4.0') }}" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="{{ asset('users/css/pe-icon-7-stroke.css')}}" rel="stylesheet" />
 
 </head>
@@ -141,9 +143,12 @@
 </body>
 
     <!--   Core JS Files -->  
-    <script src="{{ asset('users/js/jquery.3.2.1.min.js')}} " type="text/javascript"></script>
+    <script src="{{ asset('users/js/jquery.min.js')}} " type="text/javascript"></script> 
+    <script src="{{ asset('users/js/jquery-ui.min.js')}} " type="text/javascript"></script>
+    <script src="{{ asset('users/js/moment.min.js')}} " type="text/javascript"></script>       
     <script src="{{ asset('users/js/bootstrap.min.js') }}" type="text/javascript"></script>
-
+    <script src="{{ asset('users/js/fullcalendar.min.js')}} " type="text/javascript"></script>
+    <script src="{{ asset('users/js/pt-br.js')}} " type="text/javascript"></script>
     <!--  Charts Plugin -->
     <script src="{{ asset('users/js/chartist.min.js') }}"></script>
 

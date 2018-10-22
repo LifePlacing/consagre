@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
             $table->string('name', 80);
             $table->string('email', 50)->unique();
             $table->string('cpf', 14)->unique()->nullable();
-            $table->string('password', 50);
+            $table->string('password', 60);
             $table->string('phone',20)->nullable();
             $table->string('sobre')->nullable();
             $table->enum('user_type', array('proprietario', 'corretor', 'imobiliaria'))->default('proprietario');

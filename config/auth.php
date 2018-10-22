@@ -46,6 +46,18 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'anuncios' => [
+            'driver' => 'session',
+            'provider' => 'anunciantes',
+        ],
+
+        'anuncios-api' => [
+            'driver' => 'token',
+            'provider' => 'anunciantes',
+        ],
+
+
     ],
 
     /*
@@ -69,6 +81,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'anunciantes' => [
+            'driver' => 'eloquent',
+            'model'  => App\Anunciante::class,
         ],
 
         // 'users' => [
@@ -95,6 +112,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'anunciantes' => [
+            'provider' => 'anunciantes',
             'table' => 'password_resets',
             'expire' => 60,
         ],
