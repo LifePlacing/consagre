@@ -16,7 +16,7 @@
 				<table align="center" border="0" cellpadding="0" cellspacing="0" width="80%" style="border-collapse: collapse; ">
 					<tr>
 						<td bgcolor="#007aa5" align="center" style="padding-top: 40px; padding-bottom: 20px; padding-left: 0px; padding-right: 0px;">
-						<img width="300px" height="120px" src="{{ $message->embed(public_path().'/imagens/logo-page-login.svg')}}" style="display: block;" alt="Imoveis na Baixada Santista"/>
+						<img width="300px" height="120px" src="{{ $message->embed(public_path().'/imagens/logo-page-login.png')}}" style="display: block;" alt="Imoveis na Baixada Santista"/>
 						</td>
 					</tr>
 					<tr>
