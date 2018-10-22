@@ -21,6 +21,6 @@ class RegisterAnuncianteListener
     {
         info("Novo Anunciante Cadastrado!");
         info($event->anunciante->nome);
-        Mail::to($event->anunciante)->send(new RegistroAnunciante($event->anunciante));
+        Mail::to($event->anunciante)->queue(new RegistroAnunciante($event->anunciante));
     }
 }

@@ -52,7 +52,7 @@ class RegisterController extends Controller
             'token' => str_random(40)
         ]);
 
-        Mail::to($user->email)->send(new ConfirmarEmail($user));
+        Mail::to($user->email)->queue(new ConfirmarEmail($user));
 
         return $user;
     }
