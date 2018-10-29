@@ -14,6 +14,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.4.0",
         "oriceon/toastr-5-laravel": "dev-master",
+        "pagseguro/pagseguro-php-sdk": "^4.2",
         "predis/predis": "^1.1"
     },
     "require-dev": {
