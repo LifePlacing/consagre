@@ -8,7 +8,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container container-anunciante">
 
             @if (session('status'))
                 <div class="alert alert-success">
@@ -21,10 +21,7 @@
                 </div>
             @endif
 
-
-
-	<div class="d-inline-flex">
-        
+ 
 
 	<div class="col-md-8">
 
@@ -216,7 +213,7 @@
 
                 <div class="form-group row ">
                     <div class="col-md-6 ">
-                        <button type="submit" class="btn btn-primary" style="background: rgb(0,122,165)!important;color: #fff!important; width: 80%!important; border: 1px solid rgb(0,122,165)!important;">
+                        <button type="submit" class="btn btn-primary" style="background: rgb(0,122,165)!important;color: #fff!important; width: 100%!important; border: 1px solid rgb(0,122,165)!important;">
                             {{ __('Enviar') }}
                         </button>
 
@@ -274,7 +271,7 @@
 
 	</div>
 
-	</div>
+	
 
 </div>
 

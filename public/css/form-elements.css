@@ -47,10 +47,10 @@ input:required:valid{
 }
 
 .btn-plano{
-    background:rgb(0,122,165)!important;
-    font-size: 1.2rem!important;
-    min-width: 90%!important;
-    margin: 15px 0px!important;
+    background:rgb(255,90,0)!important;
+    font-size: 1.4rem!important;
+    min-width: 100%!important;
+    margin: 0 auto!important;
     color:#fff;
 }
 

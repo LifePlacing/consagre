@@ -14,6 +14,26 @@ use App\Cidade;
 class BuscaController extends Controller
 {
 
+
+/*Busca por venda ou aluguel*/
+
+    public function getMeta($meta){
+
+        $busca = Imovel::hasStatus()->where('meta', '=', $meta)->orderBy('created_at', 'desc');
+
+        $total_resultados = $busca->count();
+
+        if ($total_resultados > 0) { 
+
+            $imoveis = $busca->paginate(10);
+
+            return view('app.imoveis.search_cidades', compact(['imoveis', 'total_resultados'], [$imoveis, $total_resultados]));          
+        }else{
+            return view('app.imoveis.search_cidades')
+            ->withErrors(['Nenhum registro de Imovel Encontrado']);
+         }
+
+    }
    
 
 /*============ busca por cidades ==========*/
@@ -25,10 +45,15 @@ class BuscaController extends Controller
 
         if (!empty($imovelCidade->id)) {
 
-            $imoveis = Imovel::hasStatus()->where('cidade_id', '=', $imovelCidade->id)->paginate(10);
+            $busca = Imovel::hasStatus()->where('cidade_id', '=', $imovelCidade->id)->orderBy('created_at', 'desc');
 
-            if (count($imoveis) > 0) { 
-                return view('app.imoveis.search_cidades', compact(['imoveis'], [$imoveis]));          
+            $total_resultados = $busca->count();
+
+            if ($total_resultados > 0) { 
+
+                $imoveis = $busca->paginate(10);
+
+                return view('app.imoveis.search_cidades', compact(['imoveis', 'total_resultados'], [$imoveis, $total_resultados]));          
             }else{
                 return view('app.imoveis.search_cidades')
                 ->withErrors(['Nenhum registro de Imovel Encontrado']);
@@ -48,64 +73,41 @@ class BuscaController extends Controller
 
     public function getImoveis(Request $request)
     {
+    
+       $pesquisa = $request->except('_token');
 
-        $imoveis = Imovel::hasStatus()
+        $busca = Imovel::hasStatus()
+                    ->TipoImovelId($request['imovel_type_id'])
+                    ->CidadeId($request['cidade'])
         			->QuantItens('quartos', $request['qOpt1'], $request['qOpt2'], $request['qOpt3'], $request['qOpt4'])
         			->QuantItens('suites', $request['sOpt1'], $request['sOpt2'], $request['sOpt3'], 
         				$request['sOpt4'])
         			->QuantItens('garagem', $request['vOpt1'], $request['vOpt2'], $request['vOpt3'], $request['vOpt4'] )
         			->PrecoMinMax('preco', $request['minpreco'], $request['maxpreco'])
         			->AreaMinMax('area_total', $request['areaInicial'], $request['areaFinal'])
-        			->where('meta', '=', $request['meta'])->get();
-
-		/*Coletando os dados */
-
-        $tipo = $request['imovel_type_id'];
-        $cidade = $request['cidade'];
-
-        /*========== Filtros simples do formulário ============= */
-
-          	if ($tipo != 'all' || $cidade != 'all') {
-                
-               if ($tipo != 'all') {                
-                    $id_tipo = (int)$tipo;
-                    $search = $imoveis->where('imovel_type_id', '=', $id_tipo);
-                }
-
-                if ($cidade != 'all') {
-                   $id_cidade = (int)$cidade;
-                   $search = $imoveis->where('cidade_id', '=', $id_cidade);
-                }
-
-         	}else{
-         		 $search = $imoveis;
-         	}
-
+        			->Meta($request['meta'])
+                    ->orderBy('created_at', 'desc');
         
+        $total_resultados = $busca->count();
 
-        if ($search->count() == 0) { 
-
+        if ($total_resultados == 0) { 
             return redirect()->route('searchImoveis')
                             ->withErrors(['Nenhum registro de Imovel Encontrado']);
-
         }else{
 
-            $request->session()->flash('search', $search);
-
-           return redirect()->route('searchImoveis');           
+            $search = $busca->paginate(10); 
+          return view('app.imoveis.search_imoveis', compact(['search', 'pesquisa', 'total_resultados'], 
+            [$search, $pesquisa, $total_resultados]));
        }
 
     }
 
 
-    public function searchImoveis(Request $request){
+    public function searchImoveis(Request $request){      
 
-        $search = $request->session()->get('search');
-
-        $lista = Imovel::hasStatus()->paginate(10);
-
-        return view('app.imoveis.search_imoveis', compact(['search', 'lista'], [$search, $lista]));
+        return view('app.imoveis.search_imoveis');
     }
+
 
 
     public function singleImovel($titulo, $id, $meta, $cidade){        
@@ -115,8 +117,6 @@ class BuscaController extends Controller
         $c = Cidade::where('slug', '=', $cidade)->first();
 
         $usuario = $propriedade->user;
-
-
 
         if ($c != null && !empty($c) && $c->imovels->count() > 1 ) {
             $relacionados = Imovel::hasStatus()

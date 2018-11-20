@@ -154,3 +154,17 @@ function calculaPorcentagem($valor, $porcentagem)
 }
 
 
+function escondeEmail($email)
+{
+
+	$mail = explode('@', $email);
+	$qtd_char = strlen($mail[0]);
+	$inicio = substr($mail[0],0, 8);
+	$email_editado = str_pad($inicio, $qtd_char, "*");
+
+	$string = $email_editado.'@'.$mail[1];
+
+	return $string;
+}
+
+

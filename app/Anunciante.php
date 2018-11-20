@@ -14,7 +14,7 @@ class Anunciante extends Authenticatable
    protected $fillable = [
 
    	'nome', 'tipo', 'creci', 'email', 'phone_fixo', 'celular', 'password', 'site', 'sobre',
-   	'cep', 'cidade', 'logradouro', 'bairro', 'unidade', 'logo', 'contato', 'cargo',
+   	'cep', 'cidade', 'logradouro', 'bairro', 'unidade', 'logo', 'contato', 'cargo', 'plano_id'
 
    ];
 

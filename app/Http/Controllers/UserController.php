@@ -33,7 +33,6 @@ class UserController extends Controller
 
         $ativos = $imoveis_user->where('status', '=', '1');
 
-
         $pendentes = $imoveis_user->where('status', '=', '0');
 
         return view('users.index', compact(['ativos', 'pendentes'], [$ativos, $pendentes]) );
@@ -51,9 +50,19 @@ class UserController extends Controller
     	return view('users.account');
     }
 
-    public function listarAnucios()
+    public function listarAtivos()
     {
-        return view('users.listaImoveis');
+        $user = Auth::user();
+
+        $imoveis = Imovel::hasStatus()->where('user_id', '=', $user->id)->orderBy('created_at', 'desc');
+        
+        $contador = $imoveis->count();
+        
+        $ativos = $imoveis->paginate(4);
+
+        
+
+        return view('users.listaImoveis', compact(['ativos', 'contador'], [$ativos, $contador]));
     }
 
 

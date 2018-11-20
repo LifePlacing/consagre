@@ -69,10 +69,13 @@
 	</div>
 
 	<div class="col-md-4 animated bounceInRight delay-4s">
-		<div class="panel-success panel">
-			<div class="panel-heading"> <p><i class="pe-7s-chat"></i>Mensagens</p></div>
-			<div class="panel-body bg-success">
+		<div class="panel-info panel">
+			<div class="panel-heading"> <p><i class="pe-7s-cash"></i>Plano Contratado</p></div>
+			<div class="panel-body bg-info">				
 				
+				<p> Máximo Anuncios: 10 anuncios simples.</p>					
+					
+			
 			</div>
 		</div>
 	</div>	

@@ -7,8 +7,6 @@ Auth::routes();
 Route::get('/', 'HomeController@app')->name('index');
 
 
-//Route::get('/upload', 'MediaController@index')->name('imgtemporario');
-
 
 /*====================== ROTAS DOS USUARIOS ====================================*/
 
@@ -22,7 +20,7 @@ Route::get('/usuario/profile/show', 'UserController@show')->name('perfil.show');
 
 Route::post('/usuario/profile/show', 'UserController@avatar')->name('avatar');
 
-Route::get('/usuario/profile/anuncios/listar', 'UserController@listarAnucios')->name('anuncios.listar');
+Route::any('/usuario/profile/anuncios/ativos', 'UserController@listarAtivos')->name('anuncios.listar');
 
 Route::get('/usuario/profile/show/update/{id}', 'UserController@getUpdate')->name('get.update');
 
@@ -35,7 +33,9 @@ Route::post('/usuario/profile/show/update/{id}', 'UserController@update')->name(
 
 Route::get('/busca/imoveis/{cidade}', 'BuscaController@getCidade')->name('buscaCidade');
 
-Route::post('/buscar/imoveis/filtro', 'BuscaController@getImoveis')->name('buscaImoveis');
+Route::get('/busca/todososimoveis/{meta}', 'BuscaController@getMeta')->name('buscaTodos');
+
+Route::any('/buscar/imoveis/filtro-search', 'BuscaController@getImoveis')->name('buscaImoveis');
 
 Route::get('/buscar/imoveis/filtro', 'BuscaController@searchImoveis')->name('searchImoveis');
 
@@ -86,11 +86,17 @@ Route::group(['middleware' => 'role'], function(){
 
 /*===================ROTAS DOS ANUNCIANTES================*/
 
+Route::get('anunciante/planos/{id}', function($id){
+
+		$anunciante = Anunciante::find($id);
+
+		return view('payment.plano')->with('anunciante', $anunciante);
+});
 
 Route::post('perfil/anuncio/{perfil}', 'Auth\AnuncianteRegisterController@create')->name('anunciante.store');
 
 Route::get('anunciante/login', 'Auth\AnuncianteLoginController@index')->name('anunciante.login');
 Route::post('anunciante/login', 'Auth\AnuncianteLoginController@login')->name('anunciante.login.submit');
-
 Route::get('perfil/anuncio/{perfil}', 'AnunciantesController@cadastro')->name('anunciante.cadastro');
 Route::get('anunciante', 'AnunciantesController@index')->name('anunciante.dashboard');
+

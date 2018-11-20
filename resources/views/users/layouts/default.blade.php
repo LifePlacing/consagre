@@ -29,8 +29,9 @@
     <link href="{{ asset('users/css/light-bootstrap-dashboard.css?v=1.4.0') }}" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('users/css/font-awesome.min.css')}}" rel="stylesheet">
+    
+    <link href='https://fonts.googleapis.com/css?family=Abril+Fatface|Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="{{ asset('users/css/pe-icon-7-stroke.css')}}" rel="stylesheet" />
 
 </head>
@@ -58,23 +59,17 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="#">Dashboard</a>
+                                <a class="navbar-brand" href="{{ route('home') }}">Painel do Usuário</a>
                             </div>
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav navbar-left">
-                                    <li>
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-dashboard"></i>
-                                            <p class="hidden-lg hidden-md">Dashboard</p>
-                                        </a>
-                                    </li>
+
                                     <li>
                                        <a href="">
                                             <i class="fa fa-search"></i>
                                             <p class="hidden-lg hidden-md">Buscar</p>
                                         </a>
                                     </li>
-
 
                                 </ul>
 

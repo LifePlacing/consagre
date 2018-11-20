@@ -9,6 +9,34 @@ function scroll_to_class(element_class, removed_height) {
 jQuery(document).ready(function(){
 
     
+    $(".btn-plan input[name='plano']").on('click', function(){      
+        
+
+            if($("input:checked").val() == "plano_basico"){
+                $('#plan_basico').css('box-shadow','0px 0px 5px rgb(255,90,0)'); 
+                $('#plan_pro').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)');                        
+                document.getElementById('plano_id').value=(this.value);              
+                $('#plano_selecionado').html("Plano Básico");
+                var valor_basico = document.getElementById('valor_basico').innerHTML; 
+                var texto = document.getElementById('valor_do_plano');
+                texto.innerHTML = valor_basico;
+
+            }
+
+            if($("input:checked").val() == "plano_pro"){
+               $('#plan_basico').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)'); 
+               $('#plan_pro').css('box-shadow','0px 0px 5px rgb(255,90,0)');
+               document.getElementById('plano_id').value=(this.value); 
+               $('#plano_selecionado').html("Plano Pro-100"); 
+
+                var valor_pro = document.getElementById('valor_pro').innerHTML; 
+                var texto = document.getElementById('valor_do_plano');
+                texto.innerHTML = valor_pro;
+
+            }
+
+    });        
+    
 
            if ($(".f1 .btn-primary input[name='meta']:checked").val() == "venda") {
 
@@ -258,6 +286,8 @@ jQuery(document).ready(function(){
     
     
 });
+
+
 
 
 

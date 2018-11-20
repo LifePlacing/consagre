@@ -8,9 +8,7 @@
 
 @section('content')
 
-
-
-<div class="container">
+<div class="container container-anunciante">
 
     @if (session('status'))
     <div class="alert alert-success">
@@ -23,9 +21,8 @@
     </div>
     @endif
 
-	<div class="d-inline-flex">
-	
-	<div class="col-md-8">
+
+	<div class="col-md-8 col-xs-12">
 
 
 				<h2 class="laranja">Anuncie sua Imobiliária na Consagre Imoveis</h2>
@@ -243,7 +240,7 @@
 
                 <div class="form-group row ">
                     <div class="col-md-6 ">
-                        <button type="submit" class="btn btn-primary" style="background: rgb(0,122,165)!important;color: #fff!important; width: 80%!important; border: 1px solid rgb(0,122,165)!important;">
+                        <button type="submit" class="btn btn-primary" style="background: rgb(0,122,165)!important;color: #fff!important; width: 100%!important; border: 1px solid rgb(0,122,165)!important;">
                             {{ __('Enviar') }}
                         </button>
 
@@ -259,7 +256,7 @@
 
 @section('sidebar-right')	
 
-	<div class="col-md-4">
+	<div class="col-md-4 col-xs-12">
 
 		<br>
 		<span class="text-informativo">			
@@ -300,7 +297,7 @@
 
 	</div>
 
-	</div>
+
 
 </div>
 

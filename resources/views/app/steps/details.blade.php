@@ -41,11 +41,11 @@
     </div>  
     
     <fotos></fotos>
-    <br>
     
     <p class="info"> 
         <span>*</span>Não esqueça de enviar suas fotos antes de prosseguir com o cadastro
     </p>
+
 
     <form  action="/anunciar/anunciar-step2" role="form" method="POST" class="f1" >
 

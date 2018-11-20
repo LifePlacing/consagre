@@ -11,7 +11,11 @@
 
 	<section id="lancamentos">
 
-	<h2>Lançamentos</h2>
+	<div class="text-center h2">
+
+		<h2>Lançamentos</h2><span></span>
+
+	</div>
 
 	<ul id="tabLanc" class="nav nav-tabs" role="tablist">
 		<li class="nav-item">
@@ -39,7 +43,7 @@
                 	$slugTitulo =  strtolower($slug); 
   				@endphp
 
-			  		<div class="col-sm-3">
+			  		<div class="col-sm-6 col-md-3">
 		  				<div class="card card-imoveis" onclick="window.location='/{{$slugTitulo}}/{{$venda->id}}/{{$venda->meta}}/{{$venda->cidade->slug}}'" >
 
 					 	@foreach($venda->media as $m => $medias)
@@ -78,7 +82,18 @@
 		            </div>                 
 
 		  		@endforeach	
+
+		  		
 			</div>	
+
+				@if ($imoveisVenda->count() == 4)
+
+				<div class="btn-vertodos">
+		  			<a href="{{ route('buscaTodos', 'venda') }}" class="text-primary vertodos ">Ver Todos</a>
+		  		</div>
+
+		  		@endif
+
 
 			  	@else	
 
@@ -109,7 +124,7 @@
                             @endif
                         @endforeach 
                     	<div class="card-title">			 				 
-			 				{{ formataMoney($aluguel->preco) }}
+			 				{{ formataMoney($aluguel->preco_venda) }}
 			 			</div>
 			 			<div class="card-content">
 
@@ -134,6 +149,14 @@
             </div>            
 
 			@endforeach	
+
+				@if ($imoveisAluguel->count() == 4)
+					<div class="btn-vertodos">
+			  			<a href="{{ route('buscaTodos', 'aluguel') }}" class="text-primary vertodos">Ver Todos</a>
+			  		</div>
+		  		@endif
+
+
 		</div>		
 
 		@else
@@ -150,7 +173,9 @@
 
 	<section id="cidades">
 
-	<h2>Buscar por Cidade</h2>
+		<div class="text-center h2">
+			<h2>Buscar por Cidade</h2><span></span>
+		</div>
 
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 	  <li class="nav-item">
@@ -170,21 +195,21 @@
 
 	  	<ul class="list-unstyled">
 	  		<li class="media" onclick="window.location='/busca/imoveis/cananeia' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_cananeia.jpg')}}" alt="Imoveis para venda e aluguel em Cananeia - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_cananeia.jpg')}}" alt="Imoveis para venda e aluguel em Cananeia - SP">
 	  			<div class="media-body align-self-center ">
 	  				<h5 class="mt-0 mb-1">Cananeia</h5>
 	  			</div>	  			
 	  		</li>
 
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/iguape' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_iguape.jpg')}}" alt="Imoveis para venda e aluguel em Iguape - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_iguape.jpg')}}" alt="Imoveis para venda e aluguel em Iguape - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Iguape</h5>
 	  			</div>
 	  		</li>
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/ilha_comprida' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_ilha_comprida.jpg')}}" alt="Imoveis para venda e aluguel em Ilha Comprida - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_ilha_comprida.jpg')}}" alt="Imoveis para venda e aluguel em Ilha Comprida - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Ilha Comprida</h5>
 	  			</div>	
@@ -195,20 +220,20 @@
 	  	<ul class="list-unstyled">
 
 	  		<li class="media"  onclick="window.location='/busca/imoveis/itanhaem' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_Itanhaem.jpg')}}" alt="Imoveis para venda e aluguel em Itanhaém - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_Itanhaem.jpg')}}" alt="Imoveis para venda e aluguel em Itanhaém - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Itanhaém</h5>
 	  			</div>	
 	  		</li>
 
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/mongagua' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_mongagua.jpg')}}" alt="Imoveis para venda e aluguel em Mongaguá - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_mongagua.jpg')}}" alt="Imoveis para venda e aluguel em Mongaguá - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1 ">Mongaguá</h5>
 	  			</div>	
 	  		</li>
 	  		<li class="media" onclick="window.location='/busca/imoveis/pedro_de_toledo' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/pedro_de_toledo.jpg')}}" alt="Imoveis para venda e aluguel em Pedro de Toledo - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/pedro_de_toledo.jpg')}}" alt="Imoveis para venda e aluguel em Pedro de Toledo - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Pedro de Toledo</h5>
 	  			</div>	
@@ -217,7 +242,7 @@
 
 	  	<ul class="list-unstyled">
 	  		<li class="media" onclick="window.location='/busca/imoveis/peruibe' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_peruibe.jpg')}}" alt="Imoveis para venda e aluguel em Peruíbe - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_peruibe.jpg')}}" alt="Imoveis para venda e aluguel em Peruíbe - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Peruíbe</h5>
 	  			</div>	
@@ -229,19 +254,19 @@
 
 	   	<ul class="list-unstyled">
 	  		<li class="media" onclick="window.location='/busca/imoveis/bertioga' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_bertioga.jpg')}}" alt=" Imoveis para venda e aluguel em Bertioga - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_bertioga.jpg')}}" alt=" Imoveis para venda e aluguel em Bertioga - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1 ">Bertioga</h5>
 	  			</div>	
 	  		</li>
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/cubatao' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_cubatao.jpg')}}" alt="Imoveis para venda e aluguel em Cubatão - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_cubatao.jpg')}}" alt="Imoveis para venda e aluguel em Cubatão - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Cubatão</h5>
 	  			</div>	
 	  		</li>
 	  		<li class="media" onclick="window.location='/busca/imoveis/guaruja' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_guaruja.jpg')}}" alt="Imoveis para venda e aluguel no Guarujá - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_guaruja.jpg')}}" alt="Imoveis para venda e aluguel no Guarujá - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Guarujá</h5>
 	  			</div>	
@@ -251,21 +276,21 @@
 	  	<ul class="list-unstyled">
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/praia_grande' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_praia_grande.jpg')}}" alt="Imoveis para venda e aluguel na Praia Grande - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_praia_grande.jpg')}}" alt="Imoveis para venda e aluguel na Praia Grande - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Praia Grande</h5>
 	  			</div>
 	  		</li>
 
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/santos' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_santos.jpg')}}" alt="Imoveis para venda e aluguel em Santos - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_santos.jpg')}}" alt="Imoveis para venda e aluguel em Santos - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Santos</h5>
 	  			</div>
 	  		</li>
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/sao_vicente' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade-sao-vicente.jpg')}}" alt="Imoveis para venda e aluguel em São Vicente - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade-sao-vicente.jpg')}}" alt="Imoveis para venda e aluguel em São Vicente - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">São Vicente</h5>
 	  			</div>
@@ -277,19 +302,19 @@
 
 	  	<ul class="list-unstyled">
 	  		<li class="media" onclick="window.location='/busca/imoveis/7barras' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_sete_barras.jpg')}}" alt="Imoveis para venda e aluguel em Sete Barras - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_sete_barras.jpg')}}" alt="Imoveis para venda e aluguel em Sete Barras - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">7Barras</h5>
 	  			</div>
 	  		</li>
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/cajati' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_cajati.jpg')}}" alt="">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_cajati.jpg')}}" alt="">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Cajati</h5>
 	  			</div>
 	  		</li>
 	  		<li class="media" onclick="window.location='/busca/imoveis/eldorado' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_eldorado.jpg')}}" alt="Imoveis para aluguel e venda na cidade de Eldorado - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_eldorado.jpg')}}" alt="Imoveis para aluguel e venda na cidade de Eldorado - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Eldorado</h5>
 	  			</div>
@@ -300,14 +325,14 @@
 	  	<ul class="list-unstyled">	
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/itariri' ">	  			
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_itariri.jpg')}}" alt="Imoveis para venda e aluguel em Itariri - SP">	  			
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_itariri.jpg')}}" alt="Imoveis para venda e aluguel em Itariri - SP">	  			
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Itariri</h5>
 	  			</div>	  				  			
 	  		</li>
 	  		
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/jacupiranga' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_jacupiranga.jpg')}}" alt="">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_jacupiranga.jpg')}}" alt="">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Jacupiranga</h5>
 	  			</div>
@@ -315,7 +340,7 @@
 
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/juquia' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_juquia.jpg')}}" alt="Imoveis a venda e aluguel em Juquiá - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_juquia.jpg')}}" alt="Imoveis a venda e aluguel em Juquiá - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Juquiá</h5>
 	  			</div>
@@ -325,19 +350,19 @@
 		<ul class="list-unstyled">
 
 	  		<li class="media" onclick="window.location='/busca/imoveis/miracatu' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_miracatu.jpg')}}" alt="Imoveis para venda e aluguel em Miracatú - SP">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_miracatu.jpg')}}" alt="Imoveis para venda e aluguel em Miracatú - SP">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Miracatú</h5>
 	  			</div>
 	  		</li>
 	  		<li class="media my-4" onclick="window.location='/busca/imoveis/pariquera_acu' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_pariqueracu.jpg')}}" alt="">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_pariqueracu.jpg')}}" alt="">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Pariquera Açu</h5>
 	  			</div>
 	  		</li>
 	  		<li class="media" onclick="window.location='/busca/imoveis/registro' ">
-	  			<img class="mr-3 rounded-circle" src="{{asset('imagens/cidades/cidade_registro.jpg')}}" alt="">
+	  			<img class="rounded-circle" src="{{asset('imagens/cidades/cidade_registro.jpg')}}" alt="">
 	  			<div class="media-body align-self-center">
 	  				<h5 class="mt-0 mb-1">Registro</h5>
 	  			</div>

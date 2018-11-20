@@ -7,21 +7,21 @@
 
 @section('sidebar')
 
-<div class="container container-grid" >
+<div class="container-grid" >
 
 		<div class="sidebar">
 
-			<form>
+			<form method="post" action="{{ route('buscaImoveis') }}">
+
+				@csrf
+
 				<div class="widget">
-					<h2>Localização do Imóvel</h2>
-					<div class="form-group">
-						<input type="text" name="" class="form-control" placeholder="Qual Cidade da Baixada Santista?">
+
+					<div class="text-center">
+						<h1>Filtrar Sua Pesquisa</h1>
 					</div>
 
-					<h2>Tipo de Imóvel</h2>
-					<div class="form-group">
-						<input type="text" name="" class="form-control">
-					</div>
+					<hr>
 
 					<div class="valores">
 						<h2>Preço Minimo</h2>
@@ -79,6 +79,12 @@
 						<label class="custom-control-label" for="v4"> +4</label>
 					</div>
 
+					<hr>
+
+					<div class="form-inline">
+						<input type="submit" value="Filtrar Pesquisa" class="btn btn-danger btn-lg">
+					</div>
+
 				</div>
 			</form>
 			
@@ -90,16 +96,18 @@
 
 	<div class="wrap">
 
-		<h2>Resultados para Cidade:
-			@if(isset($imoveis) && !empty($imoveis)) 
-				@if(count($imoveis) > 0)
-					<small> {{ count($imoveis)}} </small> 
-				@endif 
+		<div class="h2">
+			<h2>Resultados para pesquisa:</h2><span></span>			
+		</div>
 
-			@elseif(empty($imoveis))
-				<small>Não encontramos resultados</small>
-			@endif
-		</h2>
+		@if(isset($total_resultados) && !empty($total_resultados)) 
+			@if($total_resultados > 0)
+				<p class="text-center"> Total de resultados: {{ $total_resultados }} </p> 
+			@endif 
+
+		@elseif(empty($total_resultados))
+			<p class="text-center">Não encontramos resultados</p>
+		@endif
 
 		@if($errors->any())
 			<div class="alert alert-danger" role="alert">
@@ -121,30 +129,12 @@
 
 			<div class="card-imovel-box">
 				
-				<div class="col-md-3">
+				<div class="col-pesquisa">
+
 					<div class="valor-preco">
 						{{ formataMoney($item->preco) }}
 					</div>
 
-					<ul>
-						<li><i class="fa fa-bed" aria-hidden="true"></i>
-							{{ $item->quartos }}@if($item->quartos > 1) quartos @else quarto @endif
-							
-						</li>
-						<li><i class="fa fa-bath" aria-hidden="true"></i>
-							@if($item->suites != 0 && $item->suites === 1) {{ $item->suites }} suíte @else  {{ $item->suites }} suítes @endif
-						</li>
-						<li><i class="fa fa-car" aria-hidden="true"></i>
-							@if($item->garagem != 0 && $item->garagem === 1) {{ $item->garagem }} vaga @else  {{ $item->garagem }} vagas @endif
-						</li>
-						<li><i class="fa fa-area-chart" aria-hidden="true"></i>
-							{{ $item->area_total }} m<sup>2</sup>	
-						</li>
-					</ul>
-
-				</div>
-
-				<div class="col-md-9">					
 					<div class="titulo">
 						<h5>{{$item->bairro}}</h5>
 						<p>{{$item->logradouro}}
@@ -154,26 +144,48 @@
 							 {{$item->estado}} 
 						</p>
 					</div>
-					<pre>{{ str_limit($item->descricao, $limit = 140, $end = '...') }}</pre>
-					<small> 
-						Atualizado em : {!! (date('d/m/Y',strtotime($item->updated_at))) !!}
-					</small>
+
+				</div>
+
+					<div class="corpo">
+
+						<pre>{{ str_limit($item->descricao, $limit = 140, $end = '...') }}</pre>
+						<small> 
+							Atualizado em : {!! (date('d/m/Y',strtotime($item->updated_at))) !!}
+						</small>
+
+						<ul>
+							<li><i class="fa fa-bed fa-lg" aria-hidden="true"></i>
+								{{ $item->quartos }}@if($item->quartos > 1) quartos @else quarto @endif
+								
+							</li>
+							<li><i class="fa fa-bath fa-lg" aria-hidden="true"></i>
+								@if($item->suites != 0 && $item->suites === 1) {{ $item->suites }} suíte @else  {{ $item->suites }} suítes @endif
+							</li>
+							<li><i class="fa fa-car fa-lg" aria-hidden="true"></i>
+								@if($item->garagem != 0 && $item->garagem === 1) {{ $item->garagem }} vaga @else  {{ $item->garagem }} vagas @endif
+							</li>
+							<li><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i>
+								{{ $item->area_total }} m<sup>2</sup>	
+							</li>
+						</ul>
+
+					</div>	
 
 					<div class="card-bottom">
 						<a href="#">Ver telefone</a>
 						<button class="btn">MENSAGEM</button> 						
 					</div>
 
+
+
 				</div>
-
-
-			</div>
 			    	
 			</div>
 
 			@endforeach
 
-			{{ $imoveis->links() }}
+			{!! $imoveis->links() !!}
 
 		@endif
 

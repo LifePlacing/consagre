@@ -1,10 +1,9 @@
+<div class="h2">
+	<h2>Mais imóveis como este</h2> <span></span>
+</div>
 <div class="container-fluid gray">
 
 	<div id="relacionados">
-
-		<div class="titulo">
-			<h2>Mais imóveis como este</h2>
-		</div>
 
 		<div class="slider">
 
@@ -23,9 +22,9 @@
 
 					
 
-					@if($i <= 3)
+					@if($i <= 2)
 
-						<div class="col-sm-3">
+						<div class="col-sm-4 col-md-4">
 							<div class="card card-imoveis" onclick="window.location='/{{ slugTitulo($imovel->titulo) }}/{{$imovel->id}}/{{$imovel->meta}}/{{$imovel->cidade->slug}}'">
 
 								@foreach($imovel->media as $m => $medias)
@@ -69,7 +68,7 @@
 
 			@endif		
 
-			@if($relacionados->count() > 4)
+			@if($relacionados->count() > 2)
 
 					<!-- Item do Slide -->
 
@@ -79,9 +78,9 @@
 
 				@foreach( $relacionados as $i => $imovel )
 
-						@if( $i > 4 )
+						@if( $i > 3 )
 
-							<div class="col-sm-3">
+							<div class="col-sm-4 col-md-4">
 
 								<div class="card card-imoveis" onclick="window.location='/{{ slugTitulo($imovel->titulo) }}/{{$imovel->id}}/{{$imovel->meta}}/{{$imovel->cidade->slug}}'">
 

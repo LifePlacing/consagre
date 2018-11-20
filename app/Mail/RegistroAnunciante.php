@@ -22,7 +22,10 @@ class RegistroAnunciante extends Mailable
 
     public function build()
     {
+        
+
         return $this->view('emails.users.novoAnunciante')->with([
+            'id' =>$this->anunciante->id,
             'nome' => $this->anunciante->nome,
             'email' => $this->anunciante->email,
             'datahora' => now()->setTimezone('America/Sao_Paulo')->format('d-m-Y H:i:s')

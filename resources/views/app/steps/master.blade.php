@@ -5,7 +5,7 @@
 <div class="top-content">
     <div class="container">
 
-        <div class="col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-2 col-lg-12 col-lg-offset-2 formulario">
+        <div class="col-sm-12 col-md-12 col-lg-12 formulario">
 
         <h3>Anunciar meu imóvel</h3>
         <p>Complete ou atualize seus dados</p> 

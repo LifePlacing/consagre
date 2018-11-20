@@ -47,6 +47,17 @@
 
 						</td>
 					</tr>
+
+					<tr>
+
+						<td> Para contratar um dos planos, clique no link abaixo:</td>
+						<td>
+							@component('mail::button', ['url' => 'anunciante/planos/contratar'.$id])
+								Contratar Plano de Anuncio
+							@endcomponent
+						</td>
+
+					</tr>
 					<tr>
 						<td bgcolor="#007aa5" style="padding: 30px 30px 30px 30px;" >
 						

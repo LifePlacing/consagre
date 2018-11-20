@@ -1135,6 +1135,12 @@ fieldset[disabled] .btn-neutral.active {
     border-color: #9A9A9A;
 }
 
+
+.panel-body.bg-primary {
+    color: #fff;
+    background-color: #007AA5!important;
+}
+
 .alert {
     border: 0;
     border-radius: 0;
@@ -2289,6 +2295,16 @@ fieldset[disabled] .btn-neutral.active {
     font-weight: 300;
 }
 
+.image-avatar{
+    width: 120px;
+    height: 120px;
+    overflow:hidden;
+}
+
+.image{
+    text-align: center!important;
+}
+
 .card .avatar {
     width: 30px;
     height: 30px;
@@ -3203,6 +3219,222 @@ fieldset[disabled] .btn-neutral.active {
     left: 0;
 }
 
+    /*LIsta de imoveis ativos*/
+
+    ul.media-list li img{
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        margin: 5px auto;
+        overflow: hidden;
+    }
+
+    #lista-de-imoveis > .panel-primary {
+        border-top: none!important;
+        border-right: none!important;
+        border-left: none!important;
+        border-bottom: 1px solid #582D00!important;
+        border-bottom-left-radius: 0px!important;
+        border-bottom-right-radius: 0px!important;
+        margin-bottom: 30px!important; 
+        padding-bottom: 10px!important;      
+        
+    }
+
+    .panel-primary > .panel-heading{
+        background-color: #007AA5!important;
+        border-color:#007AA5!important;
+    }
+
+     #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8{
+        position: relative!important;
+     }
+
+    #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta{        
+        border-top: none!important;        
+        background: rgb(255,90,0);
+        color: #fff;
+        padding: 5px 15px;        
+        text-transform: uppercase; 
+        text-align: center;     
+                     
+    }
+
+     #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta > h3{
+        font-family: 'Abril Fatface', cursive!important;
+        font-weight: 700; 
+     }
+
+    #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta > span.aba{        
+        display: none;     
+    }
+
+    #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .panel-body{
+        padding: 15px 2px!important;
+    }
+
+
+    ul.opcionais{
+        display: flex;
+        justify-content: flex-start;
+        display: -webkit-flex;
+        flex-direction: row ;        
+        width: 100%!important;        
+        padding-left:0%; 
+        list-style-type:none;
+    }
+
+    ul.opcionais li{
+        font-size: 14px!important;
+        color:#582D00!important; 
+        padding: 2px;
+        max-width: 25%!important;
+    }
+
+    ul.opcionais li i{
+        width: auto!important;       
+        margin: 0px 5px!important;
+    }
+
+    .localizacao{
+        width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        padding: 10px 15px;
+
+    }
+
+    .localizacao .dados{
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        width: 100%;
+        border-top: 1px solid #ddd;
+        margin: 10px auto;
+        padding: 5px 0px; 
+    }
+
+
+    .localizacao > h4{
+        margin: 5px 0px!important;
+        font-weight: 400!important;
+        text-align: center;
+    }
+
+    .localizacao > span{
+        width: 10%;
+        height: 3px;
+        background:rgb(255,90,0);
+        display: block;
+        text-align: center;
+        margin: 5px auto 10px; 
+    }
+
+
+    .meta-preco{
+        width: 100%;
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .descricao pre{
+        white-space: normal!important;
+    }
+
+
+
+@media(min-width: 728px){
+
+    /*LIsta de imoveis ativos*/
+
+    ul.media-list{
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: row!important;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    ul.media-list li{
+        max-width: 33.33333333%!important;
+        overflow: hidden;
+        padding: 5px;
+    }
+
+    ul.media-list li img{
+        width: 100%;
+        max-height: 130px;        
+        object-fit: cover;
+        object-position: center;        
+    }
+
+
+
+    .meta-preco{
+        flex-direction: row;
+        align-items: flex-start;        
+        margin-top: 10px;        
+    }
+
+    .meta-preco p{
+        padding: 10px!important;
+        font-weight: 700!important;
+        width: 50%!important;
+
+    }
+    .meta-preco p:last-child{
+        border-left: 1px solid #ddd;
+    }
+
+
+    ul.opcionais{
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        display: -webkit-flex;
+        flex-direction: row;
+        width: 100%!important;
+        margin-left: 0px!important; 
+    }
+
+    ul.opcionais li{
+        font-size: 18px!important;
+        color:#582D00!important;
+    }
+
+    ul.opcionais li i{
+        width: auto!important;       
+        margin: 0 10px!important;
+    }
+
+    .panel-heading small{
+       position: absolute;
+       right: 30px;
+    }
+
+
+    .localizacao .dados{
+    flex-direction: row!important;
+    align-items: flex-start;
+    }
+
+    .localizacao .dados div{
+        width: 50%!important;
+    }
+
+
+
+
+}
+
+
 @media (min-width: 992px) {
     .navbar-form {
         margin-top: 21px;
@@ -3283,7 +3515,124 @@ fieldset[disabled] .btn-neutral.active {
     .card form [class*="col-"]:last-child {
         padding-right: 15px;
     }
+
+
+    /*LIsta de imoveis ativos*/
+
+    ul.media-list{
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: row!important;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    ul.media-list li{
+        max-width: 50%!important;
+        overflow: hidden;
+        padding: 5px;
+    }
+
+    ul.media-list li img{
+        width: 100%;
+        height: auto;        
+        object-fit: cover;
+        object-position: center;        
+    }
+
+     #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8{
+        position: relative!important;
+     }
+
+    #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta{
+        position: absolute;
+        border-top: 3px solid rgb(255,90,0)!important;        
+        background: rgb(255,90,0);
+        color: #fff;
+        top: -93px; 
+        right: 10px;
+        padding: 5px 15px;        
+        text-transform: uppercase;
+        
+                     
+    }
+
+     #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta > h3{
+        font-family: 'Abril Fatface', cursive!important;
+        font-weight: 700; 
+     }
+
+    #lista-de-imoveis > .panel-primary > .panel-body > .col-md-8 > .imovel-meta > span.aba{        
+        height: 0;
+        line-height: 0;        
+        min-width: 0;
+        position: absolute;
+        top: -3px!important;
+        right: -14px;
+        display: block!important;
+        border: 7px solid;
+        border-color: transparent transparent #7F2D00 #7F2D00;     
+    }
+
+
+    ul.opcionais{
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        display: -webkit-flex;
+        flex-direction: row;
+        width: 100%!important;
+        margin-left: 0px!important; 
+    }
+
+    ul.opcionais li{
+        font-size: 18px!important;
+        color:#582D00!important;
+    }
+
+    ul.opcionais li i{
+        width: auto!important;       
+        margin: 0 10px!important;
+    }
+
+
+    .panel-heading small{
+       position: absolute;
+       right: 30px;
+    }
+
+
+    .localizacao .dados{
+    flex-direction: row!important;
+    align-items: flex-start;
+    }
+
+    .localizacao .dados div{
+        width: 50%!important;
+    }
+
+    .meta-preco{
+        flex-direction: row;
+        align-items: flex-start;        
+        margin-top: 10px;        
+    }
+
+    .meta-preco p{
+        padding: 10px!important;
+        font-weight: 700!important;
+        width: 50%!important;
+
+    }
+    .meta-preco p:last-child{
+        border-left: 1px solid #ddd;
+    }
+
+
+
 }
+
+
+
 
 /*          Changes for small display      */
 @media (max-width: 991px) {
@@ -3297,6 +3646,20 @@ fieldset[disabled] .btn-neutral.active {
     body {
         position: relative;
     }
+
+    .col-sm-12{
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    .col-sm-12 > .col-sm-6{
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+
+
+
     .main-panel {
         -webkit-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
         -moz-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
