@@ -9,7 +9,7 @@
 					<a href="{{route('index')}}" class="text-primary">Home</a> 
 				</li> <?php $link = route('index'); ?> 
 
-				@for($i = 1; $i <= count(Request::segments()); $i++) 
+				@for($i = 1; $i < count(Request::segments()); $i++) 
 				<li class="breadcrumb-item" > 
 					@if($i < count(Request::segments()) & $i > 0) {{Request::segment($i)}} 
 					@else {{Request::segment($i)}} 

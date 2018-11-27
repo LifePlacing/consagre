@@ -8,34 +8,227 @@ function scroll_to_class(element_class, removed_height) {
 
 jQuery(document).ready(function(){
 
-    
-    $(".btn-plan input[name='plano']").on('click', function(){      
+    /*Desabilitando o campo de parcelas*/
+    $("#div_installments").removeClass("alert alert-success");
+    /*Fim desabilitando campo de parcelas*/
+
+
+    $("#metodocartao").on('click', function(e){       
+
+        if($("input:checked").val() == "plan_0"){
+            var id = document.getElementById('plano_id_0').value;
+            var anunciante = document.getElementById('id').value;
+
+            window.location='/planos/contratar/payment/cartao/'+anunciante+'/'+id;
+
+        }else if($("input:checked").val() == "plan_1"){
+            var id = document.getElementById('plano_id_1').value; 
+            var anunciante = document.getElementById('id').value;   
+            window.location='/planos/contratar/payment/cartao/'+anunciante+'/'+id;
         
 
-            if($("input:checked").val() == "plano_basico"){
-                $('#plan_basico').css('box-shadow','0px 0px 5px rgb(255,90,0)'); 
-                $('#plan_pro').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)');                        
-                document.getElementById('plano_id').value=(this.value);              
-                $('#plano_selecionado').html("Plano Básico");
-                var valor_basico = document.getElementById('valor_basico').innerHTML; 
+        }else if($("input:checked").val() == null){
+            var html="";
+            var html='Selecione um plano antes de prosseguir';
+
+            $('#erros').modal('show');
+            $('#msg_error').removeClass('d-none');
+            $('#msg_error').html(html);
+
+            e.preventDefault(); 
+            return false;          
+        }
+
+    }); 
+
+
+
+  
+    $(".btn-plan input[name='plano']").on('click', function(){    
+        
+            if($("input:checked").val() == "plan_0"){
+
+                $('#plan_0').css('box-shadow','0px 0px 5px rgb(255,90,0)'); 
+                $('#plan_1').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)');                              
+
+                var id = document.getElementById('plano_id_0').value;
+
+                document.getElementById('plan_id').value=(id); 
+
+                var nome = document.getElementById('plano_nome_0').value; 
+
+                $('#plano_selecionado').html(nome);
+                var valor_basico = document.getElementById('valor_0').innerHTML; 
                 var texto = document.getElementById('valor_do_plano');
                 texto.innerHTML = valor_basico;
 
             }
 
-            if($("input:checked").val() == "plano_pro"){
-               $('#plan_basico').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)'); 
-               $('#plan_pro').css('box-shadow','0px 0px 5px rgb(255,90,0)');
-               document.getElementById('plano_id').value=(this.value); 
-               $('#plano_selecionado').html("Plano Pro-100"); 
+            if($("input:checked").val() == "plan_1"){
 
-                var valor_pro = document.getElementById('valor_pro').innerHTML; 
+               $('#plan_0').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)'); 
+               $('#plan_1').css('box-shadow','0px 0px 5px rgb(255,90,0)');
+
+                var id = document.getElementById('plano_id_1').value;
+                document.getElementById('plan_id').value=(id);                
+
+                var nome = document.getElementById('plano_nome_1').value;
+
+               $('#plano_selecionado').html(nome);
+                var valor_pro = document.getElementById('valor_1').innerHTML;
+
                 var texto = document.getElementById('valor_do_plano');
                 texto.innerHTML = valor_pro;
 
             }
 
-    });        
+    });     
+
+
+        /*=========Comparando as datas===========*/    
+
+
+        function dataAtualFormatada(){
+            
+            var newdata = new Date(),
+                dia  = newdata.getDate().toString().padStart(2, '0'),
+                mes  = (newdata.getMonth()+1).toString().padStart(2, '0'), 
+                ano  = newdata.getFullYear();
+                return ano+"-"+mes+"-"+dia;
+
+         }   
+
+
+            $("#vencimento").focusout(function(e){
+                var strData = $("#vencimento").val();               
+
+                if(strData < dataAtualFormatada() || $(this).val() == ''){
+                    $(this).addClass('is-invalid');
+
+                    var html="";
+                    var html='A Data de vencimento não pode ser menor que a data atual!';
+
+                    $('#erros').modal('show');
+                    $('#msg_error').removeClass('d-none');
+                    $('#msg_error').html(html);
+
+                    e.preventDefault();                    
+                    return false;                                        
+                }else{
+                    $(this).removeClass('is-invalid');
+                    $(this).addClass('is-valid');
+                }
+                
+            });
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $("#btn_emitir_boleto").click(function(e){
+
+                var strData = $("#vencimento").val();   
+
+                if($("input[type='date']").val() == '' || strData < dataAtualFormatada()){
+                    $(this).addClass('is-invalid');
+                    var html="";
+                    var html='A Data de vencimento não pode ser menor que a data atual!';
+
+                    $('#erros').modal('show');
+                    $('#msg_error').removeClass('d-none');
+                    $('#msg_error').html(html);
+
+                    e.preventDefault();
+                    e.stopPropagration();
+                    return false;
+                };
+
+
+            });
+            
+            $("#btn_emitir_boleto").click(function(e){     
+
+                /*Coletando os dados*/
+                if($("#plan_id").val() == '' || $("#plan_id").val() == null){
+
+                    var html="";
+                    var html='Selecione um plano antes de prosseguir';
+
+                    $('#erros').modal('show');
+                    $('#msg_error').removeClass('d-none');
+                    $('#msg_error').html(html);
+
+                    e.preventDefault();
+                    return false;
+
+
+                }else{
+                    var plan_id = $("#plan_id").val();
+                }
+
+                var id = $("#id").val();
+                var cpf = $("#cpf").val();
+                var vencimento = $("#vencimento").val();
+                
+                $("#boleto-bancario").modal('hide');
+
+                $("#processando").modal('show');
+
+               $.ajax({
+
+                url:'/planos/contratar/payment/boleto',
+                data: {plan_id:plan_id, id:id, cpf:cpf, vencimento:vencimento},
+                type:'post',
+                dataType:'json',                 
+
+                  success: function(resposta){
+
+                   if(resposta.code == 200){                    
+                    
+                     $("#processando").modal('hide');
+                      $("#retorno").modal('show');
+                    
+                     //"code":200,"data":{"barcode":"03399.32766 55400.000000 60348.101027 6 69020000009000","link":"https:\/\/visualizacaosandbox.gerencianet.com.br\/emissao\/59808_79_FORAA2\/A4XB-59808-60348-HIMA4","expire_at":"2016-08-30","charge_id":76777,"status":"waiting","total":9000,"payment":"banking_billet"-->
+                        var trans = "<p>Código da Transação:"+resposta.data.charge_id+"</p>";
+                        var cod_barras = "Código de Barras: <p> "+resposta.data.barcode+"</p>";
+                        var imprime = "<a href='"+resposta.data.link+"'>Imprimir Boleto </a> ";
+
+                        $('#transacao').html(trans);
+                        $('#barras').html(cod_barras);
+                        $('#imprimir').html(imprime);                       
+                                
+                    }else{
+                          $("#boleto-bancario").modal('hide');
+
+                            var html="";
+                            var html="Code: "+ resposta.code;
+
+                            $('#erros').modal('show');
+                            $('#msg_error').removeClass('d-none');
+                            $('#msg_error').html(html);
+
+                    }
+                  }, error:function (resposta){
+                      $("#boleto-bancario").modal('hide');
+                        var html="";
+                        var html="Ocorreu um erro - Mensagem: "+resposta.responseText;
+
+                        $('#erros').modal('show');
+                        $('#msg_error').removeClass('d-none');
+                        $('#msg_error').html(html);
+
+                  }
+
+               });
+
+
+            });
+
+
+        /*=========fim do Comparando as datas===========*/    
     
 
            if ($(".f1 .btn-primary input[name='meta']:checked").val() == "venda") {
@@ -301,7 +494,12 @@ jQuery(document).ready(function(){
             //Limpa valores do formulário de cep.
             document.getElementById('rua_imobi').value=("");
             document.getElementById('bairro_imobi').value=("");
-            document.getElementById('city_imobi').value=("");           
+            document.getElementById('city_imobi').value=(""); 
+
+            if (document.getElementById('estado') != null){
+                document.getElementById('estado').value=("");
+            }        
+                       
     }
 
     function meu_callback(conteudo) {
@@ -309,7 +507,12 @@ jQuery(document).ready(function(){
             //Atualiza os campos com os valores.
             document.getElementById('rua_imobi').value=(conteudo.logradouro);
             document.getElementById('bairro_imobi').value=(conteudo.bairro);
-            document.getElementById('city_imobi').value=(conteudo.localidade);            
+            document.getElementById('city_imobi').value=(conteudo.localidade); 
+            if (document.getElementById('estado') != null){
+                document.getElementById('estado').value=(conteudo.uf);
+            } 
+
+
         } //end if.
         else {
             //CEP não Encontrado.

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ImovelType extends Model
 {
 
-
     protected $table = 'imovel_types';
 
     protected $fillable = [

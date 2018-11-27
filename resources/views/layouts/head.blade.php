@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Consagre Imoveis') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+
+	<!-- Scripts -->
+	<script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -23,7 +23,6 @@
 
     <!-- end of global styles-->
     @yield('header_styles')
-
 
 </head>
 <body>
@@ -183,7 +182,24 @@
 
 </div>
 
-@yield('footer_scripts') 
+
+
+@hasSection('footer_scripts')
+	@yield('footer_scripts')
+@endif	
+
+<div class="modal fade bd-example-modal-sm" id="erros" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" 
+aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content content-erros">
+
+      	<div class="alert alert-danger d-none" role="alert" id="msg_error">
+  			
+		</div>
+
+    </div>
+  </div>
+</div> 
 
 </body>
 </html>    

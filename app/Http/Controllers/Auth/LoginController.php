@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Mail;
-use App\Mail\VerifyMail;
+use App\Mail\ConfirmarEmail;
 
 
 class LoginController extends Controller
@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     public function reenvia($user)
     {
-        Mail::to($user->email)->send(new VerifyMail($user));
+        Mail::to($user->email)->queue(new ConfirmarEmail($user));
         return back()->with('warning', 'Você precisa confirmar sua conta. Nós lhe reenviamos um novo código de ativação, por favor, verifique seu e-mail.');
     }    
 

@@ -12,7 +12,7 @@ class Imovel extends Model
 
 	protected $fillable = [
 	    'titulo','meta', 'preco','preco_venda', 'cep','suites', 
-	    'banheiros', 'quartos', 'area_total', 'cidade_id', 'logradouro', 'bairro', 'user_id', 'imovel_type_id', 'categoria_id', 'unidade', 'estado', 'garagem', 'area_util', 'descricao', 'codigo', 'iptu', 'condominio'
+	    'banheiros', 'quartos', 'area_total', 'cidade_id', 'logradouro', 'bairro', 'user_id', 'imovel_type_id', 'categoria_id', 'unidade', 'estado', 'garagem', 'area_util', 'descricao', 'codigo', 'iptu', 'condominio', 'tipo_de_anuncio'
 	];
 
   protected $hidden = [

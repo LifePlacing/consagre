@@ -18,17 +18,13 @@ class Anunciante extends Authenticatable
 
    ];
 
-	public function imoveis(){
-			return $this->belongsToMany("App\Imovel", "alocacoes");
-	}
-
 
 	public function plano()
 	{
 			return $this->belongsTo("App\Plano");
 	}
 
-	public function verifyUser()
+	public function verifyAnunciante()
 	{
 	    return $this->hasOne('App\VerifyUser');
 	}

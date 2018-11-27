@@ -8,9 +8,7 @@ class Plano extends Model
 {
 
 	protected $fillable = [
-
 		'codigo', 'nome', 'quant_anuncios', 'super_destaques', 'destaques', 'valor_mensal', 'captacao'
-
 	];
     
 

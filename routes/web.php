@@ -1,7 +1,5 @@
 <?php
 
-use App\Anunciante;
-
 Auth::routes();
 
 Route::get('/', 'HomeController@app')->name('index');
@@ -72,31 +70,27 @@ Route::prefix('admin')->middleware(['role', 'auth'])->group(function(){
 
 });
 
-/*============ Rotas de Agendamentos ========================*/
 
-Route::group(['middleware' => 'role'], function(){
-    //tasks section
-    Route::post('task/create', 'TaskController@store')->name('store');
-    Route::get('task/data', 'TaskController@data')->name('data');
-    Route::post('task/{task}/edit', 'TaskController@update')->name('update');
-    Route::post('task/{task}/delete', 'TaskController@delete')->name('delete');
 
-});
+/*================ ROTAS DOS PLANOS =====================*/
+
+Route::get('anunciante/planos/{token}', 'PlanosController@planos')->name('anunciante.planos');
+
+Route::post('/planos/contratar/payment/boleto', 'GerenciaNetController@payment')->name('contratar.planos');
+
+Route::post('/planos/contratar/payment/cartao/', 'GerenciaNetController@credito')->name('contratar.planos.cartao');
+
+Route::get('/planos/contratar/payment/cartao/{anunciante_id}/{plano_id}', 'GerenciaNetController@cartao')->name('contratar.planos.cartao');
 
 
 /*===================ROTAS DOS ANUNCIANTES================*/
 
-Route::get('anunciante/planos/{id}', function($id){
-
-		$anunciante = Anunciante::find($id);
-
-		return view('payment.plano')->with('anunciante', $anunciante);
-});
 
 Route::post('perfil/anuncio/{perfil}', 'Auth\AnuncianteRegisterController@create')->name('anunciante.store');
 
 Route::get('anunciante/login', 'Auth\AnuncianteLoginController@index')->name('anunciante.login');
 Route::post('anunciante/login', 'Auth\AnuncianteLoginController@login')->name('anunciante.login.submit');
 Route::get('perfil/anuncio/{perfil}', 'AnunciantesController@cadastro')->name('anunciante.cadastro');
+
 Route::get('anunciante', 'AnunciantesController@index')->name('anunciante.dashboard');
 

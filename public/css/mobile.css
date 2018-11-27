@@ -74,7 +74,7 @@ span.text-informativo i{
 }
 
 .h2 span{
-	width: 5%;
+	width: 20%;
 	min-height: 3px;		
 	background: rgb(255,90,0)!important;
 	border-bottom: 1px solid rgb(255,90,0);
@@ -85,6 +85,13 @@ th{
 	font-weight: 600!important;
 }
 
+
+.alert{
+	width: 100%;
+	display: inline-block!important;
+	padding: 0.75rem 1rem!important;
+	margin-top: 1rem!important;
+}
 
 #app{
 	max-width: 100%!important;
@@ -128,7 +135,7 @@ th{
 
 .py-4{
 	margin: 0!important;
-	padding: 0!important;
+	padding: 10px 0px!important;
 }
 
 
@@ -139,6 +146,11 @@ th{
 	clear: both!important;
 	padding-bottom: 5px!important;
 	margin: 5px auto!important;
+}
+
+.content-erros{
+	background-color: transparent!important;
+	border: none!important;
 }
 
 .card-header{
@@ -290,9 +302,9 @@ th{
 	padding: 0.8% 1.5%;
 }
 
-.navbar-brand > img{
-	max-height: 70px;
-	width: auto;
+.navbar-brand > img{	
+	height: 80px;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -614,6 +626,89 @@ a.text-primary.vertodos:hover{
 	opacity: 0.7;	
 }
 
+/*Pagamento de planos*/
+
+.loader{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	 justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.loader h5{
+	font-weight: 600;
+
+}
+
+.loader img{
+	padding: 15px;
+}
+
+
+.panel{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.panel .panel-body{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%!important;
+}
+
+.panel-body .check{
+	color: green!important;
+}
+
+#imprimir a{
+	color: rgb(0,122,165)!important;
+	padding: 10px;
+	border: 1px solid rgb(0,122,165);
+}
+
+#modalboleto{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+}
+
+.wrap-pg{
+	width: 100%;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;	
+}
+
+.info-prod{
+	width: 100%;
+}
+
+.tela-ps{
+	width: 100%!important;
+	padding: 0px 0px 5px;	
+}
+
+.tela-pg{
+	width: 100%!important;
+	padding: 5px 0px
+}
+
+.detalhes h2{
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.tela-ps > .form-row{
+	flex-wrap: nowrap!important;
+}
+
 
 /*================= Estilo Footer ========================*/
 
@@ -891,7 +986,8 @@ h4{
 
 
 	.pagina-planos{
-		display: inline-flex!important;
+		display: flex!important;
+		flex-direction: column;
 		width: 100%;
 		padding: 0;
 		margin-bottom: 10px;
@@ -900,7 +996,7 @@ h4{
 
 	.pagina-planos .plano{
 		box-shadow: 0px 0px 1px rgba(0,0,0,0.3);
-		margin-left: 8px;
+		margin: 8px auto;
 		padding:8px; 
 	}
 
@@ -923,15 +1019,18 @@ h4{
 
 	.metodospag{
 		background: #f1f1f1;
-		width: 75%;
+		width: 95%;
 		text-align: center;
-		margin: 0 auto;
+		margin: 8px 0px;
 	}
+
 
 	.line{
 		width: 100%!important;
 		color: rgb(255,90,0)!important;
 		padding: 8px;	
+		font-size: 1.2rem;
+		font-weight: 600;
 	}
 
 	img.formapagamento{
@@ -965,6 +1064,10 @@ h4{
 		padding: 5px;
 	}
 
+
+	table th, .table td{
+		padding: 0.25rem!important;
+	}
 
 /*================= Envio de imagens ==============*/
 
@@ -1366,13 +1469,85 @@ li.page-item.active > .page-link{
 }
 
 
+
+/*Pagina de pagamento*/
+
+span#inputGroupPrepend.input-group-text{
+	color: #24a558!important;
+}
+
+.informacoes{
+	max-width: 100%;
+	height: 100%;
+	border-left: 1px solid #ccc;	
+}
+
+.informacoes > section{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	position: relative;
+	
+}
+
+.informacoes > section > h5{
+	position: absolute;
+	left: 30px;
+	top: 8px;
+}
+
+.informacoes > section > span{
+	background-color: rgb(255,90,0)!important;
+	padding: 0px 10px;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 600;	
+	position: absolute;
+	left: -15px;
+}
+
+.informacoes > section > .dados{
+
+	width: 100%;
+	padding: 45px 0px 10px 18px;
+}
+
+
+.bandeiras{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-content: center;
+}
+
+.bandeira{
+	position: relative;
+}
+
+.bandeira > .item img{
+	width: 100px;
+	height: 48px;
+	margin: auto 5px;
+	position: absolute;
+	top: 40%;
+
+}
+
+img.cvv{
+	width: 75px;
+	height: 45px;
+}
+
 /* Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) { 
 
 	/*=====head========*/
 	.navbar-brand > img {
-	    max-height: 90px!important;
-	    width: auto;
+	    height: 90px!important;
+	    width: 100%;
 	} 
 
 
@@ -1514,6 +1689,7 @@ li.page-item.active > .page-link{
 	}
 
 
+
 	/* Formulário de Login*/
 
 	#auth form{
@@ -1533,7 +1709,23 @@ li.page-item.active > .page-link{
 	}
 
 
+	/*Página de anunciantes*/
 
+	.pagina-planos {
+        flex-direction: row!important;
+	}
+
+	.pagina-planos .plano {
+	    max-width: 50%!important;
+	    margin: 0px 8px!important;
+	}
+
+	.col-tablets > .col-md-6 {
+	    -webkit-box-flex: 0;
+	    -ms-flex: 0 0 100%!important;
+	    flex: 0 0 100%!important;
+	    max-width: 100%!important;
+	}
 
 
 }
@@ -1584,7 +1776,7 @@ li.page-item.active > .page-link{
 	}	
 
 	.navbar-brand > img{
-		max-height: 95px!important;
+		height: 100px!important;
 	}
 
 	.navbar-top > .container > .navbar-toggler, .navbar-toggler.collapsed, .navbar-toggler:not(.collapsed) > .navbar-toggler-icon {
@@ -2143,6 +2335,58 @@ li.page-item.active > .page-link{
 	}
 
 
+/*Página de anunciantes*/
+
+	.pagina-planos{
+		display: flex!important;
+		display: -webkit-flex!important;
+		flex-direction: row!important;
+	}
+	.pagina-planos .plano{
+		margin: 0px 8px;
+	}
+
+	.metodospag{		
+		width: 75%!important;
+		margin: 0px auto;		
+	}
+
+	.line{
+		font-size: 1.6rem!important;
+		font-weight: 600;	
+	}
+
+	#modalboleto{
+		flex-direction: row!important;
+	}
+
+	.wrap-pg{
+	width: 55%!important;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;	
+	}
+
+	.detalhes h2{
+		font-size: 1.8rem!important;
+	}
+
+	.tela-ps > .form-row{
+	flex-wrap: rap!important;
+	}
+
+
+	.info-prod{
+		width: 45%!important;
+	}
+
+
+	.col-tablets > .col-md-6 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%!important;
+    flex: 0 0 50%!important;
+    max-width: 50%!important;
+	}
 
 	/*Página Single Imovel*/
 
@@ -2189,6 +2433,38 @@ li.page-item.active > .page-link{
     	display: flex!important;
 	}
 
+
+	.informacoes > section{
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	position: relative;
+	
+	}
+
+	.informacoes > section > h5{
+		position: absolute;
+		left: 30px;
+		top: 8px;
+	}
+
+	.informacoes > section > span{
+		background-color: rgb(255,90,0)!important;
+		padding: 4px 15px!important;
+		border-radius: 50%;
+		color: #fff;
+		font-weight: 600;	
+		position: absolute;
+		left: -18px!important;
+	}
+
+	.informacoes > section > .dados{
+
+		width: 100%;
+		padding: 45px 0px 10px 18px;
+	}
 
 
 }

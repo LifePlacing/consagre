@@ -24,10 +24,10 @@ class RegistroAnunciante extends Mailable
     {
         
 
-        return $this->view('emails.users.novoAnunciante')->with([
-            'id' =>$this->anunciante->id,
+        return $this->view('emails.users.novoAnunciante')->with([            
             'nome' => $this->anunciante->nome,
             'email' => $this->anunciante->email,
+            'token' =>$this->anunciante->verifyAnunciante->token,
             'datahora' => now()->setTimezone('America/Sao_Paulo')->format('d-m-Y H:i:s')
         ])->attach(base_path().'/documentos/proposta-corretores-consagre-imoveis.pdf');
     }

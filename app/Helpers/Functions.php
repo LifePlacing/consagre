@@ -14,6 +14,18 @@ function formatCodigo($value)
 }
 
 
+function formataMoedaInteiro($valor){
+
+
+	$valor_moeda = $valor / 100;
+
+	$currency = number_format($valor_moeda, 2, ',', '.');
+
+	return "R$ ".$currency;
+
+}
+
+
 function formataMoney($valor)
 {
 	if($valor == null || empty($valor)){

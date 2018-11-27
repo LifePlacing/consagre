@@ -16,7 +16,7 @@ class CreatePlanosTable extends Migration
             $table->integer('quant_anuncios');
             $table->integer('super_destaques');
             $table->integer('destaques');
-            $table->decimal('valor_mensal', 10,2);
+            $table->integer('valor_mensal');
             $table->boolean('captacao')->default(false);            
             $table->timestamps();
         });

@@ -23,7 +23,11 @@ return [
 
     'fallback_locale' => 'pt_BR',
 
+    'sandbox_gerencianet' => env('GERENCIANET_SANDBOX', true),
 
+    'client_id_gerencianet' => env('GERENCIANET_CLIENTE_ID'),
+    
+    'client_secret_id_gerencianet' => env('GERENCIANET_CLIENTE_SECRET'),
 
     'key' => env('APP_KEY'),
 
