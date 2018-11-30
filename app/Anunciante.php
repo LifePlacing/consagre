@@ -21,12 +21,16 @@ class Anunciante extends Authenticatable
 
 	public function plano()
 	{
-			return $this->belongsTo("App\Plano");
+		return $this->belongsTo("App\Plano");
 	}
 
 	public function verifyAnunciante()
 	{
 	    return $this->hasOne('App\VerifyUser');
+	}
+
+	public function payments(){
+		return $this->hasMany('App\Payment');
 	}
 
    

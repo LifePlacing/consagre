@@ -9,14 +9,39 @@ use Gerencianet\Gerencianet;
 
 use App\Anunciante;
 use App\Plano;
-
+use App\Payment;
 use DateTime;
 
 class GerenciaNetController extends Controller
 {
  	
 
- public function payment(Request $request){
+
+public function __construct()
+  {
+   
+	$this->clientId = config('app.client_id_gerencianet');
+	$this->clientSecret = config('app.client_secret_id_gerencianet');
+	$this->sandbox = config('app.sandbox_gerencianet');
+
+  	$this->options = [
+	    'client_id' => $this->clientId,
+	    'client_secret' => $this->clientSecret,
+	    'sandbox' => $this->sandbox
+	];
+  
+  }
+
+
+  public function getCredenciais()
+  {
+      return $this->options;
+  }
+
+  
+
+ public function payment(Request $request)
+ {
 
 		$regras = [
 			'plan_id' => 'required',
@@ -28,20 +53,7 @@ class GerenciaNetController extends Controller
 		
 		$request->validate($regras, $msgs);
 
-		$clientId = config('app.client_id_gerencianet');
-		$clientSecret = config('app.client_secret_id_gerencianet');
-		$sandbox = config('app.sandbox_gerencianet');
-
-
 		$plano = Plano::find($request['plan_id']);
-
-
-		$options = [
-		    'client_id' => $clientId,
-		    'client_secret' => $clientSecret,
-		    'sandbox' => $sandbox
-		];
-
 
 	    $item_1 = [
 	        'name' => $plano->nome,
@@ -53,16 +65,25 @@ class GerenciaNetController extends Controller
 	        $item_1
 	    ];
 
-		$body = ['items' => $items];
+	    $notification = route('notification');
+
+	    $metadata = array('notification_url'=> $notification);
+
+		$body = [
+			'items' => $items,
+			'metadata' => $metadata
+		];
 
 
  		try {
 
- 			$api = new Gerencianet( $options );
+ 			$api = new Gerencianet($this->getCredenciais());
 
  			$charge = $api->createCharge([], $body);
 
 	 			if ($charge["code"] == 200) {
+
+	 				
 				
 				$params = ['id' => $charge["data"]["charge_id"]];
 
@@ -90,8 +111,17 @@ class GerenciaNetController extends Controller
 
 	            $body = ['payment' => $payment];
 	 			
-	 			$api = new Gerencianet($options);
-	            $pay_charge = $api->payCharge($params, $body);
+	 			$api = new Gerencianet($this->getCredenciais());
+	            $pay_charge = $api->payCharge($params, $body);	
+
+	            Payment::create([
+	            	'charge_id' => $pay_charge['data']['charge_id'],
+	            	'status' => $pay_charge['data']['status'],
+	            	'payment' => $pay_charge['data']['payment'],
+	            	'plan_id' =>$plano->id,	
+	            	'anunciante_id' => $anunciante->id            	
+	            ]); 
+        
 
 	            return response()->json($pay_charge);
 
@@ -109,7 +139,11 @@ class GerenciaNetController extends Controller
 	}
 
 
-	public function cartao(Request $request, $anunciante_id, $plano_id){
+
+	/*View do cartão de credito*/
+
+	public function cartao(Request $request, $anunciante_id, $plano_id)
+	{
 
 		$anunciante = Anunciante::find($anunciante_id);
 
@@ -120,17 +154,8 @@ class GerenciaNetController extends Controller
 		return view('payment.cartao', compact(['anunciante', 'plano', 'sandbox'], [$anunciante, $plano, $sandbox]));
 	}
 
-	public function credito(Request $request){
-
-		$clientId = config('app.client_id_gerencianet');
-		$clientSecret = config('app.client_secret_id_gerencianet');
-		$sandbox = config('app.sandbox_gerencianet');
-
-		$options = [
-		    'client_id' => $clientId,
-		    'client_secret' => $clientSecret,
-		    'sandbox' => $sandbox
-		];
+	public function credito(Request $request)
+	{
 
 	    $item_1 = [
 	        'name' => $request["descricao"],
@@ -142,9 +167,13 @@ class GerenciaNetController extends Controller
 	        $item_1
 	    ];
 
-	    $body = ['items' => $items];
+	    $notification = route('notification');
 
-	    $api = new Gerencianet($options);
+	    $metadata = array('notification_url' => $notification);
+
+	    $body = ['items' => $items, 'metadata' => $metadata];
+
+	    $api = new Gerencianet($this->getCredenciais());
 
 	    $charge = $api->createCharge([], $body);
 
@@ -188,11 +217,20 @@ class GerenciaNetController extends Controller
 
 
 	        try {
-	            $api = new Gerencianet($options);
+	            $api = new Gerencianet($this->getCredenciais());
 	            $charge = $api->payCharge($params, $body);
+
+	           	Payment::create([
+	            	'charge_id' => $charge['data']['charge_id'],
+	            	'status' => $charge['data']['status'],
+	            	'payment' => $charge['data']['payment'],
+	            	'plan_id' =>$request['plan_id'], 
+	            	'anunciante_id' => $request['anunciante_id']           	
+	            ]); 
+
 	            echo json_encode($charge);
 
-	        } catch (GerencianetException $e) {
+	        }catch (GerencianetException $e) {
 	            print_r($e->code);
 	            print_r($e->error);
 	            print_r($e->errorDescription);
@@ -203,6 +241,49 @@ class GerenciaNetController extends Controller
 
 	    }
 
+
+	}
+
+
+
+
+	public function notification(Request $request)
+	{
+
+	$token = $request["notification"];
+ 
+	$params = [
+	  'token' => $token
+	];
+ 
+	try {
+	    $api = new Gerencianet($this->getCredenciais());
+	    $chargeNotification = $api->getNotification($params, []);
+	    
+	    // Conta o tamanho do array data (que armazena o resultado)
+	    $i = count($chargeNotification["data"]);
+	    // Pega o último Object chargeStatus
+	    $ultimoStatus = $chargeNotification["data"][$i-1];
+	    // Acessando o array Status
+	    $status = $ultimoStatus["status"];
+	    // Obtendo o ID da transação    
+	    $charge_id = $ultimoStatus["identifiers"]["charge_id"];
+	    // Obtendo a String do status atual
+	    $statusAtual = $status["current"];
+	    
+	    // Com estas informações, você poderá consultar sua base de dados e atualizar o status da transação especifica, uma vez que você possui o "charge_id" e a String do STATUS
+	  
+	    $pagamento = Payment::where('charge_id', '=', $charge_id)->first();
+	    $pagamento->notification_token = $token;
+	    $pagamento->status = $statusAtual;	   
+	    
+		} catch (GerencianetException $e) {
+		    print_r($e->code);
+		    print_r($e->error);
+		    print_r($e->errorDescription);
+		} catch (Exception $e) {
+		    print_r($e->getMessage());
+		}
 
 	}
 

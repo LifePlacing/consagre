@@ -23,7 +23,7 @@ class CreateImovelsTable extends Migration
             $table->smallInteger('quartos');
             $table->smallInteger('garagem')->nullable();
             $table->double('area_util', 8,2);
-            $table->double('area_total', 8,2);
+            $table->double('area_total', 8,2)->nullable();
             $table->longText('descricao')->nullable();
             $table->string('cidade', 50);
             $table->string('logradouro', 50);

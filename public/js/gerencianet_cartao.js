@@ -115,6 +115,7 @@ jQuery(document).ready(function(){
 
             $("#myModal").modal('show');
 
+            var plan_id = $("#plan_id").val();
             var anunciante_id = $("#cod_anunciante").val();
             var descricao = $("#descricao").val();
             var valor = $("#valor").val();
@@ -165,7 +166,7 @@ jQuery(document).ready(function(){
                         url: "/planos/contratar/payment/cartao/",
                         data: {
                             descricao: descricao, valor: valor, quantidade: quantidade, nome_cliente: nome_cliente, cpf: cpf, telefone: telefone,
-                            rua: rua, numero: numero, estado: estado, bairro: bairro, cep: cep, cidade: cidade, payament_token: response.data.payment_token, installments: installments, email: email, nascimento: nascimento, anunciante_id:anunciante_id
+                            rua: rua, numero: numero, estado: estado, bairro: bairro, cep: cep, cidade: cidade, payament_token: response.data.payment_token, installments: installments, email: email, nascimento: nascimento, anunciante_id:anunciante_id, plan_id:plan_id
                         },
                         type: 'post',
                         dataType: 'json',

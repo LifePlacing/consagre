@@ -21,6 +21,7 @@
 	<form autocomplete="off" id="form" method="post">
 
 		<input type="hidden" name="valor" id="valor" value="{{ $plano->valor_mensal }}">
+		<input type="hidden" name="plan_id" id="plan_id" value="{{ $plano->id }}">
 		<input type="hidden" name="descricao" id="descricao" value="{{ $plano->nome }}">
 		<input type="hidden" name="amount" id="quantidade" value="1">
 		<input type="hidden" name="anunciante" id="cod_anunciante" value="{{ $anunciante->id }}">

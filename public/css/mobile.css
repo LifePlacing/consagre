@@ -159,6 +159,10 @@ th{
 	font-weight: 600;
 }
 
+.navbar-brand{
+	max-width: 70%!important;
+}
+
 .card-title{
 	color: rgb(0,122,165)!important;
 	font-weight: 600!important;
@@ -1545,6 +1549,11 @@ img.cvv{
 @media (min-width: 576px) { 
 
 	/*=====head========*/
+
+	.navbar-brand{
+		max-width: 40%!important;
+	}
+
 	.navbar-brand > img {
 	    height: 90px!important;
 	    width: 100%;
@@ -1619,6 +1628,10 @@ img.cvv{
 
 	/*Classes Bootstrap*/
 
+	.container {
+		max-width: 720px!important;
+	}
+
 	.collapse:not(.show) {
     	display: none!important;
 	}
@@ -1628,6 +1641,7 @@ img.cvv{
 	    color: rgb(255,90,0) !important;
 	    padding: 0.8% 1.5%;
 	}
+
 
 	.navbar-nav {
 	    display: -webkit-box!important;
@@ -1752,6 +1766,10 @@ img.cvv{
 	}
 
 
+	.container{
+		max-width: 980px!important;
+	}
+
 	/*Topo*/
 
 	.top {
@@ -1774,6 +1792,11 @@ img.cvv{
 	    min-height: 150px!important;	
 	    position: relative!important;    
 	}	
+
+	.navbar-brand{
+		max-width: 30%!important;
+	}
+
 
 	.navbar-brand > img{
 		height: 100px!important;
@@ -2469,3 +2492,11 @@ img.cvv{
 
 }
 
+
+@media (min-width: 1200px){
+
+	.container {
+	    max-width: 1180px!important;
+	}
+
+}

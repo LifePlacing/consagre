@@ -18,7 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 */
 
-
-//Route::post('/planos/contratar/payment/boleto', 'GerenciaNetController@payment')->name('contratar.planos');
-
-
+Route::post('/notification', 'GerenciaNetController@notification')->name('notification');
