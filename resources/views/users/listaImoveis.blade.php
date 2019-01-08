@@ -71,7 +71,7 @@
 									@if($imovel->garagem != 0 && $imovel->garagem === 1) {{ $imovel->garagem }} vaga @else  {{ $imovel->garagem }} vagas @endif
 								</li>
 								<li><i class="fa fa-area-chart fa-lg" aria-hidden="true"></i>
-									{{ $imovel->area_total }} m<sup>2</sup>	
+									{{ $imovel->area_util }} m<sup>2</sup>	
 								</li>
 							</ul>
 								

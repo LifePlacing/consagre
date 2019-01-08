@@ -30,15 +30,18 @@
 				
 					<div class="form-group col-sm-4">
 						<span>Qual tipo?</span>
+
 						<select class="dropdown-toggle custom-select col-sm-12" name="imovel_type_id">
 						   	<optgroup label="Todos">
 						  		<option selected value="all">Todas os Imóveis</option>
 							</optgroup>
 							<optgroup label="Tipos">
 						  @if(isset($tipos))
+
 							@foreach($tipos as $tipo => $id)
 						  		<option value="{{ $id }}" class="option">{{ $tipo }}</option>
 						  	@endforeach
+
 						  @endif
 						  	</optgroup>
 						</select>

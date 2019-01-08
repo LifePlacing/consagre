@@ -233,6 +233,52 @@ input:focus {
     height: 100vh;
 }
 
+/*Preview de imagens upload */   
+
+#progress {
+    width: 100%;
+    background-color: transparent!important;
+    height: 30px;
+    margin-top: 10px;
+}
+
+#progbar{
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  height: 30px;
+  background: rgb(255,90,0);
+}
+
+#progbar::before{
+
+}
+
+.uploader > .images-preview > .img-wrapper{
+        width: 20%!important;
+        flex: 0 0 20%;
+}
+
+.img-wrapper img{
+    max-width: 100%!important;
+    max-height: 200px!important;
+    object-fit: cover;
+    object-position: center;
+}
+
+.img-amostra{
+    max-width: 100%!important;
+    flex: 0 0 25%;
+    height: 120px!important;
+
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* fim Preview de imagens upload */    
+
+
 .sidebar {
     position: fixed;
     top: 0;

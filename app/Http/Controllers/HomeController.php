@@ -19,7 +19,9 @@ class HomeController extends Controller
 
     public function app()
     {
-        $imoveislist = Imovel::hasStatus()->latest()->get();
+        $imoveislist = Imovel::hasStatus()
+        ->where('tipo_de_anuncio', '=', 'super')    
+        ->latest()->get();
 
         $imoveisAluguel = $imoveislist->where('meta', '=', 'aluguel')->take(4);
         $imoveisVenda = $imoveislist->where('meta', '=', 'venda')->take(4);

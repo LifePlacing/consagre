@@ -11,12 +11,13 @@ class CreatePlanosTable extends Migration
     {
         Schema::create('planos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo', 60)->unique();
+            $table->string('codigo', 60)->nullable();
             $table->string('nome', 80);
             $table->integer('quant_anuncios');
             $table->integer('super_destaques');
             $table->integer('destaques');
             $table->integer('valor_mensal');
+            $table->integer('interval');
             $table->boolean('captacao')->default(false);            
             $table->timestamps();
         });

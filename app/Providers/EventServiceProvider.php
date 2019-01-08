@@ -11,6 +11,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\NovoAnunciante' => [
             'App\Listeners\RegisterAnuncianteListener',
+        ],
+
+        'App\Events\CadastrarSenhaAnunciante' => [
+        	'App\Listeners\AtivarAnuncianteListener',
         ]
     ];
 

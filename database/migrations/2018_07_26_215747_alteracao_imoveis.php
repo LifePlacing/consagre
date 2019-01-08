@@ -11,7 +11,7 @@ class AlteracaoImoveis extends Migration
     {
        Schema::table('imovels', function (Blueprint $table) {
             $table->integer('imovel_type_id')->unsigned();
-            $table->integer('user_id')->unsigned();           
+            $table->integer('user_id')->nullable()->unsigned();           
             $table->integer('categoria_id')->unsigned();           
                       
        });

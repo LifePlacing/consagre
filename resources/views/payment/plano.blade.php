@@ -21,7 +21,7 @@
     </div>
 @endif
 
-
+@if(isset($expired) && $expired == false)
 <div class="container">
 
 	<div class="col-12">
@@ -135,7 +135,7 @@
 
 				</div>
 				
-				<div class="col-12">
+				<div class="col-12 d-none" id="formas_de_pagamento">
 
 					<h3 class="text-center line"><i class="fa fa-credit-card" aria-hidden="true"></i>
 						Formas de Pagamento</h3>
@@ -384,7 +384,7 @@
 		<div class="modal-content">
 
 			<div class="modal-header">			
-			<button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+			<button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fechar">
 			Fechar Janela
 			</button>
 			</div>
@@ -420,6 +420,16 @@
 
 
 @endif
+
+@else
+
+<div class="alert alert-danger" role="alert">
+ 	Este link expirou!!
+</div>
+
+@endif
+
+
 
 @endsection
 

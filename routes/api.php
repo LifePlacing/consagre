@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 */
 
-Route::post('/notification', 'GerenciaNetController@notification')->name('notification');
+Route::get('/notification', 'GerenciaNetController@notification')->name('notification');

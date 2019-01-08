@@ -82,7 +82,7 @@
 					<div class="col-md-4 col-sm-8">
 						<div class="form-group">
 							<label for="cep_imobi">CEP</label>
-							 <input type="phone" id="cep_imobi" class="form-control"  name="cep" size="8" maxlength="8"  onblur="pesquisacep(this.value);" required="required" autocomplete='off'>
+							 <input type="phone" id="cep_imobi" class="form-control"  name="cep" size="8" maxlength="8"  onblur="pesquisacep(this.value);" required="required" autocomplete="new-password">
 						</div>
 					</div>
 				</div>	
@@ -92,20 +92,20 @@
 					<div class="col-md-4 col-sm-8">				
 						<div class="form-group">
 						    <label for="rua_imobi">Rua/Avenida:</label>
-						    <input type="text" class="form-control" id="rua_imobi"  required="required" autocomplete="off">	
+						    <input type="text" class="form-control" id="rua_imobi"  required="required" >	
 						    
 						</div>	
 					</div>
 					<div class="col-md-2 col-sm-4">
 						<div class="form-group">
 							<label for="numero">Numero:</label>
-							<input type="phone" name="numero" class="form-control" id="numero" required="required" autocomplete="off">
+							<input type="phone" name="numero" class="form-control" id="numero" required="required" >
 						</div>
 					</div>
 					<div class="col-md-3 col-sm-12">	
 						<div class="form-group">
 						    <label for="bairro_imobi">Bairro:</label>
-						    <input type="text" class="form-control" id="bairro_imobi" required="required" autocomplete="off">	
+						    <input type="text" class="form-control" id="bairro_imobi" required="required" >	
 						    	
 						</div>	
 					</div>
@@ -113,7 +113,7 @@
 					<div class="col-md-3 col-sm-12">
 						<div class="form-group">
 							<label for="cidade_imobi">Cidade:</label> 
-							<input type="text" name="cidade" id="city_imobi" class="form-control" autocomplete="off">
+							<input type="text" name="cidade" id="city_imobi" class="form-control" >
 							<input type="hidden" name="estado" id="estado">
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 							<div class="form-group">
 							<label for="nome_cliente">Titular do Cartão </label>	
 							<small id="copiar" class="btn text-danger">*Clique para o mesmo!</small>
-							<input type="text" name="nome_cliente" class="form-control" required="required" placeholder="Nome conforme consta no cartão" id="nome_cliente" autocomplete="off">
+							<input type="text" name="nome_cliente" class="form-control" required="required" placeholder="Nome conforme consta no cartão" id="nome_cliente" autocomplete="cc-name">
 							</div>
 
 						</div>
@@ -145,7 +145,7 @@
 						<div class="col-md-4 col-8">
 							<div class="form-group">
 								<label for="cc-number">Número do Cartão</label>
-								<input type="phone" class="form-control cc-number" name="cc-number" id="cc-number" required onpaste="return false;" maxlength="20" size="20" >
+								<input type="phone" class="form-control cc-number" name="cc-number" id="cc-number" required onpaste="return false;" maxlength="20" size="20" autocomplete="cc-number">
 								<div class="invalid-feedback">Cartão inválido</div>
 								<input type="hidden" name="bandeira" id="bandeira">
 							</div>
@@ -180,7 +180,7 @@
 							          	<i class="fa fa-lock fa-2x" aria-hidden="true"></i>
 							          </span>
 							        </div>
-									<input type="phone" name="codigo_seguranca" id="codigo_seguranca" maxlength="4" size="4" class="form-control form-control-lg" placeholder="CVV" autocomplete="off" onpaste="return false;">
+									<input type="phone" name="codigo_seguranca" id="codigo_seguranca" maxlength="4" size="4" class="form-control form-control-lg" placeholder="CVV" autocomplete="cc-csc" onpaste="return false;">
 							</div>							
 
 						</div>
@@ -189,10 +189,10 @@
 							<label for="cvv">Data de Expiração</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="phone" name="mes" id="mes_vencimento" class="form-control form-control-lg" placeholder="mm" maxlength="2" size="2">
+									<input type="phone" name="mes" id="mes_vencimento" class="form-control form-control-lg" placeholder="mm" maxlength="2" size="2" autocomplete="cc-exp">
 								</div>								
 								<div class="col-6">
-									<input type="phone" name="ano" id="ano_vencimento" class="form-control form-control-lg" placeholder="yyyy" maxlength="4" size="4">
+									<input type="phone" name="ano" id="ano_vencimento" class="form-control form-control-lg" placeholder="yyyy" maxlength="4" size="4" autocomplete="cc-exp">
 								</div>
 							</div>
 
@@ -266,7 +266,7 @@
 		<div class="modal-content">
 
 			<div class="modal-header">			
-			<button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+			<button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fechar">
 			Fechar Janela
 			</button>
 			</div>
@@ -288,9 +288,9 @@
 		                	
 		                	<table class="table">
 		                		<tr>
-			                		<th>Parcelas</th>
-			                		<th>Valor da Parcela</th>
-			                		<th>Valor Total</th>
+			                		<th>Assinatura <span>&#8470;</span></th>
+			                		<th>Data</th>
+			                		<th>Valor Mensal</th>
 		                		</tr>
 		                		<tr id="installments_value"></tr>
 		                	</table> 

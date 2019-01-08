@@ -18,6 +18,7 @@ class CriarCamposNaTabelaImoveis extends Migration
             $table->decimal('preco_venda', 10,2);
             $table->boolean('sob_consulta')->default(false);
             $table->enum('tipo_de_anuncio', array('simples', 'destaque', 'super'))->default('simples');
+            $table->integer('total_visualizacao')->nullable();
            
         });
     }

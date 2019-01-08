@@ -1,5 +1,7 @@
 @extends('layouts.head')
 
+@section('title', 'Anuncie seu imóvel Grátis')
+
 @section('search')
 	@parent
 	@include('app.search.form')
@@ -43,7 +45,7 @@
                 	$slugTitulo =  strtolower($slug); 
   				@endphp
 
-			  		<div class="col-sm-6 col-md-3">
+			  	<div class="col-sm-6 col-md-3">
 		  				<div class="card card-imoveis" onclick="window.location='/{{$slugTitulo}}/{{$venda->id}}/{{$venda->meta}}/{{$venda->cidade->slug}}'" >
 
 					 	@foreach($venda->media as $m => $medias)
@@ -72,10 +74,11 @@
 								</div>
 								<span>|</span>
 								<div class="col">
-									{{$venda->area_total}}m&#178;
+									{{$venda->area_util}}m&#178;
 								</div>
 
 			 				</div>
+
 			 			</div>
 
 		                </div>
@@ -140,7 +143,7 @@
 								</div>
 								<span>|</span>
 								<div class="col">
-									{{$aluguel->area_total}}m&#178;
+									{{$aluguel->area_util}}m&#178;
 								</div>
 
 			 				</div>

@@ -64,5 +64,7 @@ class Kernel extends HttpKernel
         'revalidate' => \App\Http\Middleware\RevalidateBackHistory::class,
         'preventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
         'role' => \App\Http\Middleware\Role::class,
+        'check.assinatura' => \App\Http\Middleware\CheckAssinatura::class
+        
     ];
 }

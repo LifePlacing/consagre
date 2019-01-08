@@ -1,4 +1,5 @@
 <template lang="html">
+
   <div class="form-group">
         <h5>CEP</h5>
 
@@ -65,14 +66,18 @@ export default {
       let cepNumber = jQuery(this.$refs.cep).val().replace('-', '');
       this.naoLocalizado = false;
       if (!isNaN(cepNumber) && cepNumber.length === 8) {
-        $.getJSON("https://viacep.com.br/ws/" + cepNumber + "/json/", function(endereco)
+
+        delete document.head.querySelector('meta[name="csrf-token"]');
+
+        $.getJSON("https://viacep.com.br/ws/" + cepNumber + "/json/?callback=?", function(endereco)
           {
+
             if (endereco.erro) {
               this.endereco={};
               this.naoLocalizado = true;
               return;
             }
-            this.endereco = endereco;                       
+            this.endereco = endereco;                               
             
           }.bind(this));
       }

@@ -1,5 +1,7 @@
 @extends('layouts.head')
 
+@section('title', $propriedade->titulo )
+
 @section('content')
 
 	<div class="h2">
@@ -90,7 +92,7 @@
 				<li>
 					<i class="fa fa-area-chart fa-2x"></i>
 					<br>Área Total
-					<p>{{$propriedade->area_total}} m<sup>2</sup></p>
+					<p>{{$propriedade->area_util}} m<sup>2</sup></p>
 				</li>
 				<li>
 					<i class="fa fa-bed fa-2x"></i>
@@ -129,8 +131,11 @@
 					
 					<div class="thumbnail img-profile">
 
-						@if($usuario->foto != null)
-							<img src="{{asset($usuario->foto)}}" class="rounded-circle">
+						@if( isset($usuario->foto))
+							<img src="{{asset($usuario->foto)}}" class="rounded-circle" >
+
+						@elseif(isset($propriedade->anunciante->logo))
+							<img src="{{asset($propriedade->anunciante->logo)}}" class="rounded-circle" >
 						@else
 							<img src="{{asset('images/profile.png')}}" class="rounded-circle">
 						@endif
@@ -140,8 +145,9 @@
 				</div>
 
 				<div class="col-8">
-					<div class="nome">{{ $usuario->name }}</div>			
-					<div class="tel"> {{formataPhone($usuario->phone)}}</div>	
+
+					<div class="nome">{{ !isset($usuario->name) ? $propriedade->anunciante->nome : $usuario->name }}</div>			
+					<div class="tel"> {{ empty($usuario) ? formataPhone($propriedade->anunciante->celular) : formataPhone($usuario->phone)}}</div>	
 				</div>
 
 			</div>

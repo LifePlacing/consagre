@@ -1,5 +1,7 @@
 @extends('layouts.head')
 
+@section('title', 'Anuncie seu imóvel Grátis')
+
 @section('breadcrumbs')
 	@parent
 	@include('app.inc.breadcrumbs')

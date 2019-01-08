@@ -250,16 +250,14 @@ demo = {
         marker.setMap(map);
     },
 
-	showNotification: function(from, align){
-    	color = Math.floor((Math.random() * 4) + 1);
-
-    	$.notify({
-        	icon: "pe-7s-gift",
-        	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+	showNotification: function(from, align, msn, icone, tipo){
+        	$.notify({
+        	icon: icone,
+        	message: msg
 
         },{
-            type: type[color],
-            timer: 4000,
+            type: tipo,
+            timer: 2000,
             placement: {
                 from: from,
                 align: align

@@ -42,7 +42,12 @@ class RedirectIfAuthenticated
                         
                         return redirect()->intended('/');
                     }
+
                 }
+
+             
+
+
 
             }
 

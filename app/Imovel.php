@@ -10,89 +10,88 @@ class Imovel extends Model
 
   use SoftDeletes;  
 
-	protected $fillable = [
+  protected $fillable = [
 	    'titulo','meta', 'preco','preco_venda', 'cep','suites', 
-	    'banheiros', 'quartos', 'area_total', 'cidade_id', 'logradouro', 'bairro', 'user_id', 'imovel_type_id', 'categoria_id', 'unidade', 'estado', 'garagem', 'area_util', 'descricao', 'codigo', 'iptu', 'condominio', 'tipo_de_anuncio'
+	    'banheiros', 'quartos', 'area_total', 'cidade_id', 'logradouro', 'bairro', 'user_id', 'imovel_type_id', 'categoria_id', 'unidade', 'estado', 'garagem', 'area_util', 'descricao', 'codigo', 'iptu', 'condominio', 'tipo_de_anuncio', 'anunciante_id', 'status', 'total_visualizacao'
 	];
 
   protected $hidden = [
       
   ];
 
-  protected $dates = ['deleted_at']; 
+  protected $dates = ['deleted_at'];
 
+ 
 
-  
-
- public function media()
- {
+  public function media()
+  {
  		return $this->hasMany('App\Media');
- }
+  }
 
- public function user()
- {
+  public function user()
+  {
  		return $this->belongsTo('App\User');
- }
+  }
 
- public function cidade()
- {
-  return $this->belongsTo('App\Cidade');
- }
+  public function cidade()
+  {
+    return $this->belongsTo('App\Cidade');
+  }
 
- public function imovel_type()
- {
+  public function imovel_type()
+  {
        return $this->belongsTo('App\ImovelType');
- }
+  }
 
- public function categoria()
- {
-       return $this->belongsTo('App\Categoria');
- }  
+  public function categoria()
+  {
+      return $this->belongsTo('App\Categoria');
+  }  
 
 
- public function anunciante()
- {
-      return $this->belongsToMany("App\Anunciante", "alocacoes");
- } 
+  public function anunciante()
+  {
+      return $this->belongsTo("App\Anunciante");
+  } 
 
   
 
 
-public function scopeMeta($query, $meta)
-{
+  public function scopeMeta($query, $meta)
+  {
     if($meta != 'all'){      
         return $query->where('meta', '=', $meta);
     }
-}
+  }
 
 
-public function scopeTipoImovelId($query, $imovelTipoId)
-{
+  public function scopeTipoImovelId($query, $imovelTipoId)
+  {
     if ($imovelTipoId != 'all') {
        $id_tipo_imovel = (int)$imovelTipoId;
        return $query->where('imovel_type_id', '=', $id_tipo_imovel);
     }
-}
+  }
 
 /*Escopo busca por cidades*/
 
-public function scopeCidadeId($query, $id)
-{
+  public function scopeCidadeId($query, $id)
+  {
     if ($id != 'all') {
        $id_cidade = (int)$id;
        return $query->where('cidade_id', '=', $id_cidade);
     }
-} 
+  } 
 
  /*escopos da busca de Imoveis ativos */
 
-public function scopeHasStatus($query)
-{
-    return $query->where('status', '=', '0');
-}
+  public function scopeHasStatus($query)
+  {
+    return $query->where('status', '=', '1');
+  }
 
-public function scopePrecoMinMax($query, $opt, $valorMin, $valorMax)
-{
+  public function scopePrecoMinMax($query, $opt, $valorMin, $valorMax)
+  {
     if($valorMin > 0 || $valorMax < 50000){          
         if ($valorMin > 0 && $valorMax < 50000 ) {
             return $query->whereBetween($opt, [$valorMin, $valorMax ]);
@@ -100,11 +99,11 @@ public function scopePrecoMinMax($query, $opt, $valorMin, $valorMax)
             return $query->where($opt, '>=', $valorMin);
         }
     }
-}
+  }
 
-public function scopeAreaMinMax($query, $opt, $valorMin, $valorMax)
-{
-  if ($valorMin > 0 || $valorMax < 10000) {
+  public function scopeAreaMinMax($query, $opt, $valorMin, $valorMax)
+  {
+    if ($valorMin > 0 || $valorMax < 10000) {
 
         if ($valorMin > 0 && $valorMax < 10000 ) {
             return $query->whereBetween($opt, [$valorMin, $valorMax ]);
@@ -112,11 +111,11 @@ public function scopeAreaMinMax($query, $opt, $valorMin, $valorMax)
             return $query->where($opt, '>=', $valorMin);
         }        
     
+    }
   }
-}
 
-public function scopeQuantItens($query, $valor, $qOpt1, $qOpt2, $qOpt3, $qOpt4)
-{
+  public function scopeQuantItens($query, $valor, $qOpt1, $qOpt2, $qOpt3, $qOpt4)
+  {
 
     if (!empty($qOpt1) && !empty($qOpt2) && !empty($qOpt3)){ 
 
@@ -153,6 +152,6 @@ public function scopeQuantItens($query, $valor, $qOpt1, $qOpt2, $qOpt3, $qOpt4)
     }
 
 
-}
+    }
 
-}
+  }

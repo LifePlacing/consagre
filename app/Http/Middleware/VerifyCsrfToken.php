@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+       'https://viacep.com.br/ws*',
+       '*viacep.com.br/ws*'
     ];
 }

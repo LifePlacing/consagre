@@ -9,8 +9,7 @@
                 <img src="{{asset('imagens/logo-page-login.svg')}}">
             </a>
 
-
-                {{ __('Recuperar Senha') }}
+            <h4>{{ __('Recuperar Senha') }}</h4>
 
             <form method="POST" action="{{ route('password.request') }}" 
             aria-label="{{ __('Reset Password') }}">

@@ -12,6 +12,9 @@ jQuery(document).ready(function(){
     $("#div_installments").removeClass("alert alert-success");
     /*Fim desabilitando campo de parcelas*/
 
+    $("#fechar").on('click', function(){
+        history.go(0);
+    });
 
     $("#metodocartao").on('click', function(e){       
 
@@ -39,16 +42,17 @@ jQuery(document).ready(function(){
             return false;          
         }
 
-    }); 
-
-
-
+    });
+   
   
-    $(".btn-plan input[name='plano']").on('click', function(){    
+    $(".btn-plan input[name='plano']").on('click', function(){ 
+           
+            $('#formas_de_pagamento').removeClass('d-none');
+
         
             if($("input:checked").val() == "plan_0"){
 
-                $('#plan_0').css('box-shadow','0px 0px 5px rgb(255,90,0)'); 
+                $('#plan_0').css('box-shadow','0px 0px 10px rgb(255,90,0)'); 
                 $('#plan_1').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)');                              
 
                 var id = document.getElementById('plano_id_0').value;
@@ -66,7 +70,7 @@ jQuery(document).ready(function(){
 
             if($("input:checked").val() == "plan_1"){
 
-               $('#plan_0').css('box-shadow','0px 0px 2px rgba(0,0,0,0.3)'); 
+               $('#plan_0').css('box-shadow','0px 0px 10px rgba(0,0,0,0.3)'); 
                $('#plan_1').css('box-shadow','0px 0px 5px rgb(255,90,0)');
 
                 var id = document.getElementById('plano_id_1').value;
@@ -164,7 +168,6 @@ jQuery(document).ready(function(){
                     e.preventDefault();
                     return false;
 
-
                 }else{
                     var plan_id = $("#plan_id").val();
                 }
@@ -186,13 +189,15 @@ jQuery(document).ready(function(){
 
                   success: function(resposta){
 
-                   if(resposta.code == 200){                    
+                   if(resposta.code == 200){ 
+
+                   console.log(resposta);                  
                     
                      $("#processando").modal('hide');
-                      $("#retorno").modal('show');
-                    
-                     //"code":200,"data":{"barcode":"03399.32766 55400.000000 60348.101027 6 69020000009000","link":"https:\/\/visualizacaosandbox.gerencianet.com.br\/emissao\/59808_79_FORAA2\/A4XB-59808-60348-HIMA4","expire_at":"2016-08-30","charge_id":76777,"status":"waiting","total":9000,"payment":"banking_billet"-->
-                        var trans = "<p>Código da Transação:"+resposta.data.charge_id+"</p>";
+                      $("#retorno").modal('show');                    
+                     
+
+                        var trans = "<p>Código da Assinatura:"+resposta.data.subscription_id+"</p>";
                         var cod_barras = "Código de Barras: <p> "+resposta.data.barcode+"</p>";
                         var imprime = "<a href='"+resposta.data.link+"'>Imprimir Boleto </a> ";
 
@@ -419,23 +424,28 @@ jQuery(document).ready(function(){
                 
                     $("#unidade").on('focus', function(){
                         $('.erro-number').hide();
+                        $("#unidade").removeClass('input-error');
                         $('#next').popover('hide');
                     });                    
             }  
 
             if ($('#cep').val() == "") {
-                $("#cep").addClass('input-error');
-                $("#logradouro").addClass('input-error');
-                $("#bairro").addClass('input-error');
+                
+                $("#cep").addClass('input-error');                
+    
+                $("#rua_imobi").addClass('input-error');
+                $("#bairro_imobi").addClass('input-error');
                 $('#next').popover('show');
 
                 e.preventDefault();
                
                     $("#cep").on('focus', function(){
                         $("#cep").removeClass('input-error');
-                        $("#logradouro").removeClass('input-error');
-                        $("#bairro").removeClass('input-error');
-                        $('#next').popover('hide');
+                        $("#rua_imobi").removeClass('input-error');
+                        $("#bairro_imobi").removeClass('input-error');
+                        $("#city_imobi").removeClass('input-error');
+                        $("#estado").removeClass('input-error');
+                        
                     });
 
             }   
@@ -475,8 +485,10 @@ jQuery(document).ready(function(){
 
         
 
-    });
-    
+    }); 
+
+
+
     
 });
 
@@ -484,13 +496,15 @@ jQuery(document).ready(function(){
 
 
 
-// formulário cadastro imobiliarias e corretores
-
-
-
 //Inicio do Buscador de CEP
 
     function limpa_formulário_cep() {
+
+         if (document.getElementById('cep') != null){
+            $("#cep").removeClass('is-invalid');       
+            $("#cep").removeClass('is-valid');
+        }
+
             //Limpa valores do formulário de cep.
             document.getElementById('rua_imobi').value=("");
             document.getElementById('bairro_imobi').value=("");
@@ -498,12 +512,14 @@ jQuery(document).ready(function(){
 
             if (document.getElementById('estado') != null){
                 document.getElementById('estado').value=("");
-            }        
+            } 
+
                        
     }
 
     function meu_callback(conteudo) {
         if (!("erro" in conteudo)) {
+
             //Atualiza os campos com os valores.
             document.getElementById('rua_imobi').value=(conteudo.logradouro);
             document.getElementById('bairro_imobi').value=(conteudo.bairro);
@@ -511,17 +527,21 @@ jQuery(document).ready(function(){
             if (document.getElementById('estado') != null){
                 document.getElementById('estado').value=(conteudo.uf);
             } 
+            if (document.getElementById('complemento') != null){
+                document.getElementById('complemento').value=(conteudo.complemento);
+            }           
 
 
         } //end if.
         else {
             //CEP não Encontrado.
             limpa_formulário_cep();
+            $("#cep").addClass('is-invalid');
             alert("CEP não encontrado.");
         }
     }
 
-function pesquisacep(valor) {
+    function pesquisacep(valor){
 
         //Nova variável "cep" somente com dígitos.
         var cep = valor.replace(/\D/g, '');
@@ -545,6 +565,10 @@ function pesquisacep(valor) {
 
                 //Sincroniza com o callback.
                 script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                $("#cep").removeClass('is-invalid');
+                $("#cep").addClass('is-valid');
+
 
                 //Insere script no documento e carrega o conteúdo.
                 document.body.appendChild(script);
@@ -598,3 +622,4 @@ w.value = pre+ret+pos;
 String.prototype.reverse = function(){
 return this.split('').reverse().join(''); 
 }
+

@@ -14,6 +14,12 @@ function formatCodigo($value)
 }
 
 
+function date_br($value, $format='d/m/Y')
+{
+   return date($format, strtotime($value));
+}
+
+
 function formataMoedaInteiro($valor){
 
 
@@ -177,6 +183,49 @@ function escondeEmail($email)
 	$string = $email_editado.'@'.$mail[1];
 
 	return $string;
+}
+
+
+function verificaStatus($status)
+{
+	switch ($status) {
+		case 'new':
+			$st = 'novo';
+			break;
+		case 'active':
+			$st = 'ativo';
+			break;
+		case 'waiting':
+			$st = 'Aguardando Pagamento';
+			break;
+		case 'paid':
+			$st = 'Pagamento Confirmado';
+			break;
+		case 'unpaid':
+			$st = 'Problemas no Pagamento';
+			break;
+		case 'refunded':
+			$st = 'Pagamento Devolvido';
+			break;
+		case  'contested':
+			$st = 'Pagamento em Contestação';
+			break;
+		case 'canceled':
+			$st = 'Cancelado';
+			break;
+		case 'settled':
+			$st = 'Pagamento Confirmado (via Admin)';
+			break;
+		case 'expired':
+			$st = 'Link de Pagamento expirado!';
+			break;		
+		default:
+			$st = 'Aguardando Pagamento';
+			break;
+	}
+
+
+	return $st;
 }
 
 

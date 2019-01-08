@@ -16,7 +16,7 @@ class CreateImovelsTable extends Migration
         Schema::create('imovels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('titulo', 80);
-            $table->enum('meta', array('aluguel', 'venda', 'temporada'));
+            $table->enum('meta', array('aluguel', 'venda', 'Venda/Aluguel', 'temporada', 'Fim de Semana'));
             $table->decimal('preco', 10,2);            
             $table->smallInteger('banheiros');
             $table->smallInteger('suites')->nullable();

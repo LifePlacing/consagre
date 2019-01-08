@@ -20,9 +20,8 @@ class ImovelController extends Controller
 
     public function __construct()
     {
-         $this->middleware('auth');
+         $this->middleware('auth');         
     }
-
 
 
     /* ============= Passos do Cadastro de imovel ==================== */
@@ -37,10 +36,23 @@ class ImovelController extends Controller
 
         /*======== Verificação da quantidade de anuncios=========*/
             $user = Auth::user();
-            $quant = $user->imovels()->count();           
+
+            $quant = $user->imovels()->count();  
+
+            $plano = ''; 
+
+            if(isset($user->plano)){
+
+                $plano = $user->plano; 
+
+                if ($quant >= $plano->quant_anuncios) {
+                   return redirect::back()->withErrors(['msg', 'Você atigiu o limite de anuncios permitido pelo plano']);
+                }
+
+            }          
             
         
-        return view('app.steps.create', compact(['valor', 'imovel', 'categorias', 'tipos', 'quant'], [$valor, $imovel, $categorias, $tipos, $quant]));
+        return view('app.steps.create', compact(['valor', 'imovel', 'categorias', 'tipos', 'quant', 'plano'], [$valor, $imovel, $categorias, $tipos, $quant, $plano]));
     }
 
     public function postCreateStep1(Request $request)
@@ -52,8 +64,7 @@ class ImovelController extends Controller
                 'meta'=> 'required',
                 'banheiros' => 'required|numeric',
                 'quartos' => 'required|numeric',
-                'area_util' => 'required|numeric',
-                'area_total' => 'required|numeric',            
+                'area_util' => 'required|numeric',                           
                 'estado'=>'string|required',
                 'localidade' => 'string|required',
                 'bairro' => 'string|required',
@@ -73,7 +84,7 @@ class ImovelController extends Controller
         { 
             $usuario = Auth::user();
 
-            if(empty($usuario->cpf) || $usuario->cpf == null )
+            if(isset($usuario->cpf) && empty($usuario->cpf) || $usuario->cpf == null )
             {
 
                 $cpf = ['cpf' => preg_replace( array('/[^\d]+/'), array(''), $request['cpf'])];
@@ -92,8 +103,18 @@ class ImovelController extends Controller
 
             } 
 
-            $usuario->name = $request['name'];            
-            $usuario->phone =  preg_replace( array('/[^\d]+/'), array(''), $request['phone']);  
+            if(isset($usuario->name)){
+                $usuario->name = $request['name']; 
+            }elseif (isset($usuario->nome) && empty($usuario->nome)) {
+                $usuario->nome = $request['name'];
+            }  
+
+            if(isset($usuario->phone)){
+                $usuario->phone =  preg_replace( array('/[^\d]+/'), array(''), $request['phone']);
+            }elseif(isset($usuario->celular)){
+                $usuario->celular =  preg_replace( array('/[^\d]+/'), array(''), $request['phone']);
+            }
+
             $usuario->save();
         }    
 
@@ -110,6 +131,10 @@ class ImovelController extends Controller
                 if (isset($request['suites']) && !empty($request['suites'])) {
                     
                     $imovel->suites = $request['suites'];
+                }
+
+                if (isset($request['area_total'])) {
+                    $imovel->area_total = $request['area_total'];
                 }
 
 
@@ -378,5 +403,33 @@ class ImovelController extends Controller
         }  
 
     }
+
+    public function delete(Request $request)
+    {
+
+        (int)$id = $request['id'];
+
+        $imovel = Imovel::find($id);
+
+        $medias = $imovel->media;
+
+            foreach ($medias as $m) {
+                
+                if(file_exists(public_path($m->source) ) ){
+                    unlink(public_path($m->source)); 
+                }
+                
+                $m->delete();
+            }
+
+
+        $imovel->delete();
+
+        return back()->with('success', 'Anúncio removido com sucesso!');
+       
+    }
+
+    
+
 
 }

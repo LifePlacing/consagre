@@ -10,8 +10,8 @@ class CreateImovelTypesTable extends Migration
     public function up()
     {
         Schema::create('imovel_types', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('tipo', 40);
+            $table->increments('id');            
+            $table->string('tipo', 40);            
             $table->timestamps();
         });
     }

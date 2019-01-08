@@ -6,7 +6,7 @@
 <!-- Scripts Globais -->
 @section('header_styles')
     <link rel="stylesheet" href="{{asset('css/form-elements.css')}}">
-    <link rel="stylesheet" href="{{asset('css/style.css')}}"> 
+    <link rel="stylesheet" href="{{asset('css/style.css?version=1.0')}}"> 
 @stop
 <!-- Scripts Globais -->
 
@@ -31,7 +31,7 @@
 @endif
 
 
-    <form id="anuncie-imovel" name="anuncieimovel" action="/anunciar" role="form" method="POST" class="f1">
+    <form id="anuncie-imovel" name="anuncieimovel" action="/anunciar" role="form" method="POST" class="f1" autocomplete="off">
 
     	{{ csrf_field() }}
 
@@ -75,13 +75,13 @@
                 @else
 
 	            <div class="form-group col-sm-6 ">
-	                <input type="tel" name="cpf" placeholder="Seu CPF" class="cpf form-control col-sm-12 required" tipo_dado="cpf" maxlength="14" id="cpf" value="{{ Auth::user()->cpf }}" onblur="validarCPF(this)">
+	                <input type="tel" name="cpf" placeholder="Seu CPF" class="cpf form-control col-sm-12 required" tipo_dado="cpf" maxlength="14" id="cpf" value="{{ Auth::user()->cpf }}" onblur="validarCPF(this)" autocomplete="new-password">
 	                <div class="erro-cpf erro-form"> CPF inválido </div>
 	            </div>
                 @endif
 
 	            <div class="form-group col-sm-6 ">
-	                <input type="tel" name="phone" placeholder="Seu Telefone" class="phone form-control col-sm-12 required" id="phone" value="{{ Auth::user()->phone }}">
+	                <input type="tel" name="phone" placeholder="Seu Telefone" class="phone form-control col-sm-12 required" id="phone" value="{{ Auth::user()->phone }}" autocomplete="new-password">
 	                <div class="erro-form erro-phone"> Digite um telefone válido </div>
 	            </div>
 
@@ -94,7 +94,7 @@
 
                 <div class="form-group col-sm-6">
 
-                    <select name="imovel_type_id" class="form-control required" id="imovel_type_id" data-content="Selecione o tipo de imovel" data-placement="top">
+                    <select name="imovel_type_id" class="form-control required" id="imovel_type_id" data-content="Selecione o tipo de imovel" data-placement="bottom">
                         @if($tipos)
                         <option>Selecione o tipo de imóvel</option>
                         @foreach($tipos as $tipo => $id)
@@ -129,8 +129,62 @@
 	        <h4><i class="fa fa-map-marker"></i>
 	        Onde fica o seu imóvel?</h4>   
 
-            <div class="form-row">                                     
-                <busca-cep></busca-cep>
+            <div class="form-row"> 
+
+              <div class="form-group">
+                    <h5>CEP</h5>
+
+                      <div class="form-inline">
+
+                        <input autocomplete="new-password" type="phone" name="cep" ref="cep" id="cep" 
+                        class="form-control{{ $errors->has('cep') ? ' is-invalid' : '' }} col-sm-6 form-control-lg required"   maxlength="8" size="8" placeholder="00000-00" onblur="pesquisacep(this.value);" />
+                        
+
+                        <div class="col-sm-6">
+                          <a href="http://www.buscacep.correios.com.br/sistemas/buscacep/" class="lembra-cep" target="_blank" >
+                             <i class="fa fa-caret-right"></i>Não sei meu CEP
+                            </a>
+                        </div>
+
+                      <div class="invalid-feedback">
+                        <strong>* CEP não encontrado ou invalido </strong>
+                      </div>
+
+                      </div>
+                      
+                          <div class="form-group">
+                              <input type="text" class="form-control required" name="localidade" id="city_imobi"  placeholder="Cidade" aria-describedby="city" readonly>
+                          </div>
+
+                          <div class="form-group">
+                          <input type="text" class="form-control required" name="estado" id="estado"  aria-describedby="address" placeholder="Estado" readonly required="required">
+                          </div> 
+
+                          <div class="form-group">
+                            <input type="text" name ="bairro" class="form-control required" id="bairro_imobi" placeholder="Bairro">
+                          </div> 
+
+                          <div class="form-group">
+                            <label for="logradouro">Endereço</label>
+                            <input type="text" name="logradouro" class="form-control required"
+                            id="rua_imobi" placeholder="ex: Rua Dom Pedro" autocomplete="new-password">                   
+                          </div>
+
+                          <div class="form-row">
+                            <div class="col-sm-6 mb-2">
+                              <label for="unidade" class="">Número</label>
+                              <input type="phone" name="unidade" class="form-control numero required form-control-lg" pattern="[0-9]+$" id="unidade" placeholder="Para melhor localização no mapa" autocomplete="off">
+                              <div class="erro-form erro-number"></div>                  
+                          </div>
+
+                          <div class="col-sm-6 mb-2">
+                            <label for="complemento">Complemento</label>
+                            <input type="text" name="complemento" class="form-control" id="complemento" placeholder="ex: ap 40 bloco C">
+                          </div>
+
+                      </div>
+              </div>
+
             </div>	
 
             <h4><i class="fa fa-clipboard"></i> 
@@ -140,7 +194,7 @@
 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="quartos">Quartos</label>
-                    <input type="number" name="quartos" placeholder="0" class="form-control numero required" id="quartos" min="0" value="{{ old('quartos') }}" pattern="[0-9]+$" >
+                    <input type="number" name="quartos" placeholder="0" class="form-control numero required" id="quartos" min="0" max="20" value="{{ old('quartos') }}" pattern="[0-9]+$" >
                 </div>
 
                 <div class="form-group col-sm-12 col-md-6">
@@ -166,7 +220,7 @@
                 
                 <div class="form-group col-sm-12 col-md-6">
                     <label for="area_total">Área Total</label>
-                    <input type="number" name="area_total" placeholder="0" class="form-control numero required" min="0" id="area_total" value="{{ old('area_total') }}">
+                    <input type="number" name="area_total" placeholder="0" class="form-control numero" min="0" id="area_total" value="{{ old('area_total') }}">
                 </div>
 
 
@@ -196,7 +250,7 @@
                         <label for="preco">
                             <div id="log_2">Valor total de venda :</div> 
                         </label>
-                        <input type="text" name="preco" id="preco" class="col-sm-12 required form-control " value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" readonly>
+                        <input type="text" name="preco" id="preco" class="col-sm-12 form-control " value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" readonly>
                     </div>
 
 
@@ -241,7 +295,7 @@
 
 @section('footer_scripts')
 <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
-<script src="{{asset('js/scripts.js')}}"></script>
+<script src="{{asset('js/scripts.js?version=1.0')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 
 <script type="text/javascript">
     $("#cpf").mask("999.999.999-99");

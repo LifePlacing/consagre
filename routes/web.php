@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use App\Xml;
+
+
 Auth::routes();
 
 Route::get('/', 'HomeController@app')->name('index');
@@ -24,7 +28,9 @@ Route::get('/usuario/profile/show/update/{id}', 'UserController@getUpdate')->nam
 
 Route::post('/usuario/profile/show/update/{id}', 'UserController@update')->name('updateUser');
 
+/*=================== ROTAS DOS IMOVEIS=========================*/
 
+Route::post('/anunciante/imovel/apagar', 'ImovelanunciantesController@delete')->name('apagarImovel');
 
 
 /*======================ROTAS DAS BUSCAS DOS IMOVEIS ============================*/
@@ -45,6 +51,7 @@ Route::get('/{titulo?}/{id}/{meta}/{cidade}', 'BuscaController@singleImovel' )->
 Route::get('/perfil/anuncio', 'HomeController@anuncio')->name('anuncio');
 
 Route::get('/anunciar', 'ImovelController@createStep1')->name('anunciar');
+
 Route::post('/anunciar', 'ImovelController@postCreateStep1');
 
 Route::get('/anunciar/anunciar-step2', 'ImovelController@createStep2');
@@ -88,9 +95,55 @@ Route::get('/planos/contratar/payment/cartao/{anunciante_id}/{plano_id}', 'Geren
 
 Route::post('perfil/anuncio/{perfil}', 'Auth\AnuncianteRegisterController@create')->name('anunciante.store');
 
-Route::get('anunciante/login', 'Auth\AnuncianteLoginController@index')->name('anunciante.login');
-Route::post('anunciante/login', 'Auth\AnuncianteLoginController@login')->name('anunciante.login.submit');
-Route::get('perfil/anuncio/{perfil}', 'AnunciantesController@cadastro')->name('anunciante.cadastro');
+Route::get('anunciante/login', 'Auth\AnuncianteLoginController@index')
+->name('anunciante.login');
+Route::post('anunciante/login', 'Auth\AnuncianteLoginController@login')
+->name('anunciante.login.submit');
+Route::get('perfil/anuncio/{perfil}', 'AnunciantesController@cadastro')
+->name('anunciante.cadastro');
+
+Route::get('/anunciante/password/cadastrar/perfil/{token}', 'Auth\AnuncianteRegisterController@verifyUser')
+->name('anunciante.ativar');
+
+Route::post('/anunciante/password/cadastrar/perfil/', 'Auth\AnuncianteRegisterController@update')
+->name('anunciante.ativar.update');
+
+
+/*=============== ROTAS DOS ANUNCIANTES PAINEL DASHBOARD===================*/
 
 Route::get('anunciante', 'AnunciantesController@index')->name('anunciante.dashboard');
+
+Route::get('anunciante/plano', 'AnunciantesController@infoPlano')->name('anunciante.plano');
+
+Route::get('anunciante/anuncios', 'ImovelAnunciantesController@listarAnuncios')->name('anunciantes.listar.anuncios');
+
+Route::get('anunciante/profile', 'AnunciantesController@profile')->name('anunciante.profile');
+
+Route::post('anunciante/profile', 'AnunciantesController@profileUpdate')->name('anunciante.profile.update');
+
+Route::post('anunciante/profile/avatar', 'AnunciantesController@profileAvatar')->name('anunciante.profile.avatar');
+
+Route::get('anunciante/integracoes', 'ImovelAnunciantesController@cadastraIntegracao')->name('anunciante.integrar.xml');
+
+Route::post('anunciante/integracoes', 'ImovelAnunciantesController@parseXml')->name('anunciante.parse.xml');
+
+Route::post('anunciante/integracoes/delete', 'ImovelAnunciantesController@deleteParseXml')->name('anunciante.parseXml.delete');
+
+Route::post('anunciante/integracoes/update', 'ImovelAnunciantesController@updateParseXml')->name('anunciante.parseXml.update');
+
+Route::post('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorXml')->name('anunciante.xml.leitura');
+
+Route::post('anunciante/integracoes/xml/detalhes', 'XmlController@singleXml')->name('single.xml.detalhes');
+
+Route::get('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorGetXml')->name('anunciante.xml.get');
+Route::get('anunciante/integracoes/xml/detalhes', 'XmlController@singleDetalhesXml')->name('anunciante.detalhes.single');
+
+
+/*================Cadastros dos anunciantes============================*/
+
+Route::get('anunciante/novoanuncio', 'ImovelAnunciantesController@adicionarStep1')->name('adicionaImovelAnunciante');
+Route::post('anunciante/novoanuncio', 'ImovelAnunciantesController@postCreateStep1')->name('postImovelAdd');
+
+Route::get('anunciante/novoanuncio/imagens', 'ImovelAnunciantesController@adicionarStep2')->name('adicionaImovelAnuncianteSegundoPasso');
+Route::post('anunciante/novoanuncio/imagens', 'ImovelAnunciantesController@postCreateStep2')->name('postImovelAddSegundoPasso');
 

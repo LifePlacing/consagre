@@ -12,9 +12,10 @@ class CriarRelacaoAnunciantePlano extends Migration
         Schema::table('anunciantes', function(Blueprint $table)
         {
             $table->integer('plano_id')->unsigned()->nullable();
-            $table->foreign('plano_id')->references('id')->on('planos');            
+            $table->foreign('plano_id')->references('id')->on('planos');
            
         });
+        
     }
 
 

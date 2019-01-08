@@ -74,15 +74,11 @@ jQuery(document).ready(function(){
 
                     }else{
 
-                        if (response.code == 200) {
+                        if (response.code == 200) {                           
 
-                            var options = '';
-
-                            for (i = 0; i < response.data.installments.length; i++) {
-                                options += '<option value="' + response.data.installments[i].installment + '">' + response.data.installments[i].installment + 'x de R$' + response.data.installments[i].currency + '</option>';
+                            options = '<option value="' + response.data.installments[0].installment + '">' + response.data.installments[0].installment + 'x de R$' + response.data.installments[0].currency + '</option>';
 
 
-                            }
                             $('#installments').html(options);                            
                             $('#btn_pg_cartao').removeClass('d-none');
                             $('#ver_parcelas').addClass('d-none');
@@ -177,13 +173,13 @@ jQuery(document).ready(function(){
                                 $("#btn_pg_cartao").addClass('d-none');
                                 $("#retorno").modal('show');
 
-                                var trans = resposta.data.charge_id ;
+                                var trans = resposta.data.subscription_id ;
                                 var status = "Status:"+resposta.data.status;
                                 var prod = "<h3>Produto: "+descricao+"</h3>";
                                 html = "";
-                                var html = "<th>" + resposta.data.installments + "</th>"
-                                html += "<th>" + formataDinheiro(resposta.data.installment_value) + "</th>"
-                                html += "<th>" + formataDinheiro(resposta.data.total) + "</th>";
+                                var html = "<th>" + resposta.data.subscription_id + "</th>"
+                                html += "<th>" + resposta.data.first_execution + "</th>"
+                                html += "<th>" + formataDinheiro(resposta.data.charge.total) + "</th>";
 
                                 $('#transacao').html(trans);
                                 $('#produto').html(prod);

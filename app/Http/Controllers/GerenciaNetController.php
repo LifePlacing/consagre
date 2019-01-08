@@ -10,7 +10,11 @@ use Gerencianet\Gerencianet;
 use App\Anunciante;
 use App\Plano;
 use App\Payment;
+use App\Assinatura;
 use DateTime;
+use App\Events\CadastrarSenhaAnunciante;
+
+use Validator;
 
 class GerenciaNetController extends Controller
 {
@@ -38,7 +42,6 @@ public function __construct()
       return $this->options;
   }
 
-  
 
  public function payment(Request $request)
  {
@@ -53,7 +56,21 @@ public function __construct()
 		
 		$request->validate($regras, $msgs);
 
+		/*=============Criando Plano============*/
+
 		$plano = Plano::find($request['plan_id']);
+		
+
+		$body_plan = [
+			'name' => $plano->nome, 
+			'interval' => (int)$plano->interval, 
+		];
+
+
+		$novoPlano = $this->criarPlano($this->getCredenciais(),$body_plan);
+
+		
+		/*============produto ou serviço da assinatura=================*/
 
 	    $item_1 = [
 	        'name' => $plano->nome,
@@ -66,12 +83,53 @@ public function __construct()
 	    ];
 
 	    $notification = route('notification');
+	    //$notification = 'http://api.webhookinbox.com/i/FKVOyq50/in/';
 
 	    $metadata = array('notification_url'=> $notification);
 
-		$body = [
+
+		//corpo da requisição(array de produtos ou serviços)
+		$body_signature = [
 			'items' => $items,
 			'metadata' => $metadata
+		];
+
+
+		//id do plano criado
+		$params_signature = ['id' => (int) $novoPlano['plan_id']];
+
+
+		$novaAssinatura = $this->associarAssinaturaAPlano($this->getCredenciais(),$params_signature,$body_signature);
+
+
+		//id do assinatura criada
+		$params_subscription = ['id' => (int)$novaAssinatura["subscription_id"]];
+
+
+		/*===========Informações do cliente===================*/
+
+		$anunciante = Anunciante::find($request['id']);
+
+		$telefone = preg_replace("/[^0-9]/", "", $anunciante->celular);
+
+		$customer = [
+            'name' => $anunciante->nome,
+            'cpf' => $request['cpf'],
+            'email' => $anunciante->email,
+            'phone_number' => $telefone
+        ];
+
+        $banking_billet = [
+            'expire_at' => $request['vencimento'],
+            'customer' => $customer
+        ];
+
+		$payment = [
+			'banking_billet' => $banking_billet
+		];
+
+		$body = [
+			'payment' => $payment
 		];
 
 
@@ -79,53 +137,65 @@ public function __construct()
 
  			$api = new Gerencianet($this->getCredenciais());
 
- 			$charge = $api->createCharge([], $body);
-
-	 			if ($charge["code"] == 200) {
-
-	 				
-				
-				$params = ['id' => $charge["data"]["charge_id"]];
+ 			$pay_charge = $api->paySubscription($params_subscription,$body);
 
 
-				$anunciante = Anunciante::find($request['id']);
+	 		if ($pay_charge["code"] == 200) {
 
-				$telefone = preg_replace("/[^0-9]/", "", $anunciante->celular);
+	 			if(empty($plano->codigo) || $plano->codigo == null ){
+	 				$plano->codigo = $pay_charge['data']['plan']['id'];
+	 				$plano->save();
+	 			}
 
-	 			$customer = [
-	                'name' => $anunciante->nome,
-	                'cpf' => $request['cpf'],
-	                'email' => $anunciante->email,
-	                'phone_number' => $telefone
-	            ];
-		
-				//Formatando a data, convertendo do estino brasileiro para americano.
-	            //$data_brasil = DateTime::createFromFormat('d/m/Y', $request['vencimento']);
+	 			$assinatura = Assinatura::where('custom_id','=', $pay_charge['data']['subscription_id'])->first();
 
-	            $bankingBillet = [
-	                'expire_at' => $request['vencimento'],
-	                'customer' => $customer
-	            ];
+	 			if(empty($assinatura) || $assinatura == null){
 
-	            $payment = ['banking_billet' => $bankingBillet];
+		 			$assinatura = Assinatura::create([
+		 				'custom_id' => $pay_charge['data']['subscription_id'],
+		 				'name' => $plano->nome,
+		 				'plano_id' => $plano->id,
+		 				'value' => (int) $plano->valor_mensal,
+		 				'status' => $pay_charge['data']['status'],
+		 				'anunciante_id' => $anunciante->id
+		 			]);
 
-	            $body = ['payment' => $payment];
-	 			
-	 			$api = new Gerencianet($this->getCredenciais());
-	            $pay_charge = $api->payCharge($params, $body);	
+	 			}else{
+	 				$assinatura->name = $plano->nome;
+	 				$assinatura->plano_id = $plano->id;
+	 				$assinatura->value = (int) $plano->valor_mensal;
+	 				$assinatura->status = $pay_charge['data']['status'];
+	 				$assinatura->save();
+	 			}
 
 	            Payment::create([
-	            	'charge_id' => $pay_charge['data']['charge_id'],
-	            	'status' => $pay_charge['data']['status'],
+	            	'charge_id' => $pay_charge['data']['charge']['id'],
+	            	'status' => $pay_charge['data']['charge']['status'],
 	            	'payment' => $pay_charge['data']['payment'],
 	            	'plan_id' =>$plano->id,	
-	            	'anunciante_id' => $anunciante->id            	
+	            	'anunciante_id' => $anunciante->id,
+	            	'assinatura_id' => $assinatura->id            	
 	            ]); 
-        
+	            
+            	$anunciante->plano_id = $plano->id;
+          
+        		
+	            if(!$anunciante->verified) {
+	            	$anunciante->verified = 1;   
+        			event(new CadastrarSenhaAnunciante($anunciante));       			
+        		}
+
+        		$anunciante->save();
+
+        		if(empty($assinatura->last_charge) || $assinatura->last_charge == null || $assinatura->last_charge !== $pay_charge['data']['charge']['id'] ){
+
+        			$assinatura->last_charge = $pay_charge['data']['charge']['id'];
+        			$assinatura->save();
+        		}
 
 	            return response()->json($pay_charge);
 
-	 			}
+	 		}
 
 
  		}catch (GerencianetException $e){
@@ -139,6 +209,39 @@ public function __construct()
 	}
 
 
+	public function criarPlano($options,$body_plan){
+		try {
+			$api = new Gerencianet($options);
+			$plan = $api->createPlan([],$body_plan);
+			return $plan['data'];
+		}  catch (GerencianetException $e) {
+			echo "Criar Plano";
+	        print_r($e->code);
+	        print_r($e->error);
+	        print_r($e->errorDescription);
+	    } catch (Exception $e) {
+	    	echo "Criar Plano";
+	        print_r($e->getMessage());
+	    }
+	}
+
+
+	public function associarAssinaturaAPlano($options,$params_signature,$body_signature){
+		try {
+			$api = new Gerencianet($options);
+			$subscription = $api->createSubscription($params_signature,$body_signature);
+			return $subscription['data'];
+		}  catch (GerencianetException $e) {
+			echo "Associar Assinatura";
+	        print_r($e->code);
+	        print_r($e->error);
+	        print_r($e->errorDescription);
+	    } catch (Exception $e) {
+	    	echo "Associar Assinatura";
+	        print_r($e->getMessage());
+	    }
+
+	}
 
 	/*View do cartão de credito*/
 
@@ -146,6 +249,10 @@ public function __construct()
 	{
 
 		$anunciante = Anunciante::find($anunciante_id);
+
+		if($anunciante->verified == 1){
+			return redirect()->route('anunciante.login')->with('status', 'Tudo certo! Você deve receber um email para cadastrar sua senha em breve. Obrigado');
+		}
 
 		$plano = Plano::find($plano_id);
 
@@ -157,10 +264,27 @@ public function __construct()
 	public function credito(Request $request)
 	{
 
+
+		/*=============Criando Plano============*/
+
+		$plano = Plano::find($request['plan_id']);
+		
+
+		$body_plan = [
+			'name' => $plano->nome, 
+			'interval' => (int)$plano->interval, 
+		];
+
+
+		$novoPlano = $this->criarPlano($this->getCredenciais(),$body_plan);
+
+
+		/*============produto ou serviço da assinatura=================*/
+
 	    $item_1 = [
-	        'name' => $request["descricao"],
-	        'amount' => (int) $request["quantidade"],
-	        'value' => (int) $request["valor"]
+	        'name' => $plano->nome,
+	        'amount' => (int) 1,
+	        'value' => (int) $plano->valor_mensal
 	    ];
 
 	    $items = [
@@ -168,67 +292,152 @@ public function __construct()
 	    ];
 
 	    $notification = route('notification');
+	    //$notification = 'http://api.webhookinbox.com/i/FKVOyq50/in/';
 
-	    $metadata = array('notification_url' => $notification);
+	    $metadata = array('notification_url'=> $notification);
 
-	    $body = ['items' => $items, 'metadata' => $metadata];
-
-	    $api = new Gerencianet($this->getCredenciais());
-
-	    $charge = $api->createCharge([], $body);
-
-	    if ($charge["code"] == 200){
-
-	    	$params = ['id' => $charge["data"]["charge_id"]];
-
-		   	$customer = [
-	            'name' => $request["nome_cliente"],
-	            'cpf' => $request["cpf"],
-	            'phone_number' => preg_replace("/[^0-9]/", "", $request["telefone"]),
-	            'email' => $request["email"],
-	            'birth' => $request["nascimento"]
-	        ];
-
-	        $paymentToken = $request["payament_token"];
-
-	        $billingAddress = [
-            'street' => $request["rua"],
-            'number' => $request["numero"],
-            'neighborhood' => $request["bairro"],
-            'zipcode' => $request["cep"],
-            'city' => $request["cidade"],
-            'state' => $request["estado"],
-        	];
-
-        	$creditCard = [
-            'installments' => (int)$request["installments"],
-            'billing_address' => $billingAddress,
-            'payment_token' => $paymentToken,
-            'customer' => $customer
-        	];
-
-        	 $payment = [
-            'credit_card' => $creditCard
-        	];
-        
-	        $body = [
-	            'payment' => $payment
-	        ];
+		//corpo da requisição(array de produtos ou serviços)
+		$body_signature = [
+			'items' => $items,
+			'metadata' => $metadata
+		];
 
 
-	        try {
+		//id do plano criado
+		$params_signature = ['id' => (int) $novoPlano['plan_id']];
+
+
+		$novaAssinatura = $this->associarAssinaturaAPlano($this->getCredenciais(),$params_signature,$body_signature);
+
+
+		//id do assinatura criada
+		$params_subscription = ['id' => (int)$novaAssinatura["subscription_id"]];
+
+	   	$customer = [
+            'name' => $request["nome_cliente"],
+            'cpf' => $request["cpf"],
+            'phone_number' => preg_replace("/[^0-9]/", "", $request["telefone"]),
+            'email' => $request["email"],
+            'birth' => $request["nascimento"]
+        ];
+
+        $paymentToken = $request["payament_token"];
+
+        $billingAddress = [
+        'street' => $request["rua"],
+        'number' => $request["numero"],
+        'neighborhood' => $request["bairro"],
+        'zipcode' => $request["cep"],
+        'city' => $request["cidade"],
+        'state' => $request["estado"],
+    	];
+
+    	$creditCard = [        
+        'billing_address' => $billingAddress,
+        'payment_token' => $paymentToken,
+        'customer' => $customer
+    	];
+
+    	 $payment = [
+        'credit_card' => $creditCard
+    	];
+    
+        $body = [
+            'payment' => $payment
+        ];
+
+
+	    try {
+
 	            $api = new Gerencianet($this->getCredenciais());
-	            $charge = $api->payCharge($params, $body);
+	            $pay_charge = $api->paySubscription($params_subscription,$body);
 
-	           	Payment::create([
-	            	'charge_id' => $charge['data']['charge_id'],
-	            	'status' => $charge['data']['status'],
-	            	'payment' => $charge['data']['payment'],
-	            	'plan_id' =>$request['plan_id'], 
-	            	'anunciante_id' => $request['anunciante_id']           	
-	            ]); 
+	            if($pay_charge['code']  == 200 ){
 
-	            echo json_encode($charge);
+				$anunciante = Anunciante::find($request['anunciante_id']);
+
+	 			if(empty($plano->codigo) || $plano->codigo == null ){
+	 				$plano->codigo = $pay_charge['data']['plan']['id'];
+	 				$plano->save();
+	 			}
+
+	 			$assinatura = Assinatura::where('custom_id','=', $pay_charge['data']['subscription_id'])->first();
+
+	 			if(empty($assinatura) || $assinatura == null){
+
+		 		 $assinatura =	Assinatura::create([
+		 				'custom_id' => $pay_charge['data']['subscription_id'],
+		 				'name' => $plano->nome,
+		 				'plano_id' => $plano->id,
+		 				'value' => (int) $plano->valor_mensal,
+		 				'status' => $pay_charge['data']['status'],
+		 				'anunciante_id' => $anunciante->id
+		 			]);
+
+	 			}else{
+
+	 				$assinatura->name = $plano->nome;
+	 				$assinatura->plano_id = $plano->id;
+	 				$assinatura->value = (int) $plano->valor_mensal;
+	 				$assinatura->status = $pay_charge['data']['status'];
+	 				$assinatura->save();
+	 			}
+
+
+
+		            
+		         
+		            if ($anunciante->plano_id == null || empty($anunciante->plano_id)) {
+		            	$anunciante->plano_id = $plano->id;
+		            }
+
+		            if (isset($anunciante->cpf) && empty($anunciante->cpf)) {            	
+		            
+
+		 				$cpf = ['cpf' => preg_replace( array('/[^\d]+/'), array(''), $request['cpf'])];
+
+		                $validator = Validator::make($cpf, [            
+		                    'cpf' => 'required|unique:anunciantes'
+		                ]);
+
+		                if ($validator->fails()) {
+		                    return redirect::back()
+		                                ->withErrors($validator)
+		                                ->withInput();
+		                }else{
+		                    $anunciante->cpf = $cpf['cpf'];
+		                }
+
+	           		}
+
+	        		
+		            if(!$anunciante->verified) {
+		            	$anunciante->verified = 1;  
+	        			event(new CadastrarSenhaAnunciante($anunciante));
+	        		}
+
+					$anunciante->save();
+
+		            Payment::create([
+		            	'charge_id' => $pay_charge['data']['charge']['id'],
+		            	'status' => $pay_charge['data']['charge']['status'],
+		            	'payment' => $pay_charge['data']['payment'],
+		            	'plan_id' =>$plano->id,	
+		            	'anunciante_id' => $anunciante->id,
+		            	'assinatura_id' => $assinatura->id            	
+		            ]); 
+
+		        if(empty($assinatura->last_charge) || $assinatura->last_charge == null || $assinatura->last_charge !== $pay_charge['data']['charge']['id'] ){
+
+        			$assinatura->last_charge = $pay_charge['data']['charge']['id'];
+        			$assinatura->save();
+
+        		}
+
+	            	echo json_encode($pay_charge);
+
+	        	}
+
 
 	        }catch (GerencianetException $e) {
 	            print_r($e->code);
@@ -238,8 +447,6 @@ public function __construct()
 	            print_r($e->getMessage());
 	        }
 
-
-	    }
 
 
 	}
@@ -266,16 +473,72 @@ public function __construct()
 	    $ultimoStatus = $chargeNotification["data"][$i-1];
 	    // Acessando o array Status
 	    $status = $ultimoStatus["status"];
-	    // Obtendo o ID da transação    
-	    $charge_id = $ultimoStatus["identifiers"]["charge_id"];
-	    // Obtendo a String do status atual
-	    $statusAtual = $status["current"];
-	    
-	    // Com estas informações, você poderá consultar sua base de dados e atualizar o status da transação especifica, uma vez que você possui o "charge_id" e a String do STATUS
-	  
-	    $pagamento = Payment::where('charge_id', '=', $charge_id)->first();
-	    $pagamento->notification_token = $token;
-	    $pagamento->status = $statusAtual;	   
+
+	    if($chargeNotification["data"]["type"] == 'charge'){
+		    // Obtendo o ID da transação    
+		    $charge_id = $ultimoStatus["identifiers"]["charge_id"];
+		    // Obtendo a String do status atual
+		    $statusAtual = $status["current"];
+	      
+		    $pagamento = Payment::where('charge_id', '=', $charge_id)->first();
+		    $pagamento->notification_token = $token;
+		    $pagamento->status = $statusAtual;
+		    $pagamento->save();
+		}
+
+		if($chargeNotification["data"]["type"] == 'subscription'){
+
+			$assinatura_id = $ultimoStatus["identifiers"]["subscription_id"];
+			$statusAtual = $status["current"];
+
+			$assinatura = Assinatura::where('custom_id','=', $assinatura_id)->first();
+			$assinatura->status = $statusAtual;
+	 		$assinatura->save();
+
+		}
+
+		if($chargeNotification["data"]["type"] == 'subscription_charge'){
+
+
+			$statusAtual = $status["current"];
+
+			$charge_id = $ultimoStatus["identifiers"]["charge_id"];
+
+
+			/*Identificando Assinatura e pagamentos*/
+			$assinatura_id = $ultimoStatus["identifiers"]["subscription_id"];		
+
+			$assinatura = Assinatura::where('custom_id','=', $assinatura_id)->first();
+
+			$ultimo_pagamento = $assinatura->payments->last();
+
+			$pagamento = Payment::where('charge_id', '=', $charge_id)->first();
+
+			if(empty($pagamento) || $pagamento == null){
+
+					Payment::create([
+		            	'charge_id' => $charge_id,
+		            	'status' => $statusAtual,
+		            	'payment' => $ultimo_pagamento->payment,
+		            	'plan_id' => $assinatura->plano_id,	
+		            	'anunciante_id' => $ultimo_pagamento->anunciante_id,
+		            	'assinatura_id' => $assinatura->id            	
+		            ]); 
+
+		            $assinatura->last_charge = $charge_id;
+		            $assinatura->save();
+
+			}else{
+				$pagamento->status = $statusAtual;
+				$pagamento->save();
+			}
+			
+
+		}
+
+
+		return response('ok', 200)->header('Content-Type', 'text/plain');
+
 	    
 		} catch (GerencianetException $e) {
 		    print_r($e->code);

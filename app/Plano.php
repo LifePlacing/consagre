@@ -8,7 +8,7 @@ class Plano extends Model
 {
 
 	protected $fillable = [
-		'codigo', 'nome', 'quant_anuncios', 'super_destaques', 'destaques', 'valor_mensal', 'captacao'
+		'codigo', 'name', 'quant_anuncios', 'super_destaques', 'destaques', 'valor_mensal', 'captacao', 'interval'
 	];
     
 
@@ -16,4 +16,12 @@ class Plano extends Model
     {
     	return $this->hasMany('App\Anunciante');
     }
+
+    public function assinaturas()
+    {
+    	return $this->hasMany('App\Assinatura');
+    }
+
+
+
 }

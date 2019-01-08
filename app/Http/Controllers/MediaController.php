@@ -36,7 +36,13 @@ class MediaController extends Controller
 
             foreach ($request->images as $key => $image) 
             {
-                $img = $image->getClientOriginalName(); 
+                $extension = $image->getClientOriginalExtension();
+
+                $name = $image->getClientOriginalName();
+                
+                $fileName =  explode(".", $name);
+
+                $img = $fileName[0] .'-'. time() . random_int(100, 999) .'.' . $extension;
                                                
                 header('Content-Type: image/jpeg');
 

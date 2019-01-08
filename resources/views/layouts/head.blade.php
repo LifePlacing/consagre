@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
 
-    <title>{{ config('app.name', 'Consagre Imoveis') }}</title>
+    <title>   	
+    		{{ config('app.name', 'Consagre Imoveis') }} - @yield('title')    	
+    </title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,7 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mobile.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('css/mobile.css?ver=1.0') }}" rel="stylesheet"> 
 
     <!-- end of global styles-->
     @yield('header_styles')
@@ -38,7 +40,7 @@
 	                <div class="top-right">
 
 	                	<div class="links">
-	                    @auth
+	                    @auth('web')
 
 							<div class="dropdown">
 
@@ -61,6 +63,32 @@
 								    @csrf
 								</form>
 							  </div>
+
+							</div>
+						@endauth
+
+						@auth('anuncios')
+
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Conta Anunciante
+							  	</a>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('anunciante.dashboard') }}">
+									Painel de Anuncios
+								</a>  
+
+								<a class="dropdown-item" href="{{ route('logout') }}" 
+								onclick="event.preventDefault();
+								document.getElementById('logout-form').submit();">
+									Logout
+								</a>  
+
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								    @csrf
+								</form>
+							  </div>
+
 
 							</div>
 
