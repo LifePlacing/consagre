@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
-
 use App\Anunciante;
 use App\Plano;
 use App\Payment;
@@ -454,7 +452,7 @@ public function __construct()
 
 
 
-	public function notification(Request $request)
+	public function notifica(Request $request)
 	{
 
 	$token = $request["notification"];
@@ -466,6 +464,7 @@ public function __construct()
 	try {
 	    $api = new Gerencianet($this->getCredenciais());
 	    $chargeNotification = $api->getNotification($params, []);
+
 	    
 	    // Conta o tamanho do array data (que armazena o resultado)
 	    $i = count($chargeNotification["data"]);
@@ -474,7 +473,7 @@ public function __construct()
 	    // Acessando o array Status
 	    $status = $ultimoStatus["status"];
 
-	    if($chargeNotification["data"]["type"] == 'charge'){
+	    if($ultimoStatus["type"] == 'charge'){
 		    // Obtendo o ID da transação    
 		    $charge_id = $ultimoStatus["identifiers"]["charge_id"];
 		    // Obtendo a String do status atual
@@ -486,7 +485,7 @@ public function __construct()
 		    $pagamento->save();
 		}
 
-		if($chargeNotification["data"]["type"] == 'subscription'){
+		if($ultimoStatus["type"] == 'subscription'){
 
 			$assinatura_id = $ultimoStatus["identifiers"]["subscription_id"];
 			$statusAtual = $status["current"];
@@ -497,7 +496,7 @@ public function __construct()
 
 		}
 
-		if($chargeNotification["data"]["type"] == 'subscription_charge'){
+		if($ultimoStatus["type"] == 'subscription_charge'){
 
 
 			$statusAtual = $status["current"];
@@ -547,6 +546,9 @@ public function __construct()
 		} catch (Exception $e) {
 		    print_r($e->getMessage());
 		}
+
+
+		return response('ok', 200)->header('Content-Type', 'text/plain');
 
 	}
 

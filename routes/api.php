@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 */
 
-Route::get('/notification', 'GerenciaNetController@notification')->name('notification');
+Route::post('/notification', 'GerenciaNetController@notifica')->name('notification');

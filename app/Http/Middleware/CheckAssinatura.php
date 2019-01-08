@@ -32,7 +32,7 @@ class CheckAssinatura
             $pagamento = $assinatura->payments->last();
 
 
-            if($assinatura->status !== 'active' || $pagamento->status == 'paid'){
+            if($assinatura->status !== 'active' || $pagamento->status !== 'paid'){
                 
                 if(Auth::guard('anuncios')){
                     return redirect('anunciante')
