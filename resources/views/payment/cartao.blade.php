@@ -1,5 +1,28 @@
 @extends('layouts.head')
 
+@section('header_styles')
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<script>
+
+		var $jquery = jQuery.noConflict();
+
+		$jquery( function() {
+    		$jquery( "#nascimento" ).datepicker({
+    			dateFormat: 'yy-mm-dd',
+    			changeMonth: true,
+      			changeYear: true,
+      			maxDate: "-18Y"
+    		});
+  		});
+
+	</script>
+
+@endsection
+
 
 @section('content')
 
@@ -62,7 +85,7 @@
 
 				  	  	<div class="form-group col-md-4 col-sm-12">
     					<label for="nascimento">Data de Nascimento</label>
-    					<input type="date" class="form-control" id="nascimento" required="required">
+    					<input type="text" class="form-control" id="nascimento" required="required" readonly="readonly" style="background-color:#fff; cursor:pointer;">
   						</div>
 
 

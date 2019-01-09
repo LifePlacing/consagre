@@ -1,5 +1,27 @@
 @extends('layouts.head')
 
+@section('header_styles')
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<script>
+
+		var $jquery = jQuery.noConflict();
+
+		$jquery( function() {
+    		$jquery( "#vencimento" ).datepicker({
+    			minDate: 0,
+    			maxDate:5,
+    			dateFormat: 'yy-mm-dd',
+    		});
+  		});
+
+	</script>
+
+@endsection
+
 @section('breadcrumbs')
 
 	@parent
@@ -296,7 +318,7 @@
 
 		      				<div class="form-group">
 			      				<label for="cpf">Data de Vencimento:</label>
-			      				<input type="date" class="form-control" id="vencimento" name="vencimento" required="required" autocomplete="off">
+			      				<input type="text" class="form-control" id="vencimento" name="vencimento" required="required" autocomplete="off" readonly="readonly" style="background-color:#fff; cursor:pointer;">
 			      			</div>
 
 
@@ -447,7 +469,10 @@
 
 </script>
 
+
 <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
+
 <script src="{{asset('js/scripts.js')}}?<?php echo time(); ?>"></script>
+
 
 @endsection

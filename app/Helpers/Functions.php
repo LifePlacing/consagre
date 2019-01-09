@@ -32,6 +32,7 @@ function formataMoedaInteiro($valor){
 }
 
 
+
 function formataMoney($valor)
 {
 	if($valor == null || empty($valor)){

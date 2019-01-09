@@ -13,6 +13,7 @@ use Validator;
 
 class AnunciantesController extends Controller
 {
+    
     public function __construct()
     {
     	$this->middleware('auth:anuncios')->except(['cadastro', 'verifyUser']);
@@ -165,7 +166,24 @@ class AnunciantesController extends Controller
             }
 
             $avatar = $request->foto->getClientOriginalName();
-            
+
+            $valid = [
+                'logo' => $request->foto,
+            ];
+
+             $validator = Validator::make($valid, [
+
+                'logo' => 'required|mimes:jpg,png,gif,jpeg',
+
+             ]);
+
+               if($validator->fails()) {
+
+                    return back()->withErrors('Erro no formato da imagem');
+                            
+
+               }
+                
             $path = $request->foto->storeAs(
                 $url, $avatar
             ); 
@@ -174,7 +192,9 @@ class AnunciantesController extends Controller
             $anunciante->save();
 
             
-            return back()->with('success', 'Foto atualizada com sucesso');
+        return back()->with('success', 'Foto atualizada com sucesso');
+
+
 
     }
 

@@ -191,9 +191,12 @@
 
                     var reader = new FileReader();
                     
-                    reader.onload = function(e) {
+                    reader.onload = function(e) {                    
+                       
                       $('#avatar').attr('src', e.target.result);
-                    }
+
+                    }                   
+
                     reader.readAsDataURL(this.files[0]);                   
 
                     $('#foto_perfil').trigger('submit');

@@ -161,7 +161,7 @@
                 	
                 	<div class="col-md-3">
                     	<label for="cep_imobi" class="col-form-label text-md-right">{{ __('CEP') }}</label>
-                        <input id="cep_imobi" type="text" class="form-control{{ $errors->has('cep') ? ' is-invalid' : '' }}" name="cep" value="{{ old('cep') }}" required 
+                        <input id="cep_imobi" type="tel" class="form-control{{ $errors->has('cep') ? ' is-invalid' : '' }}" name="cep" value="{{ old('cep') }}" required 
                         size="8" maxlength="8"  onblur="pesquisacep(this.value);">
 
 
@@ -186,7 +186,7 @@
 
                     <div class="col-md-3">
                     	<label for="number_imobi" class="col-form-label text-md-right">{{ __('Numero') }}</label>
-						<input id="number_imobi" type="text" class="form-control{{ $errors->has('unidade') ? ' is-invalid' : '' }}" name="unidade" value="{{ old('unidade') }}" required>                    	
+						<input id="number_imobi" type="tel" class="form-control{{ $errors->has('unidade') ? ' is-invalid' : '' }}" name="unidade" value="{{ old('unidade') }}" required>                    	
                     </div>
 
 

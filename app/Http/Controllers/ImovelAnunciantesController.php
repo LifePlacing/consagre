@@ -440,6 +440,12 @@ class ImovelAnunciantesController extends ImovelController
         
         $file = $diretorio.'/'.$xml->sistema.'.xml';
 
+           
+            if ($request->session()->exists('singleObject')) {
+                $request->session()->forget('singleObject');
+            }
+
+
         if(file_exists($file)){           
             
             $data = file_get_contents($file);
@@ -450,9 +456,13 @@ class ImovelAnunciantesController extends ImovelController
 
             $header = json_encode($xml->Header);
           
-            
-            $request->session()->put('anun_integracoes', $obj);    
-            $request->session()->put('header', $header);    
+            $request->session()->get('anun_integracoes');    
+            $request->session()->put('anun_integracoes', $obj); 
+
+            $request->session()->get('header');   
+            $request->session()->put('header', $header); 
+
+            $request->session()->get('url');   
             $request->session()->put('url', $file);    
 
 
@@ -469,6 +479,10 @@ class ImovelAnunciantesController extends ImovelController
 
     public function leitorGetXml(Request $request)
     {
+
+        if ($request->session()->exists('singleObject')) {
+            $request->session()->forget('singleObject');
+        }     
         
         if ($request->session()->exists('anun_integracoes')) {
 

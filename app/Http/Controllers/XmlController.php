@@ -29,6 +29,7 @@ class XmlController extends Controller
 
 		$xml = simplexml_load_file($url_arquivo_xml);
 
+        $request->session()->get('singleObject');
 
 		foreach ($xml->Listings->Listing as $item) {
 			
@@ -36,31 +37,27 @@ class XmlController extends Controller
 
 			$registro = simplexml_load_string($item->asXML(), null, LIBXML_NOCDATA);
 
-			if ($registro->ListingID == $ListingID) {
-				
-				$request->sesion()->put('imovelDetalhes', $registro);
+			if ($registro->ListingID == $ListingID) {  
 
-				return redirect()->route('anunciante.detalhes.single');
+                $obj = json_encode($registro); 
 
+                $request->session()->put('singleObject', $obj);                                
+
+                return redirect()->route('xml.detalhesdoimovel');
+               
 			}
 
 
 		}
     }
 
-
     public function singleDetalhesXml(Request $request)
     {
+     
+        $registro = json_decode($request->session()->get('singleObject'));
 
-    	if($request->session()->exists('imovelDetalhes')){
-
-    		$imovel = $request->session()->get('imovelDetalhes');
-
-    		return view('users.anunciantes.anuncios.detalheSingleIntegracoes');
-    	}
-
-    	return back()->with('errors', 'Ocorreu um erro para mais detalhes contacte o suporte');
-
+        
+        return view('users.anunciantes.anuncios.detalheSingleIntegracoes', compact('registro', $registro));
     }
 
 

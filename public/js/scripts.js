@@ -103,25 +103,31 @@ jQuery(document).ready(function(){
          }   
 
 
-            $("#vencimento").focusout(function(e){
-                var strData = $("#vencimento").val();               
+            $("#vencimento").focusout(function(){
 
-                if(strData < dataAtualFormatada() || $(this).val() == ''){
-                    $(this).addClass('is-invalid');
+                var strData = $("vencimento").on('change', function(){
+                     $( this ).val();
+                });                
 
-                    var html="";
-                    var html='A Data de vencimento não pode ser menor que a data atual!';
+                var dataAtual = dataAtualFormatada();                
 
-                    $('#erros').modal('show');
-                    $('#msg_error').removeClass('d-none');
-                    $('#msg_error').html(html);
+                    if(strData < dataAtual || strData == ''){
+                        
+                        $(this).addClass('is-invalid');
 
-                    e.preventDefault();                    
-                    return false;                                        
-                }else{
-                    $(this).removeClass('is-invalid');
-                    $(this).addClass('is-valid');
-                }
+                        var html="";
+                        var html='A Data de vencimento não pode ser menor que a data atual!';
+
+                        $('#erros').modal('show');
+                        $('#msg_error').removeClass('d-none');
+                        $('#msg_error').html(html);
+                        return false;                                        
+                    }
+                
+
+                $(this).removeClass('is-invalid');
+                $(this).addClass('is-valid');
+               
                 
             });
 
@@ -134,9 +140,16 @@ jQuery(document).ready(function(){
 
             $("#btn_emitir_boleto").click(function(e){
 
-                var strData = $("#vencimento").val();   
+ 
+                
+                var strData = $("vencimento").on('change', function(){
+                     $( this ).val();
+                });  
 
-                if($("input[type='date']").val() == '' || strData < dataAtualFormatada()){
+                var dataAtual = dataAtualFormatada();
+
+                if( strData == '' || strData < dataAtual){
+
                     $(this).addClass('is-invalid');
                     var html="";
                     var html='A Data de vencimento não pode ser menor que a data atual!';
@@ -144,9 +157,7 @@ jQuery(document).ready(function(){
                     $('#erros').modal('show');
                     $('#msg_error').removeClass('d-none');
                     $('#msg_error').html(html);
-
                     e.preventDefault();
-                    e.stopPropagration();
                     return false;
                 };
 
@@ -191,7 +202,7 @@ jQuery(document).ready(function(){
 
                    if(resposta.code == 200){ 
 
-                   console.log(resposta);                  
+                                  
                     
                      $("#processando").modal('hide');
                       $("#retorno").modal('show');                    

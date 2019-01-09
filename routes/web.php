@@ -135,9 +135,9 @@ Route::post('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorXml
 
 Route::post('anunciante/integracoes/xml/detalhes', 'XmlController@singleXml')->name('single.xml.detalhes');
 
-Route::get('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorGetXml')->name('anunciante.xml.get');
-Route::get('anunciante/integracoes/xml/detalhes', 'XmlController@singleDetalhesXml')->name('anunciante.detalhes.single');
+Route::get('anunciante/integracoes/single/detalhes/anuncio', 'XmlController@singleDetalhesXml')->name('xml.detalhesdoimovel');
 
+Route::get('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorGetXml')->name('anunciante.xml.get');
 
 /*================Cadastros dos anunciantes============================*/
 

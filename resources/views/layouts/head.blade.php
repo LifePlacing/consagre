@@ -21,7 +21,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mobile.css?ver=1.0') }}" rel="stylesheet"> 
+    <link href="{{ asset('css/mobile.css?ver=1.1') }}" rel="stylesheet"> 
+    
 
     <!-- end of global styles-->
     @yield('header_styles')

@@ -9,12 +9,13 @@ html, body{
 }
 
 a{
-	color: #fff!important;
+	color: #fff;
 	padding: 15px;
 }
 
 a:hover{
 	text-decoration: none!important;
+	color: #fff;
 }
 
 input[type="text"]:focus,
