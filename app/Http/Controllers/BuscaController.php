@@ -56,25 +56,11 @@ class BuscaController extends Controller
                     ->orderBy('created_at', 'desc');
 
             $total_resultados = $busca->count();
+        
 
+            $super =  Imovel::hasStatus()->where('cidade_id', '=', $imovelCidade->id)->where('tipo_de_anuncio', '=', 'super')->inRandomOrder()->take(4)->get();
 
-            if(!Cache::has('super')){
-
-                Cache::put('super',  Imovel::hasStatus()
-                            ->where('cidade_id', '=', $imovelCidade->id)
-                            ->where('tipo_de_anuncio', '=', 'super')->inRandomOrder()->take(4)->get(), 10); 
-            }
-
-            if(!Cache::has('destaque')){                
-                
-                Cache::put('destaque',  Imovel::hasStatus()
-                            ->where('cidade_id', '=', $imovelCidade->id)
-                            ->where('tipo_de_anuncio', '=', 'destaque')->inRandomOrder()->take(5)->get(), 5); 
-            }            
-
-            $super =  Cache::get('super');
-
-            $destaque = Cache::get('destaque');
+            $destaque = Imovel::hasStatus()->where('cidade_id', '=', $imovelCidade->id)->where('tipo_de_anuncio', '=', 'destaque')->inRandomOrder()->take(5)->get();
 
 
             if ($total_resultados > 0) { 
@@ -84,6 +70,11 @@ class BuscaController extends Controller
                 return view('app.imoveis.search_cidades', compact(['imoveis', 'total_resultados', 'super', 'destaque'], [$imoveis, $total_resultados, $super, $destaque]));          
             
             }
+
+            $falseCidade = Imovel::where('tipo_de_anuncio', '=', 'super')->get(); 
+
+            return view('app.imoveis.search_cidades', compact(['falseCidade'], [$falseCidade]))
+                ->withErrors(['Nenhum registro de Imovel Encontrado']);
 
             
         }else{

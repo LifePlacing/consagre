@@ -122,9 +122,7 @@
 
 				  	</div>
 
-				  	<a href="#" onclick="window.location='/{{ slugTitulo($imovel->titulo)}}/{{$imovel->id}}/{{$imovel->meta}}/{{$imovel->cidade->slug}}'" > Visualizar </a>
-
-				 </div> 
+			 </div> 
 
 
 

@@ -43,7 +43,11 @@ Route::any('/buscar/imoveis/filtro-search', 'BuscaController@getImoveis')->name(
 
 Route::get('/buscar/imoveis/filtro', 'BuscaController@searchImoveis')->name('searchImoveis');
 
-Route::get('/{titulo?}/{id}/{meta}/{cidade}', 'BuscaController@singleImovel' )->name('imovel');
+Route::get('/{titulo}/{id}/{meta}/{cidade}', 'BuscaController@singleImovel' )->name('imovel');
+
+/*===================== ROTAS PREVIEW IMÓVEIS================================*/
+
+Route::get('/preview/imovel_codigo/{id}', 'UserController@imovelPreview' )->name('imovelPreview');
 
 
 /*=====================ROTAS DOS CADASTROS=========================== */
@@ -134,6 +138,10 @@ Route::post('anunciante/integracoes/update', 'ImovelAnunciantesController@update
 Route::post('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorXml')->name('anunciante.xml.leitura');
 
 Route::post('anunciante/integracoes/xml/detalhes', 'XmlController@singleXml')->name('single.xml.detalhes');
+
+Route::post('anunciante/integracoes/xml/ativar', 'XmlController@ativarAnuncioXml')->name('ativarAnuncioXml');
+
+Route::post('anunciante/integracoes/ingaia/ativar', 'XmlController@ativarAnuncioIngaia')->name('ativarAnuncioIngaia');
 
 Route::get('anunciante/integracoes/single/detalhes/anuncio', 'XmlController@singleDetalhesXml')->name('xml.detalhesdoimovel');
 

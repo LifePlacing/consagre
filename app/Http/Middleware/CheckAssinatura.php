@@ -22,15 +22,18 @@ class CheckAssinatura
 
         /* Verifica se Assinatura está como paga */
 
-        $anunciante = Auth::user();
+            $anunciante = Auth::user();
 
 
         /*Assinatura*/
+
             $assinatura = $anunciante->assinaturas->last();
 
         /*Pagamento*/
             $pagamento = $assinatura->payments->last();
 
+        /*Plano*/    
+            $plano = $anunciante->plano;
 
             if($assinatura->status !== 'active' || $pagamento->status !== 'paid'){
                 
@@ -43,6 +46,21 @@ class CheckAssinatura
                     ->with('errors', 'Existem pendências em sua Assinatura!');
             }
 
+            $status = checkAnuncios($anunciante, $plano);
+
+           
+            if(!$status){
+                
+                if(Auth::guard('anuncios')){
+                    return redirect('anunciante')
+                    ->with('errors', 'Seu plano já esgotou os limites de anuncio. Contrate um novo plano!');
+                }    
+
+                return redirect('usuario/profile/home')
+                    ->with('errors', 'Seu plano já esgotou os limites de anuncio. Contrate um novo plano!');          
+                
+            }
+           
         return $next($request);
     }
 }

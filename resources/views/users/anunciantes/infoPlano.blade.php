@@ -42,19 +42,23 @@
 
                                             Anúncios Restantes:
 
-                                            @isset($simples)
-                                                @if($simples <= $anunciante->plano->quant_anuncios )
-                                                    <span class="badge">{{ $anunciante->plano->quant_anuncios - $simples }}</span> <span class="text-success">simples</span>
+                                            @if(isset($simples) && Auth::user()->plano->quant_anuncios > 0)
+
+                                                @if($simples <= Auth::user()->plano->quant_anuncios )
+                                                    <span class="badge">
+                                                        {{ Auth::user()->plano->quant_anuncios - $simples }}
+                                                    </span> 
+                                                    <span class="text-success">simples</span>
                                                 @else
                                                     <span class="text-danger">Você atingiu seu limite de anuncios</span>
                                                 @endif
-
+                                            
                                             @endif   
                                     
                                             @isset($destaque)
 
-                                                @if($destaque <= $anunciante->plano->destaques )
-                                                     <span class="badge">{{ $anunciante->plano->destaques - $destaque }}</span> <span class="text-success">destaques</span>
+                                                @if($destaque <= Auth::user()->plano->destaques )
+                                                     <span class="badge">{{ Auth::user()->plano->destaques - $destaque }}</span> <span class="text-success">destaques</span>
                                                 @else
                                                     <span class="text-danger">Você atingiu seu limite de anuncios destaque</span>
                                                 @endif 
@@ -63,8 +67,8 @@
 
                                             @isset($super)
 
-                                                @if($super <= $anunciante->plano->super_destaques )
-                                                    <span class="badge">{{ $anunciante->plano->super_destaques - $super }}</span> <span class="text-success">super destaque</span>
+                                                @if($super <= Auth::user()->plano->super_destaques )
+                                                    <span class="badge">{{ Auth::user()->plano->super_destaques - $super }}</span> <span class="text-success">super destaque</span>
                                                 @else
                                                     <span class="text-danger">Você atingiu seu limite de anuncios super destaque</span>
                                                 @endif 

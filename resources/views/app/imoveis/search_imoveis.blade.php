@@ -216,8 +216,8 @@
 
 			@foreach($search as $item)
 
-					@if($item->tipo_de_anuncio == 'destaque' )
-
+					@if($item->tipo_de_anuncio == 'destaque')
+						
 						<div class="card-imovel" onclick="window.location='/{{ slugTitulo($item->titulo)}}/{{$item->id}}/{{$item->meta}}/{{$item->cidade->slug}}'">	
 						    @foreach($item->media as $key => $medias)
 						    	@if($key == 0)

@@ -24,8 +24,8 @@
 
                     <li class="{{ Route::current()->getName() == 'anuncios.listar' ? 'active' : '' }}">
                         <a href="{{ isset(Auth::user()->tipo) ? route('anunciantes.listar.anuncios') :route('anuncios.listar') }}">
-                            <i class="pe-7s-note2"></i>
-                            <p>Meus Anúncios</p>
+                            <i class="pe-7s-note2"></i>                            
+                            <p>{{ isset(Auth::user()->tipo) ? "Meus Anuncios" : "Anuncios Ativos" }}</p>
                         </a>
                     </li>  
 

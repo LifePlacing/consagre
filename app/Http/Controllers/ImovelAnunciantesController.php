@@ -40,9 +40,11 @@ class ImovelAnunciantesController extends ImovelController
 
 	        $anunciante = Auth::user();
 
-            $quant = $anunciante->imovels()->where('tipo_de_anuncio', '=', 'simples')->count();  
-            $dest = $anunciante->imovels()->where('tipo_de_anuncio', '=', 'destaque')->count();  
-            $super = $anunciante->imovels()->where('tipo_de_anuncio', '=', 'super')->count();  
+            $quant = $anunciante->imovels()->withTrashed()->where('tipo_de_anuncio', '=', 'simples')->count();  
+
+            $dest = $anunciante->imovels()->withTrashed()->where('tipo_de_anuncio', '=', 'destaque')->count(); 
+             
+            $super = $anunciante->imovels()->withTrashed()->where('tipo_de_anuncio', '=', 'super')->count();
 
             $plano = ''; 
 
@@ -50,13 +52,19 @@ class ImovelAnunciantesController extends ImovelController
 
                 $plano = $anunciante->plano; 
 
-                if ($quant >= $plano->quant_anuncios && $dest >= $plano->destaques && $super >= $plano->super_destaques) {
-                   return Redirect::back()->withErrors(['msg', 'Você atigiu o limite de anuncios permitido pelo plano']);
+                if( $plano->quant_anuncios > 0 ){
+
+                    if ($quant >= $plano->quant_anuncios && $dest >= $plano->destaques && $super >= $plano->super_destaques) {
+                       return Redirect::back()->withErrors(['msg', 'Você atigiu o limite de anuncios permitido pelo plano']);
+                    }
+
                 }
+
+                return view('users.anunciantes.anuncios.step1', compact([ 'imovel', 'categorias', 'tipos', 'quant', 'plano', 'dest', 'super'], [$imovel, $categorias, $tipos, $quant, $plano, $dest, $super]));
 
             }
 
-            return view('users.anunciantes.anuncios.step1', compact([ 'imovel', 'categorias', 'tipos', 'quant', 'plano', 'dest', 'super'], [$imovel, $categorias, $tipos, $quant, $plano, $dest, $super])); 
+             
 
 
     }
@@ -64,6 +72,16 @@ class ImovelAnunciantesController extends ImovelController
 
     public function postCreateStep1(Request $request)
     {
+
+
+            $anunciante = Auth::user();
+
+            if(!contaAnuncios($anunciante, $request->tipo_de_anuncio) || contaAnuncios($anunciante, $request->tipo_de_anuncio) == false ){
+
+                return back()->withErrors("Verifique seu plano: Talvez tenha excedido o limite de anuncios $request->tipo_de_anuncio");
+
+            }
+            
 
     	    $validatedData = $request->validate([                
                 'meta'=> 'required',
@@ -87,7 +105,7 @@ class ImovelAnunciantesController extends ImovelController
             if (empty($request->session()->get('imovel')))
          	{ 
                 $imovel = new Imovel();
-              	$imovel->anunciante_id = Auth::user()->id;	
+              	$imovel->anunciante_id = $anunciante->id;	
                 $imovel->fill($validatedData);
 
                 /*Itens que não passam na validação*/
@@ -230,6 +248,8 @@ class ImovelAnunciantesController extends ImovelController
     public function postCreateStep2(Request $request)
     {
 
+
+
         $validatedData = $request->validate([
         'titulo' => 'required|string|min:5|max:50',
         'descricao' => 'required|string|min:50',
@@ -280,6 +300,13 @@ class ImovelAnunciantesController extends ImovelController
                 $uid = mt_rand(100000, 999999);
                 $uuid = $uid.':'.uniqid(); 
 
+            if(!contaAnuncios(Auth::user(), $tmp->tipo_de_anuncio) || contaAnuncios(Auth::user(), $tmp->tipo_de_anuncio) == false ){
+
+                return back()->withErrors("Verifique seu plano: Talvez tenha excedido o limite de anuncios $request->tipo_de_anuncio");
+
+            }
+
+
 
 	            $imv = Imovel::create([
 	                'anunciante_id' => $tmp->anunciante_id,
@@ -315,7 +342,7 @@ class ImovelAnunciantesController extends ImovelController
                     $media = new Media();            
                     $media->imovel_id = $imv->id;
                     $media->source = $m;
-                    $media->position = $key;
+                    $media->position = $key;                    
                     $media->save();
                 }
 
@@ -346,21 +373,31 @@ class ImovelAnunciantesController extends ImovelController
 
         (int)$id = $request['id'];
 
+        //$imovel = Imovel::withTrashed()->find($id);
         $imovel = Imovel::find($id);
 
-        $medias = $imovel->media;
 
-            foreach ($medias as $m) {
-                
-                if(file_exists(public_path($m->source) ) ){
-                    unlink(public_path($m->source)); 
+            if(isset($imovel->media) && !empty($imovel->media) && $imovel->media->count()){
+
+                $medias = $imovel->media;
+
+                foreach ($medias as $m) {
+                    
+                    if(file_exists(public_path($m->source) ) ){
+                        unlink(public_path($m->source)); 
+                    }
+
+                    $m->delete();
+                    //$m->forceDelete();
                 }
-
-                $m->delete();
-            }
+            }   
 
 
-        $imovel->delete();
+         //$imovel->forceDelete();
+
+        if($imovel != null){    
+            $imovel->delete();
+        }
 
         return back()->with('success', 'Anúncio removido com sucesso!');
        
@@ -450,20 +487,43 @@ class ImovelAnunciantesController extends ImovelController
             
             $data = file_get_contents($file);
 
-            $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
-            
-            $obj = json_encode($xml->Listings);
+            $xmlSis = simplexml_load_string($data, null, LIBXML_NOCDATA);
+           
+           if($xml->sistema == 'Coruja Sistemas'){
 
-            $header = json_encode($xml->Header);
+                $obj = json_encode($xmlSis->Listings);
+
+                $header = json_encode($xmlSis->Header);    
+
+                $request->session()->get('anun_integracoes');    
+                $request->session()->put('anun_integracoes', $obj); 
+
+                $request->session()->get('header');   
+                $request->session()->put('header', $header); 
+
+                $request->session()->get('url');   
+                $request->session()->put('url', $file); 
+
+
+           }
+
+           if($xml->sistema == 'inGaia'){
+
+                $obj = json_encode($xmlSis->Imoveis);
+
+                if($request->session()->exists('anun_integracoes')){
+                    $request->session()->forget('anun_integracoes');
+                }
+                $request->session()->get('anun_integracoes_ingaia');    
+                $request->session()->put('anun_integracoes_ingaia', $obj);
+
+                $request->session()->get('url');   
+                $request->session()->put('url', $file); 
+                                            
+           } 
+           
           
-            $request->session()->get('anun_integracoes');    
-            $request->session()->put('anun_integracoes', $obj); 
-
-            $request->session()->get('header');   
-            $request->session()->put('header', $header); 
-
-            $request->session()->get('url');   
-            $request->session()->put('url', $file);    
+   
 
 
             return redirect()->route('anunciante.xml.get');            
@@ -495,6 +555,19 @@ class ImovelAnunciantesController extends ImovelController
 
         }
 
+        if ($request->session()->exists('anun_integracoes_ingaia')) {
+
+            $anun_integracoes_ingaia = json_decode($request->session()->get('anun_integracoes_ingaia'), true);
+            
+            $url = $request->session()->get('url');
+
+                       
+            return view('users.anunciantes.anuncios.anunciosIntegracoes', compact(['anun_integracoes_ingaia', 'url'], [$anun_integracoes_ingaia, $url]));                                          
+
+        }
+
+
+
         return redirect()->route('anunciante.integrar.xml')->with('errors', 'Houve algum problema durante o tratamento dos dados! Contacte o Suporte');
 
     }
@@ -519,7 +592,7 @@ class ImovelAnunciantesController extends ImovelController
 
         $validatedData = $request->validate([
         'sistema' => 'required|string',
-        'url' => 'required|string|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'       
+        'url' => 'required|string'       
         ]);
 
         $mytime = Carbon::now();

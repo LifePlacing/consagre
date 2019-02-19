@@ -8,6 +8,23 @@ function scroll_to_class(element_class, removed_height) {
 
 jQuery(document).ready(function(){
 
+    var meta_temp = $('#meta_aluguel_temporada').detach();
+
+    var meta_venda = $('#meta_aluguel_venda');
+
+    var temp = $('#mod_temporada').detach();
+
+    $("#venda").focus(function(){                
+        $('#mod_temporada').remove();       
+    });
+
+    $("#alugar").focus(function(){                
+        $("#menu_temp").append(temp);       
+                
+    });
+
+
+
     /*Desabilitando o campo de parcelas*/
     $("#div_installments").removeClass("alert alert-success");
     /*Fim desabilitando campo de parcelas*/
@@ -87,6 +104,7 @@ jQuery(document).ready(function(){
             }
 
     });     
+
 
 
         /*=========Comparando as datas===========*/    
@@ -249,6 +267,7 @@ jQuery(document).ready(function(){
 
            if ($(".f1 .btn-primary input[name='meta']:checked").val() == "venda") {
 
+                
                     $( "#percetual" ).show();
                     $("#preco").val("");
 
@@ -299,43 +318,71 @@ jQuery(document).ready(function(){
 
     /*Função para input number*/
 
-    
-    $(".f1 .btn-primary input[name='meta']").on('focus', function(){ 
+   
+    $(".f1 .btn-primary input[name='meta']").on('change focus', function(){ 
 
-           if ($("input:checked").val() == "aluguel") {
+           if($("input:checked").val() == "aluguel") {
 
-                    $( "#percetual" ).hide(); 
-                    $("#preco").val("");
 
-                    $('#log').html("Valor Mensal do " + $("input:checked").val() + ":"); 
-                    $('#log_2').html("Valor Anual do " + $("input:checked").val() + " :"); 
+                $('#temporada').on('change', function(){
+                   
+                    
+                    if( $("#temporada").prop('checked', true) ){                        
+                       
+                        $('#meta_aluguel_venda').remove();
 
-                    var precoAluguel = $("#valor");
+                        $('#meta_aluguel').append(meta_temp);
 
-                    precoAluguel.focusout( function(){
-
-                        //var valor = parseInt(precoAluguel.val().replace(/[^\d]+/g, ""));
-                        var valor = precoAluguel.val().replace(/\./, "" );
-
-                        var split = valor.split(',')[0];
-                        var formatado = parseFloat(split.replace(".","")).toFixed(2); 
-
-                        var total = formatado * 12;
-
-                        var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' }
-
-                        $("#preco").val(total.toLocaleString('pt-BR', formato) );
-
+                        $('#alugar').prop('checked');
+                        $('#venda').prop('disabled', true); 
                         
-                    });
+                    }
+
+                    return true;
+
+                   
+                    
+                });
+
+                    //Imovel não é temporada
+
+
+                $( "#percetual" ).hide(); 
+                $("#preco").val("");
+
+                $('#log').html("Valor Mensal do " + $("input:checked").val() + ":"); 
+                $('#log_2').html("Valor Anual do " + $("input:checked").val() + " :"); 
+
+                var precoAluguel = $("#valor");
+
+                precoAluguel.focusout( function(){
+
+                    //var valor = parseInt(precoAluguel.val().replace(/[^\d]+/g, ""));
+                    var valor = precoAluguel.val().replace(/\./, "" );
+
+                    var split = valor.split(',')[0];
+                    var formatado = parseFloat(split.replace(".","")).toFixed(2); 
+
+                    var total = formatado * 12;
+
+                    var formato = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' }
+
+                    $("#preco").val(total.toLocaleString('pt-BR', formato) );
+
+                    
+                });
+
+
                
            }else{
+                
 
-                    $( "#percetual" ).show();
-                    $("#preco").val("");
 
-                    $('#log').html("Valor da " + $("input:checked").val() + ":"); 
-                    $('#log_2').html("Valor total da " + $("input:checked").val() + " :"); 
+                $( "#percetual" ).show();
+                $("#preco").val("");
+
+                $('#log').html("Valor da " + $("input:checked").val() + ":"); 
+                $('#log_2').html("Valor total da " + $("input:checked").val() + " :"); 
 
                 var precoAluguel = $("#valor");
 
@@ -498,8 +545,6 @@ jQuery(document).ready(function(){
 
     }); 
 
-
-
     
 });
 
@@ -633,4 +678,7 @@ w.value = pre+ret+pos;
 String.prototype.reverse = function(){
 return this.split('').reverse().join(''); 
 }
+
+
+
 

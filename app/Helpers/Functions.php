@@ -1,5 +1,8 @@
 <?php
 
+use App\Imovel;
+use Illuminate\Support\Facades\Cache;
+
 function formatCodigo($value)
 {
 	if ($value == null || empty($value)) {
@@ -50,8 +53,14 @@ function formataMoney($valor)
 
 function slugTitulo($valor)
 {
-	$titulo  = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $valor));
+	$titulo  = preg_replace( '/[`^~\'".,]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $valor));
+	$titulo = preg_replace('![ç]+!u','c',$titulo);
+	$titulo= preg_replace('![ñ]+!u','n',$titulo);
+	$titulo = preg_replace('[^a-z0-9\-]','',$titulo);
+	
 	$slug =  str_replace(' ', '-', $titulo);
+	$slug = str_replace('--','-',$slug);
+	$slug = str_replace('/','-',$slug);
 	$slugTitulo =  strtolower($slug);
 
 	return $slugTitulo;
@@ -185,6 +194,83 @@ function escondeEmail($email)
 
 	return $string;
 }
+
+function contaAnuncios($user, $request)
+{
+	$imovel = Imovel::where('anunciante_id', '=', $user->id)->withTrashed()->get();
+
+	$plano = $user->plano;
+
+	    $simples = $imovel->where('tipo_de_anuncio', '=', 'simples')->count(); 
+
+
+
+        $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();
+
+
+
+        $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
+
+
+	        /* Contador */
+
+	        $super_count = $plano->super_destaques - $super;
+	        $dest_count = $plano->destaques - $destaque;
+
+        if($plano->quant_anuncios > 0){
+
+			$s_count = $plano->quant_anuncios - $simples;
+
+			if($request == 'simples' && $s_count == 0){
+    			return false;
+    		}
+    	}
+
+
+	    if($request == 'super' && $super_count == 0){
+	    	return false;
+	    }
+
+	    if($request == 'destaque' && $dest_count == 0){
+	    	return false;
+	    }
+
+	return true;
+
+}
+
+function checkAnuncios($user, $plano)
+{
+
+        $imovel = Imovel::where('anunciante_id', '=', $user->id)->withTrashed()->get();
+      
+
+        $simples = $imovel->where('tipo_de_anuncio', '=', 'simples')->count();       
+
+        $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();      
+
+        $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
+
+	       if($plano->quant_anuncios > 0){
+	        
+	        	if( $simples >= $plano->quant_anuncios && $super >= $plano->super_destaques && $destaque >= $plano->destaques){
+
+	        		return false;
+	        	}
+
+	       }else{
+	       	        if($super >= $plano->super_destaques && $destaque >= $plano->destaques){
+
+	        			return false;
+	        		}
+	       }
+
+
+         return true;
+
+}
+
+
 
 
 function verificaStatus($status)

@@ -10,21 +10,21 @@ class PlanosSeeder extends Seeder
     {
        Plano::create([       	
        	'nome' => 'Plano Básico',
-       	'quant_anuncios' => 50,
-       	'super_destaques' => 1,
-       	'destaques' => 5,
-       	'valor_mensal' => 2900,
+       	'quant_anuncios' => 0,
+       	'super_destaques' => 5,
+       	'destaques' => 10,
+       	'valor_mensal' => 3500,
        	'captacao' => false, 
         'interval' => 1
 
        ]);
         
        Plano::create([       	
-       	'nome' => 'Plano Pro-100',
-       	'quant_anuncios' => 100,
+       	'nome' => 'Plano Pro',
+       	'quant_anuncios' => 0,
        	'super_destaques' => 10,
-       	'destaques' => 5,
-       	'valor_mensal' => 4000,
+       	'destaques' => 50,
+       	'valor_mensal' => 5000,
        	'captacao' => true, 
         'interval' => 1
 

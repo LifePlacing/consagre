@@ -78,7 +78,7 @@
                                     
                                         <tr>
                                             <th>Meta:</th>         
-                                            <td colspan="3">{{$imovel->meta}}</td>
+                                            <td colspan="3">{{$imovel->meta}}</td>                                            
                                         </tr>
                                         <tr>
                                             <th>Titulo:</th>

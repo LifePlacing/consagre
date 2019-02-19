@@ -4,25 +4,28 @@ namespace App;
 
 use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Anunciante extends Authenticatable
 {
    
-   use Notifiable;
+  
+  use Notifiable; 
 
-   protected $guard = 'anuncios';
 
-   protected $fillable = [
+  protected $guard = 'anuncios';
+
+  protected $fillable = [
 
    	'nome', 'tipo', 'creci', 'email', 'phone_fixo', 'celular', 'site', 'sobre',
    	'cep', 'cidade', 'logradouro', 'bairro', 'unidade', 'logo', 'contato', 'cargo', 'plano_id', 'cpf'
 
-   ];
+  ];
 
-    protected $hidden = [
+  protected $hidden = [
         'password', 'remember_token'
-    ];
+  ];
 
 
   public function imovels(){

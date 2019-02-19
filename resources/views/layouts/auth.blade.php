@@ -38,6 +38,7 @@
 
 	</div>
 
+    <script type="text/javascript"  src="{{ asset('js/script-auth.js') }}" defer ></script>
 
 </body>
 </html>   

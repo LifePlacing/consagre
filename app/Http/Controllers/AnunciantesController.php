@@ -26,33 +26,25 @@ class AnunciantesController extends Controller
 
         $expira = 5;
 
-        $simples = Cache::remember('simples', $expira, function(){
-
+        $imovel = Cache::remember('imoveis', $expira, function(){
             $anunciante = Auth::user();
-            return $anunciante->imovels->where('tipo_de_anuncio', '=', 'simples')->count();
-
+            return Imovel::where('anunciante_id', '=', $anunciante->id)->withTrashed()->get();
         });
 
-        $super = Cache::remember('super', $expira, function(){
-            $anunciante = Auth::user();
-            return $anunciante->imovels->where('tipo_de_anuncio', '=', 'super')->count();
 
-        }); 
+        $simples = $imovel->where('tipo_de_anuncio', '=', 'simples')->count();       
 
-        $destaque = Cache::remember('destaque', $expira, function(){
-            $anunciante = Auth::user();
-            return $anunciante->imovels->where('tipo_de_anuncio', '=', 'destaque')->count();
+        $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();      
 
-        });         
+        $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
+               
 
         $assinatura = Cache::remember('assinatura', $expira, function(){
             $anunciante = Auth::user();            
             return $anunciante->assinaturas->last();
         });
        
-        $pagamento =  $assinatura->payments->last();                      
-             
-       
+        $pagamento =  $assinatura->payments->last();  
 
 
         return view('users.anunciantes.index', compact(['simples', 'super', 'destaque', 'assinatura', 'pagamento'], [$simples, $super, $destaque, $assinatura, $pagamento]));
@@ -61,13 +53,19 @@ class AnunciantesController extends Controller
 
     public function infoPlano()
     {
-        $anunciante = Auth::user();
+        $expira = 5;
 
-        $simples = $anunciante->imovels->where('tipo_de_anuncio', '=', 'simples')->count();
-        $destaque = $anunciante->imovels->where('tipo_de_anuncio', '=', 'destaque')->count();
-        $super = $anunciante->imovels->where('tipo_de_anuncio', '=', 'super')->count();
+        $imovel = Cache::remember('imoveis', $expira, function(){
+            $anunciante = Auth::user();
+            return Imovel::where('anunciante_id', '=', $anunciante->id)->withTrashed()->get();
+        });
+
+
+        $simples = $imovel->where('tipo_de_anuncio', '=', 'simples')->count();
+        $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
+        $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();
         
-        return view('users.anunciantes.infoPlano', compact(['anunciante', 'simples', 'destaque', 'super'], [$anunciante, $simples, $destaque, $super]));
+        return view('users.anunciantes.infoPlano', compact(['simples', 'destaque', 'super'], [$simples, $destaque, $super]));
     }
 
 

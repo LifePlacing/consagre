@@ -64,12 +64,21 @@
                                 </span>
 
                                 <select name="tipo_de_anuncio" class="form-control required" id="tipo_de_anuncio"  data-placement="bottom">
+
+                                    @if($plano->quant_anuncios > 0) 
                                    
-                                   @if($quant < $plano->quant_anuncios )
-                                    <option value="simples">
-                                                Simples 
-                                    </option>
+                                        @if($quant < $plano->quant_anuncios )
+                                        <option value="simples">
+                                                    Simples 
+                                        </option>
+                                        @endif
+                                        
+                                    @else 
+                                        <option value="simples">
+                                                    Simples 
+                                        </option>
                                     @endif
+
                                     @if($dest < $plano->destaques)
                                     <option value="destaque">             
                                             Destaque 
@@ -81,6 +90,7 @@
                                         Super Destaque 
                                     </option>
                                     @endif
+
                                 </select>
                                           
     

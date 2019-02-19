@@ -35,9 +35,15 @@ class UserController extends Controller
 
         $pendentes = $imoveis_user->where('status', '=', '0');
 
-        return view('users.index', compact(['ativos', 'pendentes'], [$ativos, $pendentes]) );
+        return view('users.index', compact(['imoveis_user', 'ativos', 'pendentes'], [$imoveis_user, $ativos, $pendentes]) );
     }
 
+    public function imovelPreview($id)
+    {
+         $propriedade = Imovel::with('user')->find($id);
+
+         return view('users.imoveis.preview', compact(['propriedade'], [$propriedade]));
+    }
 
 
     public function show(){

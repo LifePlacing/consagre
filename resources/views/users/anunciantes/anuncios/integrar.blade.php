@@ -22,9 +22,7 @@
                                                 <label for="sistema">Sistema</label>
                                                 <select name="sistema" class="form-control" data-placement="bottom" required="required" id="sistema">
                                                 	<option> Selecione o Sistema para integração </option>
-                                                	<option value="AYT Sistemas">AYT Sistemas</option>
-                                                	<option value="Basis Sistema Imobiliário">Basis Sistema Imobiliário</option>
-                                                	<option value="Bazevani Sistema Imobiliário">Basis Sistema Imobiliário</option>
+                                                	<option value="inGaia">inGaia</option>
                                                 	<option value="Code49">Code49</option>
                                                 	<option value="Coruja Sistemas">Coruja Sistemas</option>
                                                 </select>	
@@ -75,18 +73,18 @@
                                 						<td>
                                 						<a href="#" onclick="event.preventDefault();
                                                 document.getElementById('ler-form-{{$item->id}}').submit();" title="visualizar anuncios enviados">
-                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;
                                                         </a>
                                 							
                                 						<a href="#" onclick="event.preventDefault();
 												document.getElementById('delete-form-{{$item->id}}').submit();" title="deletar">
-                                							<i class="fa fa-trash-o" aria-hidden="true"></i>
+                                							<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>&nbsp;
                                 						</a>
 
 
                                                         <a href="#" onclick="event.preventDefault();
                                                 document.getElementById('atualiza-form-{{$item->id}}').submit();" title="Atualizar lista de anúncios">
-                                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                                        <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>&nbsp;
 
                                                         </a>
 

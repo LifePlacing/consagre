@@ -15,7 +15,7 @@ class CreateMediaTable extends Migration
     {
       Schema::create('media', function (Blueprint $table) {
         $table->increments('id');
-        $table->binary('source');
+        $table->binary('source');        
         $table->integer('position')->nullable();
         $table->integer('imovel_id')->unsigned();
         $table->timestamps();

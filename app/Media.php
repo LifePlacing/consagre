@@ -8,7 +8,7 @@ class Media extends Model
 {
 
 	protected $fillable = [
-	    'source', 'imovel_id', 'position',
+	    'source', 'imovel_id', 'position', 'caption'
 	];
 
    public function imovel(){

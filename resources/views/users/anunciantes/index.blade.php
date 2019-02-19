@@ -110,7 +110,7 @@
                             					</tr>
 
                             					<tr align="center">
-                            						<td>{{ Auth::user()->plano->quant_anuncios  - $simples }}</td>
+                            						<td>{{ Auth::user()->plano->quant_anuncios == 0 ? " Ilimitado " : Auth::user()->plano->quant_anuncios  - $simples }}</td>
                             						<td>{{ Auth::user()->plano->destaques - $destaque }}</td>
                             						<td>{{ Auth::user()->plano->super_destaques - $super }}</td>
                             					</tr>

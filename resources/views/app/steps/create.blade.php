@@ -49,10 +49,34 @@
 
                     <label class="btn btn-primary">
                         <input type="radio" name="meta" value="aluguel" id="alugar"> Alugar
-                    </label>
+                    </label>             
 
                 </div>
-            </div>  
+
+            </div> 
+
+            <div class="form-group xs-12" id="menu_temp">
+
+                <div class="form-group col-sm-12" id="mod_temporada">
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            Este imóvel é para Temporada?
+                              <div class="form-check">
+
+                                <input type="checkbox" class="form-check-input" id="temporada" name="temporada">
+                                <label class="form-check-label" for="temporada">Marque apenas se o imóvel for para temporadas e fins de semana.</label>
+
+                              </div>                                             
+
+
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div> 
 
             <div class="form-row">
                 <div class="form-group col-sm-12">
@@ -230,31 +254,53 @@
                 Quanto custa o seu Imóvel?
             </h4>
 
-            <div class="form-row">
+            <div id="meta_aluguel">
+                <div class="form-row" id="meta_aluguel_venda">
 
-                    <div class="form-group col-sm-4">
-                        <label for="valor">
-                            <div id="log">Valor de Venda :</div> 
-                        </label>
-                        <input type="text" id="valor" class="col-sm-12 required" value="{{ old('preco_venda') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" name="preco_venda">
-                    </div>
+                        <div class="form-group col-sm-4">
+                            <label for="valor">
+                                <div id="log">Valor de Venda :</div> 
+                            </label>
+                            <input type="text" id="valor" class="col-sm-12 required" value="{{ old('preco_venda') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" name="preco_venda">
+                        </div>
 
-                    <div class="form-group col-sm-4" id="percetual">
-                        <label for="percent">
-                            <div>Comissão Base 6% para venda:</div> 
-                        </label>
-                        <input type="text" id="percent" readonly  class="col-sm-12 form-control" name="comissao">
-                    </div>
+                        <div class="form-group col-sm-4" id="percetual">
+                            <label for="percent">
+                                <div>Comissão Base 6% para venda:</div> 
+                            </label>
+                            <input type="text" id="percent" readonly  class="col-sm-12 form-control" name="comissao">
+                        </div>
 
-                    <div class="form-group col-sm-4" id="preco_total">
-                        <label for="preco">
-                            <div id="log_2">Valor total de venda :</div> 
-                        </label>
-                        <input type="text" name="preco" id="preco" class="col-sm-12 form-control " value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" readonly>
-                    </div>
+                        <div class="form-group col-sm-4" id="preco_total">
+                            <label for="preco">
+                                <div id="log_2">Valor total de venda :</div> 
+                            </label>
+                            <input type="text" name="preco" id="preco" class="col-sm-12 form-control " value="{{ old('preco') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" readonly>
+                        </div>
 
+
+                </div>
+
+                <div class="form-row" id="meta_aluguel_temporada">
+
+                        <div class="form-group col-sm-4">
+                            <label for="valor">
+                                <div id="log">Valor do Aluguel:</div> 
+                            </label>
+                            <input type="text" id="valor" class="col-sm-12 required" value="{{ old('preco_aluguel') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" name="preco_aluguel">
+                        </div>
+
+                        <select name="periodo" class="form-control required" id="periodo_temporada" data-content="Selecione o pacote de temporada" data-placement="bottom">
+                            <option value="Diária"> Diária </option>
+                            <option value="Fim de Semana"> Fim de Semana </option>
+                            <option value="Quinzena"> Quinzena </option>                                         
+                            <option value="Mensal"> Mensal </option>                                         
+                        </select>
+
+                </div>
 
             </div>
+
 
             <h4><i class="fa fa-dollar"></i>
                 Taxas ou Impostos :

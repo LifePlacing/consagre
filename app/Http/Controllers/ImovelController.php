@@ -71,9 +71,11 @@ class ImovelController extends Controller
                 'logradouro' => 'string|required',
                 'unidade' => 'required',
                 'cep' => 'required|string|max:8|regex:/^[0-9]{8}$/', 
-                'preco_venda' => 'required',           
-                'preco' => 'required',           
+                'preco_venda' => 'nullable',           
+                'preco' => 'nullable', 
+                'preco_aluguel' => 'nullable',          
                 'imovel_type_id' => 'required',
+                'periodo' => 'nullable|string',
                 'categoria_id' => 'required',                        
             ]);        
 
@@ -166,38 +168,48 @@ class ImovelController extends Controller
                 }
 
 
-             /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
+                if(isset($request['preco_venda']) || isset($request['preco']) ){
+
+                     /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
 
 
-            /* Preco sem comissão ou  Preço Mensal do Aluguel */
+                    /* Preco sem comissão ou  Preço Mensal do Aluguel */
 
-                $preco = str_replace(',','.',str_replace('.','',$request['preco_venda']));
+                        $preco = str_replace(',','.',str_replace('.','',$request['preco_venda']));
 
-                $valor = number_format( $preco, 2, '.', '' ); 
+                        $valor = number_format( $preco, 2, '.', '' ); 
 
-                $imovel->preco_venda = floatval($valor);
-
-
-
-            /* Preco com comissão ou  Preço Anual do Aluguel */
-
-
-                $simbol = array('R$');                
-
-                $str = str_replace($simbol, '', $request['preco']); 
-
-                $limpa = substr($str, 2);                               
-
-                $total = str_replace(',','.',str_replace('.','',$limpa));         
-                
-                
-                $t_preco = number_format( $total, 2, '.', '' );
-
-
-                $imovel->preco = floatval($t_preco);                               
+                        $imovel->preco_venda = floatval($valor);
 
 
 
+                    /* Preco com comissão ou  Preço Anual do Aluguel */
+
+
+                        $simbol = array('R$');                
+
+                        $str = str_replace($simbol, '', $request['preco']); 
+
+                        $limpa = substr($str, 2);                               
+
+                        $total = str_replace(',','.',str_replace('.','',$limpa));         
+                        
+                        
+                        $t_preco = number_format( $total, 2, '.', '' );
+
+
+                        $imovel->preco = floatval($t_preco);                               
+
+                }else{
+                        $preco = str_replace(',','.',str_replace('.','',$request['preco_aluguel']));
+
+                        $valor = number_format( $preco, 2, '.', '' );                       
+
+                        $imovel->preco_aluguel = floatval($valor);
+                    
+                }
+
+            
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */    
 
                 $imovel->area_util = floatval($request['area_util']);
@@ -211,8 +223,11 @@ class ImovelController extends Controller
              $imovel  =  $request->session()->get('imovel');
              $imovel->user_id = $usuario->id;  
              $imovel->fill($validatedData); 
-            
+
+            if(isset($request['preco_venda']) || isset($request['preco']) ){
+
              /* DEFININDO FORMATO PRECO COMO MONETÁRIO */
+
 
             /* Preco sem comissão ou  Preço Mensal do Aluguel */
 
@@ -239,6 +254,17 @@ class ImovelController extends Controller
 
                 $imovel->preco = floatval($t_preco);                             
 
+            }else{
+
+                        /* Preco do Aluguel Temporário*/
+
+                        $preco = str_replace(',','.',str_replace('.','',$request['preco_aluguel']));
+
+                        $valor = number_format( $preco, 2, '.', '' );                       
+
+                        $imovel->preco_aluguel = floatval($valor);
+                
+            }
             
 
             /* LEMBRAR DE CONVERTER O VALOR DO PREÇO PARA DECIMAL */ 
@@ -353,33 +379,40 @@ class ImovelController extends Controller
                 $uuid = $uid.':'.uniqid(); 
 
            
+                $imv = new Imovel;
+
+                $imv->user_id = $tmp->user_id;
+                $imv->titulo = $tmp->titulo;
+                $imv->meta = $tmp->meta;
+                $imv->imovel_type_id = $tmp->imovel_type_id;
+                $imv->categoria_id = $tmp->categoria_id;
+                $imv->cep = $tmp->cep;                
+                $imv->estado = $tmp->estado;
+                $imv->bairro = $tmp->bairro;
+                $imv->logradouro = $tmp->logradouro;
+                $imv->unidade = $tmp->unidade;
+                $imv->quartos = $tmp->quartos;
+                $imv->garagem = $tmp->garagem;
+                $imv->banheiros = $tmp->banheiros;
+                $imv->suites = $tmp->suites;
+                $imv->area_util = $tmp->area_util;
+                $imv->area_total = $tmp->area_total;
+                $imv->descricao = $tmp->descricao;
+                $imv->cidade_id = $cidadeImovel->id;
+                $imv->codigo = $uuid;
+                $imv->iptu = $tmp->iptu;
+                $imv->condominio = $tmp->condominio;               
 
 
-            $imv = Imovel::create([
-                'user_id' => $tmp->user_id,
-                'titulo' => $tmp->titulo,
-                'meta' => $tmp->meta,
-                'imovel_type_id' => $tmp->imovel_type_id,
-                'categoria_id' => $tmp->categoria_id,
-                'cep' => $tmp->cep,                
-                'estado' => $tmp->estado,
-                'bairro' => $tmp->bairro,
-                'logradouro' => $tmp->logradouro,
-                'unidade' => $tmp->unidade,
-                'quartos' => $tmp->quartos,
-                'garagem' => $tmp->garagem,
-                'banheiros' => $tmp->banheiros,
-                'suites' => $tmp->suites,
-                'area_util' => $tmp->area_util,
-                'area_total' => $tmp->area_total,
-                'preco' => $tmp->preco,
-                'preco_venda' => $tmp->preco_venda,
-                'descricao' => $tmp->descricao,
-                'cidade_id' => $cidadeImovel->id,
-                'codigo' => $uuid,
-                'iptu' => $tmp->iptu,
-                'condominio' => $tmp->condominio
-            ]);   
+                if(isset($tmp->preco_aluguel)){
+                    $imv->preco_aluguel = $tmp->preco_aluguel;
+                    $imv->periodo_aluguel = $tmp->periodo;
+                }else{
+                    $imv->preco = $tmp->preco;
+                    $imv->preco_venda = $tmp->preco_venda;
+                }
+
+               $imv->save();
 
      /*================Salvando Medias do imovel=================*/
            
