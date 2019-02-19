@@ -29,6 +29,6 @@ class RegistroAnunciante extends Mailable
             'email' => $this->anunciante->email,
             'token' =>$this->anunciante->verifyAnunciante->token,
             'datahora' => now()->setTimezone('America/Sao_Paulo')->format('d-m-Y H:i:s')
-        ])->attach(base_path().'/documentos/proposta-corretores-consagre-imoveis.pdf');
+        ])->attach(base_path().'/documentos/nova-proposta-corretores-consagre-imoveis.pdf');
     }
 }

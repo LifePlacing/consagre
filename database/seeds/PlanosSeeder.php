@@ -13,7 +13,7 @@ class PlanosSeeder extends Seeder
        	'quant_anuncios' => 0,
        	'super_destaques' => 5,
        	'destaques' => 10,
-       	'valor_mensal' => 3500,
+       	'valor_mensal' => 2900,
        	'captacao' => false, 
         'interval' => 1
 
@@ -24,7 +24,7 @@ class PlanosSeeder extends Seeder
        	'quant_anuncios' => 0,
        	'super_destaques' => 10,
        	'destaques' => 50,
-       	'valor_mensal' => 5000,
+       	'valor_mensal' => 4000,
        	'captacao' => true, 
         'interval' => 1
 
