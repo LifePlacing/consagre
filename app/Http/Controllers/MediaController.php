@@ -10,10 +10,14 @@ use Illuminate\Support\Facades\Storage;
 class MediaController extends Controller
 {
 
+
+
     public function index()
     {
         return view('upload');
     }
+
+
 
 
     public function upload(Request $request)
@@ -72,7 +76,7 @@ class MediaController extends Controller
                     
                 /*======= SALVANDO A IMAGEM TEMPORARIAMENTE ======= */
 
-                    geraImagem($image, $thumb, $url.$img, 9);                   
+                    geraImagem($image, $thumb, $url.$img, 98);                   
                     imagedestroy($thumb);                               
                     imagedestroy($imagem_original);
                     $medias[] = $path; 
@@ -108,5 +112,8 @@ class MediaController extends Controller
           
    
     }
+
+
+
 
 }

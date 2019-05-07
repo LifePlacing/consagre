@@ -66,7 +66,7 @@ span.text-informativo i{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin: 20px 0!important;
+	margin: 50px 0!important;
 }
 
 .h2 h2{
@@ -220,6 +220,7 @@ th{
     padding-right: 0.2rem!important;
     content: ">>"!important;
 }
+
 
 
 /*=============== HEAD ================*/
@@ -1318,6 +1319,8 @@ li.page-item.active > .page-link{
 
 .imovel_top p{
 	width: 100%;
+	font-size: 22px;
+	word-spacing: 5px;
 }
 
 .meta{
@@ -1365,12 +1368,12 @@ li.page-item.active > .page-link{
 	margin: 0 auto;
 	padding: 0.9rem 1rem;
 	color: #a25300;
+	position: relative;
 
 }
 
 #relacionados > .titulo{
 	width: 100%;
-
 }
 
 #relacionados > .titulo > h2{
@@ -1378,16 +1381,17 @@ li.page-item.active > .page-link{
 	font-weight: 600;
 }
 
-#SliderRelacionados > .carousel-control-prev{
-	left: -50px!important;
+#relacionados > .carousel-control-prev{
+	left: -30px!important;
 }
 
-#SliderRelacionados > .carousel-control-next{
-	right: -50px!important;
+#relacionados > .carousel-control-next{
+	right: -30px!important;
 }
 
-#SliderRelacionados > .carousel-control-prev, 
-#SliderRelacionados > .carousel-control-next{
+#relacionados > .carousel-control-prev, 
+#relacionados > .carousel-control-next{
+	position: absolute;
 	width: 10%!important;
 }
 
@@ -1622,6 +1626,7 @@ img.cvv{
 		    height: 250px!important;
 		}
 
+
 }
 
 /*Medium devices (tablets, 768px and up)*/
@@ -1717,11 +1722,66 @@ img.cvv{
 
 	/*Página Anuncio Single*/
 
-	#SliderRelacionados > .carousel-inner > .carousel-item > .row > .col-sm-3{			
-			-ms-flex: 0 0 33.33333333%!important;
-			flex: 0 0 33.33333333%!important;
-			max-width: 33.33333333%!important;
-	}
+	  /* show 3 items */
+	  #SliderRelacionados .carousel-inner .active,
+	  #SliderRelacionados .carousel-inner .active + .carousel-item,
+	  #SliderRelacionados .carousel-inner .active + .carousel-item + .carousel-item {
+	    display: block;
+	  }
+
+	  #SliderRelacionados .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+	  #SliderRelacionados .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+	  #SliderRelacionados .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+	    transition: none;
+	  }
+
+	  #SliderRelacionados .carousel-inner .carousel-item-next,
+	  #SliderRelacionados .carousel-inner .carousel-item-prev {
+	    position: relative;
+	    transform: translate3d(0, 0, 0);
+	  }
+
+	  #SliderRelacionados .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+	    position: absolute;
+	    top: 0;
+	    right: -33.3333%;
+	    z-index: -1;
+	    display: block;
+	    visibility: visible;
+	  }
+
+	  /* left or forward direction */
+	  #SliderRelacionados .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+	  #SliderRelacionados .carousel-item-next.carousel-item-left + .carousel-item,
+	  #SliderRelacionados .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+	  #SliderRelacionados .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+	    position: relative;
+	    transform: translate3d(-100%, 0, 0);
+	    visibility: visible;
+	  }
+
+	  /* farthest right hidden item must be abso position for animations */
+	  #SliderRelacionados .carousel-inner .carousel-item-prev.carousel-item-right {
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: -1;
+	    display: block;
+	    visibility: visible;
+	  }
+
+	    /* right or prev direction */
+	  #SliderRelacionados .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+	  #SliderRelacionados .carousel-item-prev.carousel-item-right + .carousel-item,
+	  #SliderRelacionados .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+	  #SliderRelacionados .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+	    position: relative!important;
+	    transform: translate3d(100%, 0, 0)!important;
+	    visibility: visible!important;
+	    display: block!important;
+	    visibility: visible!important;
+	  }
+
 
 
 	/*Página de anunciantes*/
@@ -2376,9 +2436,16 @@ img.cvv{
 
 		height: 270px!important;
 		display: flex;
-		object-fit: cover;
+		object-fit: scale-down;
 		object-position: center;
 		background: #ccc;
+	}
+
+	/*Sibebar single widget*/
+
+	.painel{			
+		margin: 0 auto!important;
+		
 	}
 
 	.card-imovel > .img-dest{
@@ -2469,7 +2536,6 @@ img.cvv{
 	}
 
 	.sidebar-right{
-
 		-ms-flex: 0 0 30%!important;
 	    flex: 0 0 30%!important;
 		max-width: 30%;
@@ -2477,7 +2543,12 @@ img.cvv{
 	}
 
 	.carousel-inner {
-    	max-height: 450px!important;
+    	max-height: 500px!important;
+    	
+	}
+
+	#SliderImoveis > .carouser-inner > .carousel-item img{
+		object-fit: scale-down!important;
 	}
 
 	.meta{

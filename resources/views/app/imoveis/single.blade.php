@@ -2,10 +2,11 @@
 
 @section('title', $propriedade->titulo )
 
+
 @section('content')
 
 	<div class="h2">
-		<h2>{{$propriedade->titulo}}</h2> <span></span>
+		<h2> {{$propriedade->titulo}} </h2> <span></span>
 	</div>
 
 <div class="grid-right">
@@ -29,16 +30,20 @@
 
 				<div class="carousel-inner">
 
-					@for($i=0; $i < $propriedade->media->count(); $i++)
-							<div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-								<img class="d-block w-100" src="{{asset($propriedade->media[$i]->source)}}" 
-								alt="{{ $propriedade->media[$i]->source }}">
+					
+					@foreach($propriedade->media->sortBy('position') as $media )
+
+						@if($media->position !== null)
+							<div class="carousel-item {{ $media->position == 0 ? 'active' : '' }}">
+								<img class="d-block w-100" src="{{asset($media->source)}}" 
+								alt="{{ $media->source }}">
 							</div>
-					@endfor
+						@endif
 
-
+					@endforeach
 
 				</div>
+
 				  <a class="carousel-control-prev" href="#SliderImoveis" role="button" data-slide="prev">
 				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 				    <span class="sr-only">Anterior</span>
@@ -50,6 +55,7 @@
 
 
 			</div>
+			
 		</div>
 		
 
@@ -59,9 +65,9 @@
 			<div class="imovel_top">
 				<p class="text-white">{{$propriedade->logradouro}}
 					<i class="fa fa-angle-double-right" ></i>
-					 {{$propriedade->cidade->nome}}
+					 {{ $propriedade->cidade->nome }}
 					 <i class="fa fa-angle-double-right"></i>
-					 {{$propriedade->estado}} 
+					 {{ $propriedade->estado }} 
 				</p>
 			</div>
 
@@ -85,7 +91,7 @@
 		<div class="painel">			
 			<div class="titulo">
 				<p>{{$propriedade->meta}}</p>				
-				<h2 class="preco">{{ formataMoney($propriedade->preco) }}</h2>
+				<h2 class="preco">{{  $propriedade->meta == 'aluguel' ? formataMoney($propriedade->preco_venda) : formataMoney($propriedade->preco) }}</h2>
 			</div>
 
 			<ul>
@@ -121,10 +127,31 @@
 
 		<div class="painel">
 
+				<div class="loading d-none" id="load_message">
+					<div class="sk-cube-grid" >
+						  <div class="sk-cube sk-cube1"></div>
+						  <div class="sk-cube sk-cube2"></div>
+						  <div class="sk-cube sk-cube3"></div>
+						  <div class="sk-cube sk-cube4"></div>
+						  <div class="sk-cube sk-cube5"></div>
+						  <div class="sk-cube sk-cube6"></div>
+						  <div class="sk-cube sk-cube7"></div>
+						  <div class="sk-cube sk-cube8"></div>
+						  <div class="sk-cube sk-cube9"></div>
+					</div>	
+				</div>
+
+				<div class="green d-none" id="success_message">
+
+					<i class="fa fa-check fa-5x" aria-hidden="true"></i>
+					<h2>Mensagem Enviada com Sucesso!</h2>
+
+				</div>
+
 			<div class="titulo">
 				<p>Contate o anunciante!</p>
+			</div>
 
-			</div>	
 			<div class="inline">
 
 				<div class="col-4">
@@ -133,7 +160,6 @@
 
 						@if( isset($usuario->foto))
 							<img src="{{asset($usuario->foto)}}" class="rounded-circle" >
-
 						@elseif(isset($propriedade->anunciante->logo))
 							<img src="{{asset($propriedade->anunciante->logo)}}" class="rounded-circle" >
 						@else
@@ -145,38 +171,69 @@
 				</div>
 
 				<div class="col-8">
-
 					<div class="nome">{{ !isset($usuario->name) ? $propriedade->anunciante->nome : $usuario->name }}</div>			
 					<div class="tel"> {{ empty($usuario) ? formataPhone($propriedade->anunciante->celular) : formataPhone($usuario->phone)}}</div>	
 				</div>
 
 			</div>
 		
-			<form id="contatar_anunciante">
+			<form id="contatar_anunciante" method="POST">
 
 				@csrf
 
+				<div id="response"></div>
+
+				<input type="hidden" id="imv_id" name="imv_id" value="{{ isset($propriedade) ? $propriedade->id : 'null' }}">
 				<div class="form-group">
 					<label for="InputMensagem">Mensagem</label>
-					<textarea id="InputMensagem" class="form-control" rows="3"> </textarea>
+					<textarea id="InputMensagem" class="form-control {{ $errors->has('mensagem') ? 'is-invalid' : ''}}" rows="3" name="mensagem" required> 
+					{{ old('mensagem') }}</textarea>
 				</div>
+
+				
+    				<div class="invalid-feedback"> 
+    					{{ $errors->first('mensagem') }} 
+    				</div>
+				
 
 				  <div class="form-group">
 				    <label for="InputNome">Nome</label>
-				    <input type="text" class="form-control" id="InputNome" aria-describedby="nome" placeholder="Nome">
-				  </div> 
+				    <input type="text" class="form-control  {{ $errors->has('nome') ? 'is-invalid' : ''}}" id="InputNome" aria-describedby="nome" placeholder="Nome" name="nome" value="{{ old('nome') }}" required >
+				  </div>
+
+				@if($errors->has('nome'))
+    				<div class="invalid-feedback" style="display: inline;"> 
+    					{{ $errors->first('nome') }} 
+    				</div>
+				@endif
+
 
 				  <div class="form-group">
 				    <label for="InputEmail1">Email</label>
-				    <input type="email" class="form-control" id="InputEmail1" placeholder="Email">
-				  </div>   	
+				    <input type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : ''}}" id="InputEmail1" placeholder="Email" name="email" value="{{ old('email') }}" required>
+				  </div>  
+
+				@if($errors->has('email'))
+    				<div class="invalid-feedback" style="display: inline;"> 
+    					{{ $errors->first('email') }} 
+    				</div>
+				@endif
+
 
 				  <div class="form-group">
 				    <label for="InputPhone">DDD e Telefone</label>
-				    <input type="tel" class="form-control" id="InputPhone" placeholder="Telefone para contato">
+				    <input type="tel" class="form-control {{ $errors->has('telefone') ? 'is-invalid' : ''}}" id="InputPhone" placeholder="Telefone para contato" name="telefone" value="{{ old('telefone') }}" required>
 				  </div> 
 
-				  <input type="submit" class="btn btn-danger" value="CONTATAR ANUNCIANTE">				  					
+				@if($errors->has('telefone'))
+    				<div class="invalid-feedback" style="display: inline;"> 
+    					{{ $errors->first('telefone') }} 
+    				</div>
+				@endif
+
+				<input id="contatar_btn" class="btn btn-danger" value="CONTATAR ANUNCIANTE" type="submit">	
+
+		  					
 
 			</form>			
 
@@ -195,5 +252,20 @@
 	@include('app.inc.relacionados')
 @endsection
 
+
+@section('footer_scripts')   
+
+<!--<script type="text/javascript" src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<script src="{{ asset('js/jquery.mask.min.js') }} "></script>
+
+<script src="{{ asset('js/load-btn.js') }}"></script>
+
+<script type="text/javascript">
+    $("#InputPhone").mask("(00) 00000-0000");    
+</script>
+
+@endsection
 
 

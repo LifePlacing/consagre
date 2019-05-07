@@ -10,8 +10,10 @@
         
         <div class="upload-control" v-show="images.length">
 
-            <label for="file">Selecione suas imagens</label>
+            <label for="file" v-bind="{ 'disabled' : submited }" >Selecione suas imagens</label>
+
             <button v-on:click="upload" v-bind="{ 'disabled' : submited }">Enviar</button>
+
         </div>
 
 
@@ -36,17 +38,19 @@
                 </div>
                 <div class="remove-container" v-bind:class="{'d-none' : submited }" > 
                     <a class="remove"  v-on:click="removeFile(index)">Remover</a> 
-                </div>
+                </div> 
+                
             </div>
 
         </div>          
 
     </div>
 
-    <div id="progress">  
+    <div id="progress" v-bind:class="{'d-none' : submited }" >  
         <div :style="{width:uploadPercentage+'%'}" v-text="uploadPercentage+'%' " id="progbar"
         > </div>    
     </div>
+
 
 </div>
 
@@ -58,14 +62,12 @@ export default {
         isDragging: false,
         dragCount: 0,
         files: [],
-        images: [],
+        images: [],                
         uploadPercentage: 0,        
-        submited: false,
+        submited: false,                      
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 
-
-
-    }),
+    }),   
 
     methods: {
 
@@ -100,6 +102,7 @@ export default {
 
             Array.from(files).forEach(file => this.addImage(file));
         },
+
 
         addImage(file) {
             if (!file.type.match('image.*')) {
@@ -140,6 +143,7 @@ export default {
 
             return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
         },
+        
         upload() {
 
             const formData = new FormData();
@@ -150,13 +154,13 @@ export default {
                     formData.append('images[]', file, file.name);
                 });
 
-                }else{
+            }else{
 
-                    this.$toastr.e(`Você só pode fazer o upload de até 15 imagens`);
+                this.$toastr.e(`Você só pode fazer o upload de até 15 imagens`);
                     return;
-                }
+            }
 
-            axios.post('/images-upload', formData, {onUploadProgress: function( progressEvent ) { this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) ); }.bind(this) })
+            axios.post('/images-upload', formData, {onUploadProgress: function( progressEvent ){                    this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) ); }.bind(this) })
                 .then(response => {
                     this.$toastr.s('Todas as imagens foram enviadas com sucesso');
                     this.submited = true;
@@ -164,7 +168,7 @@ export default {
                 }).catch(error =>{
                     this.$toastr.w(`Ops! Talvez você já tenha imagens suficiente neste imóvel`);
                     
-                  })
+                })
         }
 
     }
@@ -172,6 +176,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.d-none{
+    display:none!important;
+}
 
 .uploader {
     width: 100%;
@@ -238,6 +246,11 @@ export default {
             color: rgb(255,90,0)!important; 
             cursor: pointer; 
             }
+
+        .d-none{
+            display:none!important;
+        }
+
         .img-wrapper {
             width: 22%!important;
             display: flex;

@@ -72,7 +72,7 @@
                             {{ __('Login') }}
                         </button>
 
-                        <a class="btn-link" href="{{ route('password.request') }}">
+                        <a class="btn-link" href="{{ route('password.request') }}" style="color: #fff;">
                             {{ __('Esqueceu sua senha?') }}
                         </a>
                     </div>

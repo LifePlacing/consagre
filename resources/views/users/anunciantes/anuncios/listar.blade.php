@@ -13,8 +13,9 @@
                 	<div class="header">
 
                             <div class="row">
-                            	<h4 class="title col-xs-12 col-sm-12">Lista de Imóveis Anunciados</h4>
-
+                            	<h4 class="title col-xs-12 col-sm-12">
+                                    Lista de Imóveis Anunciados
+                                </h4>
                             </div>
                             
                     </div>
@@ -60,7 +61,8 @@
 	                    						
 	                    					</td>
 	                    					
-	                    				</tr>		
+	                    				</tr>
+
 	                    				@endforeach
 
                     				</table>

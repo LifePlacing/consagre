@@ -64,8 +64,14 @@
 
 									<div class="plan-title"> {{ $plano->nome }} </div>
 									<hr>
-									<p class="azul"><strong>Publicado por 12 meses</strong></p>
-									<p>{{ $plano->quant_anuncios == 0 ? "Anúncios Ilimitados" :  $plano->quant_anuncios." anuncios" }} </p>
+
+									@if($plano->interval == 1)
+										<p class="azul">									
+											<strong>Publicado por 12 meses</strong>	
+										</p>
+									@endif
+
+									<p>{{ $plano->quant_anuncios == 0 && $plano->interval == 1 ? "Anúncios Ilimitados" :  $plano->quant_anuncios." anuncios" }} </p>
 									<p><strong>*Bônus ({{ $plano->super_destaques }} SUPER DESTAQUE )</strong></p>
 									<p>{{ $plano->destaques }} destaques e {{ $plano->quant_anuncios }} simples</p>
 

@@ -127,7 +127,7 @@
 
 					<div class="card-imovel" onclick="window.location='/{{slugTitulo($item->titulo)}}/{{$item->id}}/{{$item->meta}}/{{$item->cidade->slug}}'" >	
 					    @foreach($item->media as $key => $medias)
-					    	@if($key == 0)
+					    	@if($medias->position === 0)
 					    	<img class="img-fluid img-dest" src="{{asset($medias->source)}}">
 					    	@endif
 
@@ -216,7 +216,7 @@
 
 					<div class="card-imovel" onclick="window.location='/{{slugTitulo($item->titulo)}}/{{$item->id}}/{{$item->meta}}/{{$item->cidade->slug}}'" >	
 					    @foreach($item->media as $key => $medias)
-					    	@if($key == 0)
+					    	@if($medias->position === 0)
 					    	<img class="img-fluid img-dest" src="{{asset($medias->source)}}">
 					    	@endif
 
@@ -294,7 +294,7 @@
 
 					<div class="card-imovel" onclick="window.location='/{{slugTitulo($item->titulo)}}/{{$item->id}}/{{$item->meta}}/{{$item->cidade->slug}}'" >	
 					    @foreach($item->media as $key => $medias)
-					    	@if($key == 0)
+					    	@if($medias->position === 0)
 					    	<img class="img-fluid img-dest" src="{{asset($medias->source)}}">
 					    	@endif
 

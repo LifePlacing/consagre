@@ -8,6 +8,33 @@ Auth::routes();
 
 Route::get('/', 'HomeController@app')->name('index');
 
+Route::get('/perfil/usuarios', 'HomeController@registroUser' )->name('cadastro.usuarios');
+
+
+/*=====================ROTAS DOS ADMINISTRADORES===================== */
+
+Route::get('sistem/adm/login', 'Admin\Auth\LoginController@index')->name('login.admin');
+Route::post('sistem/adm/login', 'Admin\Auth\LoginController@login')->name('submit.login.admin');
+
+Route::prefix('sistem/adm')->middleware(['auth:admin', 'revalidate'])->group(function(){
+	
+	Route::get('/', 'Admin\AdminController@index')->name('admin.dashboard');
+	Route::get('/{option}/{action}', 'Admin\AdminController@get_options')->name('options.admin');   
+	Route::post('/usuarios/add', 'Admin\AdminController@createUser')->name('adicionar.user');   
+	Route::post('/usuarios/update', 'Admin\AdminController@updateAnunciante')->name('update.anunciante'); 
+
+	Route::post('/planos/gerenciar/update', 'PlanosController@update')->name('gerenciar.planos'); 
+	Route::post('/planos/gerenciar', 'PlanosController@create')->name('create.plano'); 
+	Route::post('/planos/gerenciar/delete', 'PlanosController@delete')->name('deletar.plano'); 
+
+	Route::post('/payment_methods/config', 'GatewayController@store')->name('integracoes.gateway');
+
+	Route::post('/payment_methods/update', 'GatewayController@update')->name('update.integracoes');
+	Route::post('/payment_methods/destroy', 'GatewayController@destroy')->name('destroy.integracoes');
+	
+
+
+});
 
 
 /*====================== ROTAS DOS USUARIOS ====================================*/
@@ -72,16 +99,6 @@ Route::post('/images-upload', 'MediaController@upload');
 
 
 
-/*=====================ROTAS DOS ADMINISTRADORES===================== */
-
-Route::prefix('admin')->middleware(['role', 'auth'])->group(function(){
-
-	/*============ PAINEL DO ADMINISTRADOR=================== */
-	Route::get('/', 'AdminController@index')->name('admin.dashboard');   
-
-});
-
-
 
 /*================ ROTAS DOS PLANOS =====================*/
 
@@ -119,6 +136,12 @@ Route::get('anunciante', 'AnunciantesController@index')->name('anunciante.dashbo
 
 Route::get('anunciante/plano', 'AnunciantesController@infoPlano')->name('anunciante.plano');
 
+Route::get('anunciante/mensagens', 'AnunciantesController@messageReceive' )->name('listar.mensagens');
+
+Route::post('anunciante/mensagens', 'AnunciantesController@messageRemove' )->name('remover.mensagens');
+
+Route::get('anunciante/mensagens/u/{user}/inbox/{token}', 'AnunciantesController@messageInbox')->name('mensagem.inbox');
+
 Route::get('anunciante/anuncios', 'ImovelAnunciantesController@listarAnuncios')->name('anunciantes.listar.anuncios');
 
 Route::get('anunciante/profile', 'AnunciantesController@profile')->name('anunciante.profile');
@@ -150,8 +173,24 @@ Route::get('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorGetX
 /*================Cadastros dos anunciantes============================*/
 
 Route::get('anunciante/novoanuncio', 'ImovelAnunciantesController@adicionarStep1')->name('adicionaImovelAnunciante');
+
 Route::post('anunciante/novoanuncio', 'ImovelAnunciantesController@postCreateStep1')->name('postImovelAdd');
 
 Route::get('anunciante/novoanuncio/imagens', 'ImovelAnunciantesController@adicionarStep2')->name('adicionaImovelAnuncianteSegundoPasso');
+
+Route::get('anunciante/novoanuncio/finish', 'ImovelAnunciantesController@adicionaFinish')->name('adicionaImovelAnuncianteFinish');
+
+Route::post('anunciante/novoanuncio/finish', 'ImovelAnunciantesController@updateMedia')->name('update.medias');
+
+/*Reordenação das imagens*/
+Route::post('anunciante/novoanuncio/finish/reorder', 'ImovelAnunciantesController@reorderMedia')->name('reorder.medias');
+
+Route::get('anunciante/novoanuncio/finish/forget/cad/novoanuncio', 'ImovelAnunciantesController@forgetSession')->name('forget.sessao.anuncio');
+
 Route::post('anunciante/novoanuncio/imagens', 'ImovelAnunciantesController@postCreateStep2')->name('postImovelAddSegundoPasso');
 
+
+
+/*=================== Rotas das mensagens e Chat =========================*/
+
+Route::post('mensagem', 'MensagemAnuncioController@store')->name('mensagem.store');

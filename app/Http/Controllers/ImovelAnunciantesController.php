@@ -24,7 +24,8 @@ class ImovelAnunciantesController extends ImovelController
     }
 
 
-    public function adicionarStep1(Request $request){
+    public function adicionarStep1(Request $request)
+    {
 
     	if($request->session()->exists('imovel')){    		
     		$request->session()->forget('imovel');
@@ -72,7 +73,6 @@ class ImovelAnunciantesController extends ImovelController
 
     public function postCreateStep1(Request $request)
     {
-
 
             $anunciante = Auth::user();
 
@@ -153,7 +153,7 @@ class ImovelAnunciantesController extends ImovelController
 
             	/* Preco sem comissão ou  Preço Mensal do Aluguel */
 
-                $preco = str_replace(',','.',str_replace('.','',$request['preco_venda']));
+                $preco = str_replace(',','.',str_replace('.','', $request['preco_venda']));
 
                 $valor = number_format( $preco, 2, '.', '' ); 
 
@@ -162,20 +162,26 @@ class ImovelAnunciantesController extends ImovelController
 
             	/* Preco com comissão ou  Preço Anual do Aluguel */
 
+                if( isset($request['preco']) && !empty($request['preco']) ){
 
-                $simbol = array('R$');                
+                    $simbol = array('R$');                
 
-                $str = str_replace($simbol, '', $request['preco']); 
+                    $str = str_replace($simbol, '', $request['preco']); 
 
-                $limpa = substr($str, 2);                               
+                    $limpa = substr($str, 2);                               
 
-                $total = str_replace(',','.',str_replace('.','',$limpa));         
-                
-                
-                $t_preco = number_format( $total, 2, '.', '' );
+                    $total = str_replace(',','.',str_replace('.','',$limpa));         
+                    
+                    
+                    $t_preco = number_format( $total, 2, '.', '' );
 
+                    $imovel->preco = floatval($t_preco); 
 
-                $imovel->preco = floatval($t_preco); 
+                }else{
+
+                    $imovel->preco = floatval($valor);
+
+                }
 
                 /*Areas do imóvel*/
 
@@ -346,10 +352,28 @@ class ImovelAnunciantesController extends ImovelController
                     $media->save();
                 }
 
-            $request->session()->forget('imovel');
+        $request->session()->put('imovel', $imv);
 
-        return redirect()->route('anunciantes.listar.anuncios')->with('success', 'Anúncio cadastrado com sucesso!');
+        return redirect('anunciante/novoanuncio/finish');
         	      
+
+    }
+
+
+    public function adicionaFinish(Request $request)
+    {
+
+        if (empty($request->session()->get('imovel')) || $request->session()->get('imovel') == null){
+            
+            abort(403, 'Tentativa não autorizada');
+           
+        }        
+        
+        $imovel = $request->session()->get('imovel');
+        
+        return view('users.anunciantes.anuncios.finish', compact(['imovel'], [$imovel]));
+
+       
 
     }
 
@@ -627,6 +651,106 @@ class ImovelAnunciantesController extends ImovelController
      
         return back()->with('success', 'Sistema Integrado com sucesso!');
 
+    }
+
+
+    public function reorderMedia(Request $request)
+    {
+        
+        // Get images id and generate ids array 
+        $idArray = explode(",", trim($request['ids']));
+
+        $sorter = static function ($produto) use ($idArray) {
+            return array_search($produto->id, $idArray);
+        };
+
+        
+        $medias = Media::with('imovel')->whereIn('id', $idArray)->get()->sortBy( $sorter);
+
+        $indice = 0;          
+
+        foreach ($medias as $media) {
+
+            $indice++; 
+            $picture = $medias->find($media->id);
+            $picture->update(['position' => $indice]);                  
+            
+        } 
+
+        if($request->session()->get('imovel') !== null){
+
+            $imovel = $request->session()->get('imovel');
+          
+            $update = $medias[0]->imovel;           
+
+            $request->session()->put('imovel', $update);           
+
+       }
+
+        return response()->json('success', 200);
+       
+        
+    }
+
+    public function updateMedia(Request $request)
+    {
+       
+        if($request->session()->get('imovel') !== null ){
+
+                $imovel = $request->session()->get('imovel');
+
+
+                $obj = Imovel::where('id','=', $imovel->id)->with('media')->first(); 
+
+                
+                $media_destaque = $obj->media->where('id', '=', $request['id'])->first();
+
+
+                $principal = $obj->media->where('position', '=', 0 )->all();           
+
+
+                if(count($principal) > 1){
+                    
+                    foreach ($principal as $key => $p) {                    
+                        $principal[$key]->position = null;
+                        $principal[$key]->save();
+                    }
+
+                }else{
+
+                    $principal = $obj->media->where('position', '=', 0 )->first();
+                    
+                    if(!empty($principal)){
+                        $principal->position = $media_destaque->position;
+                        $principal->save();
+                    }
+                                   
+                }                    
+
+                $media_destaque->position = 0;
+                $media_destaque->save();
+
+                $request->session()->put('imovel', $obj);
+
+                            
+                return back()->with('success', 'Sucesso!');
+                
+            }
+
+
+
+        
+    }
+
+
+    function forgetSession(Request $request)
+    {
+        if($request->session()->get('imovel') !== null )
+        {
+            $request->session()->forget('imovel');
+        }
+
+        return redirect()->route('anunciantes.listar.anuncios')->with('success', 'Anúncio cadastrado com sucesso!');
     }
 
 

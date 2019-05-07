@@ -2,6 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta HTTP-EQUIV="Access-Control-Allow-Origin">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet" type="text/css">
     <title>
         @section('title')
             | Admin
@@ -12,193 +15,222 @@
     {{--CSRF Token--}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- global css -->
-    <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet" type="text/css"/>
-    <!-- end of global css -->
-    
-    <!--page level css-->
-    
-    @yield('header_styles')
-   
-   	<!--end of page level css-->    
+    <link href="{{ asset('admin/bower_components/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/dropzone/dist/dropzone.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' ) }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/fullcalendar/dist/fullcalendar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/bower_components/slick-carousel/slick/slick.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('admin/css/main.css?version=4.4.0') }}" rel="stylesheet">
 
+    <style type="text/css">
+      .btn_icon:hover{
+        text-decoration: none!important;
+      }
+    </style>
+
+    
+      
+    @yield('header_styles')   
 </head>
-<body class="skin-josh">
+
+<body class="menu-position-side menu-side-left full-screen">
+
+<div class="all-wrapper solid-bg-all">
+
+    <div class="layout-w">
 
 
-<header class="header">
-
-    <a href="{{ route('admin.dashboard') }}" class="logo">
-        <img src="{{ asset('imagens/logo.png') }}" alt="logo">
-    </a>
-
-    <nav class="navbar navbar-static-top" role="navigation">
-        <!-- Sidebar toggle button-->
-        <div>
-            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-                <div class="responsive_nav"></div>
-            </a>
-        </div>
-
-        <div class="navbar-right toggle">
-            <ul class="nav navbar-nav  list-inline">
+    <!-- BEGIN SIDEBAR MENU -->                               
+    @include('admin.layouts._partial._left_menu')                
+    <!-- END SIDEBAR MENU -->              
 
 
-                <li class=" nav-item dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        @if(Auth::user()->pic)
-                            <img src="#" alt="img" height="35px" width="35px"
-                                 class="rounded-circle img-fluid float-left"/>
+        <div class="content-w">   
 
-                        @elseif(Auth::user()->gender === "male")
-                            <img src="{{ asset('assets/images/authors/avatar3.png') }}" alt="img" height="35px" width="35px"
-                                 class="rounded-circle img-fluid float-left"/>
+          <div class="top-bar color-scheme-transparent">
 
-                        @elseif(Auth::user()->gender === "female")
-                            <img src="{{ asset('assets/images/authors/avatar5.png') }}" alt="img" height="35px" width="35px"
-                                 class="rounded-circle img-fluid float-left"/>
+            <div class="top-menu-controls">
 
-                        @else
-                            <img src="{{ asset('assets/images/authors/no_avatar.jpg') }}" alt="img" height="35px" width="35px"
-                                 class="rounded-circle img-fluid float-left"/>
-                        @endif
-                        <div class="riot">
-                            <div>
-                                <p class="user_name_max">{{ Auth::user()->name }}</p>
-                                	<span>
-                                        <i class="caret"></i>
-                                    </span>
-                            </div>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header bg-light-blue">
-                            @if(Auth::user()->pic)
-                                <img src="#" alt="img" height="35px" width="35px"
-                                     class="rounded-circle img-fluid float-left"/>
+              <!--------------------
+              START - LInks de mensagens no topo
+              -------------------->
 
-                            @elseif(Auth::user()->gender === "male")
-                                <img src="{{ asset('assets/images/authors/avatar3.png') }}" alt="img" height="35px" width="35px"
-                                     class="rounded-circle img-fluid float-left"/>
-
-                            @elseif(Auth::user()->gender === "female")
-                                <img src="{{ asset('assets/images/authors/avatar5.png') }}" alt="img" height="35px" width="35px"
-                                     class="rounded-circle img-fluid float-left"/>
-                            @else
-                                <img src="{{ asset('assets/images/authors/no_avatar.jpg') }}" alt="img" height="35px" width="35px"
-                                     class="rounded-circle img-fluid float-left"/>
-                            @endif
-                            <p class="topprofiletext">{{ Auth::user()->name }}</p>
-                        </li>
-                        <!-- Menu Body -->
-                        <li>
-                            <a href="#">
-                                <i class="livicon" data-name="user" data-s="18"></i>
-                                Meu Perfil
-                            </a>
-                        </li>
-                        <li role="presentation"></li>
-                        <li>
-                            <a href="#">
-                                <i class="livicon" data-name="gears" data-s="18"></i>
-                                Configurações da Conta
-                            </a>
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#">
-                                    <i class="livicon" data-name="lock" data-size="16" data-c="#555555" data-hc="#555555" data-loop="true"></i>
-                                    Bloquear Tela
-                                </a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
-								document.getElementById('logout-form').submit();" >
-                                    <i class="livicon" data-name="sign-out" data-s="18"></i>
-                                    Sair
-                                </a>
-
-								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-								    @csrf
-								</form>
-
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-    </nav>
-</header>
-
-<div class="wrapper ">
-	
-    <aside class="left-side ">
-        <section class="sidebar ">
-            <div class="page-sidebar  sidebar-nav">
-                <div class="nav_icons">
-                    <ul class="sidebar_threeicons">
-                        <li>
-                            <a href="{{ URL::to('admin/advanced_tables') }}">
-                                <i class="livicon" data-name="table" title="Advanced tables" data-loop="true"
-                                   data-color="#418BCA" data-hc="#418BCA" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ URL::to('admin/tasks') }}">
-                                <i class="livicon" data-name="list-ul" title="Tasks" data-loop="true"
-                                   data-color="#e9573f" data-hc="#e9573f" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ URL::to('admin/gallery') }}">
-                                <i class="livicon" data-name="image" title="Gallery" data-loop="true"
-                                   data-color="#F89A14" data-hc="#F89A14" data-s="25"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ URL::to('admin/users') }}">
-                                <i class="livicon" data-name="user" title="Users" data-loop="true"
-                                   data-color="#6CC66C" data-hc="#6CC66C" data-s="25"></i>
-                            </a>
-                        </li>
-                    </ul>
+              <div class="messages-notifications os-dropdown-trigger os-dropdown-position-left">
+                <i class="os-icon os-icon-mail-14"></i>
+                <div class="new-messages-count">
+                  12
                 </div>
-                <div class="clearfix"></div>
-                <!-- BEGIN SIDEBAR MENU -->                               
-                @include('admin.layouts._left_menu')                
-                <!-- END SIDEBAR MENU -->
+                <div class="os-dropdown light message-list">
+                <!-- Lista de mensagens-->
+                  <ul>
+                    <li></li>
+                  </ul>
+                  <!-- Fim da lista de Mensagens-->
+                </div>
+              </div>
+
+              <!--------------------
+              START - Settings Link in secondary top menu
+              -------------------->
+              <div class="top-icon top-settings os-dropdown-trigger os-dropdown-position-left">
+                <i class="os-icon os-icon-ui-46"></i>
+                <div class="os-dropdown">
+                  <div class="icon-w">
+                    <i class="os-icon os-icon-ui-46"></i>
+                  </div>
+                  <ul>
+                    <li>
+                      <a href=""><i class="os-icon os-icon-ui-49"></i><span>Configuração de Perfil</span></a>
+                    </li>
+                    <li>
+                      <a href=""><i class="os-icon os-icon-grid-10"></i><span>Assinaturas</span></a>
+                    </li>
+                    <li>
+                      <a href=""><i class="os-icon os-icon-mail-01"></i><span>Minhas Mensagens</span></a>
+                    </li>
+                    <li>
+                      <a href="users_profile_small.html"><i class="os-icon os-icon-ui-15"></i>
+                        <span>Cancelar uma Conta</span></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            
+            <!--------------------
+              START - User avatar and menu in secondary top menu
+              -------------------->
+              <div class="logged-user-w">
+                <div class="logged-user-i">
+                  <div class="avatar-w">
+                    <img alt="" src="{{ Auth::user()->foto !== null ? Auth::user()->foto : asset('images/profile.jpg') }}">
+                  </div>
+                  <div class="logged-user-menu color-style-bright">
+                    <div class="logged-user-avatar-info">
+                      <div class="avatar-w">
+                        <img alt="" src="{{ Auth::user()->foto !== null ? Auth::user()->foto : asset('images/profile.jpg') }}">
+                      </div>
+                      <div class="logged-user-info-w">
+                        <div class="logged-user-name">
+                         {{ Auth::user()->name }}
+                        </div>
+                        <div class="logged-user-role">
+                          Administrador
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-icon">
+                      <i class="os-icon os-icon-wallet-loaded"></i>
+                    </div>
+                    <ul>
+                      <li>
+                        <a href=""><i class="os-icon os-icon-user-male-circle2"></i>
+                            <span>Detalhes Perfil</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();" >
+                                <i class="os-icon os-icon-signs-11"></i><span>Sair</span>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!--------------------
+              END - User avatar and menu in secondary top menu
+              -------------------->
             </div>
-        </section>
-</aside>
+            <!--------------------
+            END - Top Menu Controls
+            -------------------->
+          </div>
 
-<aside class="right-side">
+          <!--------------------
+          START - Breadcrumbs
+          -------------------->
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{{ route('admin.dashboard') }}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="index.html">Products</a>
+            </li>
+            <li class="breadcrumb-item">
+              <span>Laptop with retina screen</span>
+            </li>
+          </ul>
+          <!--------------------
+          END - Breadcrumbs
+          -------------------->
 
-    <!-- Notifications -->
-    <div id="notific">
-    @include('notifications')
+          
+
+          <div class="content-i">
+
+            <div class="content-box">
+              <!-- Content -->
+              @yield('content')
+
+            </div>
+
+          </div>
+
+            @include('admin.layouts._partial._helpdesk')
+
+        </div>
+
     </div>
 
-    <!-- Content -->
-    @yield('content')
+    <div class="display-type"></div>
 
-</aside>
+</div>
 
-<!-- global js -->
+    
+    <script src="{{ asset('admin/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/popper.js/dist/umd/popper.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/app.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/bower_components/moment/moment.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/jquery-bar-rating/dist/jquery.barrating.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/ion.rangeSlider/js/ion.rangeSlider.min.js')}}"></script>
+    <script src="{{ asset('admin/bower_components/dropzone/dist/dropzone.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/editable-table/mindmup-editabletable.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/fullcalendar/dist/fullcalendar.min.js') }}"></script>
+    
+    <script src="{{ asset('admin/bower_components/tether/dist/js/tether.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/slick-carousel/slick/slick.min.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/util.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/alert.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/button.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/carousel.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/collapse.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/dropdown.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/modal.js') }}"></script> 
 
-<!-- end of global js -->
-<!-- begin page level js -->
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/tab.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/tooltip.js') }}"></script>
+    <script src="{{ asset('admin/bower_components/bootstrap/js/dist/popover.js') }}"></script>
+    
+    <script src="{{ asset('admin/js/main.js?version=4.4.0') }}"></script>
+
 @yield('footer_scripts')
-<!-- end page level js -->
-
-
-</div><!-- Fim da Wrapper -->
 
 </body>
 </html>

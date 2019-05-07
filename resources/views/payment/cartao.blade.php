@@ -15,7 +15,7 @@
     			dateFormat: 'yy-mm-dd',
     			changeMonth: true,
       			changeYear: true,
-      			maxDate: "-18Y"
+      			maxDate: "-18Y",      			
     		});
   		});
 
@@ -84,8 +84,45 @@
   						</div>
 
 				  	  	<div class="form-group col-md-4 col-sm-12">
+
     					<label for="nascimento">Data de Nascimento</label>
-    					<input type="text" class="form-control" id="nascimento" required="required" readonly="readonly" style="background-color:#fff; cursor:pointer;">
+
+    					<div class="form-inline">
+
+							 <select name="dia" id="dia" class="form-control mx-sm-1">
+							     
+							         <?php
+							          for ($i=1; $i<=31; $i++){?>
+							     <option value="<?php echo $i;?>"> <?php echo $i;}?></option>
+
+							 </select>
+
+							<select name="mes" id="mes" class="form-control mx-sm-1">
+
+			                  <option value="01">Janeiro  </option>
+			                  <option value="02">Fevereiro</option>
+			                  <option value="03">Março    </option>
+			                  <option value="04">Abril    </option>
+			                  <option value="05">Maio     </option>
+			                  <option value="06">Junho    </option>
+			                  <option value="07">Julho    </option>
+			                  <option value="08">Agosto   </option>
+			                  <option value="09">Setembro </option>
+			                  <option value="10">Outubro  </option>
+			                  <option value="11">Novembro </option>
+			                  <option value="12">Dezembro </option>
+
+	              			</select>	
+
+	              			<select name="ano" id="ano" class="form-control mx-sm-1">
+					     
+					         <?php
+					          for ($i=1900; $i<=2030; $i++){?>
+					     		<option value="<?php echo $i;?>"> <?php echo $i;}?></option>
+					 		</select>
+				 		</div>
+
+    					
   						</div>
 
 

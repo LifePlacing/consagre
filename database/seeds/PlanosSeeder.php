@@ -15,8 +15,8 @@ class PlanosSeeder extends Seeder
        	'destaques' => 10,
        	'valor_mensal' => 2900,
        	'captacao' => false, 
-        'interval' => 1
-
+        'interval' => 0
+        /* Para plano mensal assinatura interval = 1*/
        ]);
         
        Plano::create([       	
@@ -26,8 +26,8 @@ class PlanosSeeder extends Seeder
        	'destaques' => 50,
        	'valor_mensal' => 4000,
        	'captacao' => true, 
-        'interval' => 1
-
+        'interval' => 0
+        /* Para plano mensal assinatura interval = 1*/
        ]);
     }
 }

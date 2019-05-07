@@ -7,6 +7,9 @@
 
     <div class="container-fluid">
 
+    
+
+
         <div class="row">
 
         	<div class="card">
@@ -121,7 +124,9 @@
                             			
 											<a class="btn btn-info btn-fill col-xs-12 col-sm-12" href="{{ route('adicionaImovelAnunciante') }}"> Novo Anúncio </a>	
 
-											<div class="clearfix"></div>							
+
+											<div class="clearfix"></div>
+
                                     	
 										</div>
 

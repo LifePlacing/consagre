@@ -17,7 +17,7 @@
 
 @if(isset($imovel))
 
-<div class="content" id="app">
+<div class="content" >
 
     <div class="container-fluid">
 
@@ -128,7 +128,6 @@
 
 
 @section('footer_scripts')
-<script src="{{ asset('js/app.js') }}" defer></script>
 <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
 <script src="{{asset('js/scripts.js?version=1.0')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 

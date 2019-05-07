@@ -256,7 +256,20 @@
                                     Quanto custa o seu Imóvel?
                                 </h4>
 
+
                                 <div class="row">
+                                    
+                                    <div class="form-group col-sm-6" id="inputPercentual">
+
+                                            <label for="inputPercentual">
+                                                <div>Adicionar Comissão de Venda?</div>                                     
+                                            </label>
+                                            <input type="checkbox" id="checkComissao" name="checaComissao"> 
+                                    </div>
+
+                                </div>
+
+                                <div class="row">                                    
 
                                         <div class="form-group col-sm-4">
                                             <label for="valor">
@@ -265,10 +278,13 @@
                                             <input type="text" id="valor" class="col-sm-12 required" value="{{ old('preco_venda') }}" pattern="([0-9]{1,3}\.)?[0-9]{1,3},[0-9]{2}$" name="preco_venda">
                                         </div>
 
+
                                         <div class="form-group col-sm-4" id="percetual">
+                                            
                                             <label for="percent">
                                                 <div>Comissão Base 6% para venda:</div> 
                                             </label>
+
                                             <input type="text" id="percent" readonly  class="col-sm-12 form-control" name="comissao">
                                         </div>
 
@@ -302,8 +318,18 @@
 
                                 </div>
 
+
+
                                     @isset($quant)
-                                        @if($quant <= $plano->quant_anuncios )
+
+                                        @if( $plano->quant_anuncios == 0)
+
+                                            <button type="submit" id="next" class="btn btn-info btn-fill pull-right "  data-toggle="popover" title="Ops!!" data-content="Preencha os campos corretamente"
+                                            data-placement="top" >Continuar</button>  
+                                            <div class="clearfix"></div> 
+
+                                        @elseif ( $quant <= $plano->quant_anuncios )
+
                                             <button type="submit" id="next" class="btn btn-info btn-fill pull-right "  data-toggle="popover" title="Ops!!" data-content="Preencha os campos corretamente"
                                             data-placement="top" >Continuar</button>  
                                             <div class="clearfix"></div> 
@@ -311,6 +337,7 @@
                                         @else
                                             <p class="text-danger">Faça um upgrade do seu Plano!</p>
                                         @endif
+
                                     @endif
 
 
@@ -333,7 +360,7 @@
 
 @section('footer_scripts')
 <script src="{{asset('js/jquery-1.11.1.min.js')}}"></script>
-<script src="{{asset('js/scripts.js?version=1.0')}}"></script>
+<script src="{{asset('users/js/anuncia.js?version=1.0')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 
 <script type="text/javascript">
     $("#cpf").mask("999.999.999-99");

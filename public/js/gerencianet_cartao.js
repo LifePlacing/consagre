@@ -120,7 +120,7 @@ jQuery(document).ready(function(){
             var cpf = $("#cpf").val();
             var telefone = $("#telefone").val();
             var email = $("#email").val();
-            var nascimento = $("#nascimento").val();
+            var nascimento = $("#ano").val()+"-"+$("#mes").val()+"-"+$("#dia").val();
 
             var rua = $("#rua_imobi").val();            
             var bairro = $("#bairro_imobi").val();
@@ -173,13 +173,25 @@ jQuery(document).ready(function(){
                                 $("#btn_pg_cartao").addClass('d-none');
                                 $("#retorno").modal('show');
 
-                                var trans = resposta.data.subscription_id ;
+
+                                if(typeof resposta.data.subscription_id !='undefined'){
+                                    var trans = resposta.data.subscription_id ;
+                                }else{
+                                    var trans = resposta.data.charge_id ;
+                                }
+
+                                if(typeof resposta.data.charge !='undefined'){
+                                    var valor_total = resposta.data.charge.total;
+                                }else{
+                                    var valor_total = resposta.data.installment_value;
+                                }
+                                
                                 var status = "Status:"+resposta.data.status;
                                 var prod = "<h3>Produto: "+descricao+"</h3>";
                                 html = "";
-                                var html = "<th>" + resposta.data.subscription_id + "</th>"
+                                var html = "<th>" + trans + "</th>"
                                 html += "<th>" + resposta.data.first_execution + "</th>"
-                                html += "<th>" + formataDinheiro(resposta.data.charge.total) + "</th>";
+                                html += "<th>" + formataDinheiro(valor_total) + "</th>";
 
                                 $('#transacao').html(trans);
                                 $('#produto').html(prod);

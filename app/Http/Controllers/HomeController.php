@@ -34,4 +34,10 @@ class HomeController extends Controller
     }
 
 
+    public function registroUser()
+    {
+        return view('app.cadastros.usuarios');
+    }
+
+
 }

@@ -3,7 +3,7 @@
 <head>
     <!-- Meta tags Obrigatórias -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
 
     <title>   	
     		{{ config('app.name', 'Consagre Imoveis') }} - @yield('title')    	
@@ -21,8 +21,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mobile.css?ver=1.1') }}" rel="stylesheet"> 
-    
+    <link href="{{ asset('css/cube-btn.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/mobile.css?ver=1.1') }}" rel="stylesheet">  
 
     <!-- end of global styles-->
     @yield('header_styles')
@@ -75,7 +75,7 @@
 							    Conta Anunciante
 							  	</a>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" href="{{ route('anunciante.dashboard') }}">
+								<a class="dropdown-item" href="{{ route('admin.dashboard') }}">
 									Painel de Anuncios
 								</a>  
 
@@ -93,10 +93,38 @@
 
 							</div>
 
+						@endauth	
+
+						@auth('admin')
+
+							<div class="dropdown">
+								<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Administrador
+							  	</a>
+							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" href="{{ route('anunciante.dashboard') }}">
+									Painel Admnistrativo
+								</a>  
+
+								<a class="dropdown-item" href="{{ route('logout') }}" 
+								onclick="event.preventDefault();
+								document.getElementById('logout-form').submit();">
+									Logout
+								</a>  
+
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								    @csrf
+								</form>
+							  </div>
+
+
+							</div>
+
+
 	                    @else
 	                        <a href="{{ route('login') }}">Login</a>
 	                        <span class="marc">|</span>
-	                        <a href="{{ route('register') }}">Cadastre-se</a>
+	                        <a href="{{ route('cadastro.usuarios') }}">Cadastre-se</a>
 	                    @endauth                            
 	                    </div>
 	                   	<a class="button" href="{{route('anuncio')}}">
@@ -210,7 +238,6 @@
 </footer>
 
 </div>
-
 
 
 @hasSection('footer_scripts')

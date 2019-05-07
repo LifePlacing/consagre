@@ -50,7 +50,7 @@
 
 					 	@foreach($venda->media as $m => $medias)
 
-					 		@if($m == 0)
+					 		@if($medias->position === 0)
 		                    <img class="thumb" src="{{asset($medias->source)}}">
 		                	@endif    
 
@@ -122,7 +122,7 @@
   			<div class="col-sm-3">
   				<div class="card card-imoveis" onclick="window.location='/{{$slugTitulo}}/{{$aluguel->id}}/{{$aluguel->meta}}/{{$aluguel->cidade->slug}}'">
   					 	@foreach($aluguel->media as $m => $medias)
-  					 		@if($m == 0)
+  					 		@if($medias->position === 0)
                                 <img class="thumb" src="{{asset($medias->source)}}">
                             @endif
                         @endforeach 

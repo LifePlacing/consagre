@@ -58,7 +58,8 @@ class AnuncianteRegisterController extends Controller
 	            'token' => str_random(40)
 	        	]);
 
-	        	event(new NovoAnunciante($anunciante));	        	 
+	        	//event(new NovoAnunciante($anunciante));	  
+	        	Mail::to($anunciante->email)->queue(new RegistroAnunciante($anunciante));      	 
 
 				return back()->with('status', 'Nós lhe enviamos um email com alguns dados para ativação da sua conta. Verifique seu e-mail e clique no link para continuar.');
         
@@ -96,6 +97,13 @@ class AnuncianteRegisterController extends Controller
    public function update(Request $request)
    {
    		
+   		/*
+
+			'password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
+
+   		*/
+
+
 		if (isset($request['token'])){
 
 				$password = [
@@ -104,7 +112,7 @@ class AnuncianteRegisterController extends Controller
 				];
 
 			 	$validator = Validator::make($password, [            
-                    'password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+                    'password' => 'required|string|min:6|confirmed|',
                     'password_confirmation' => 'required|string|min:6'
                 ]);
 			

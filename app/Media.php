@@ -12,7 +12,7 @@ class Media extends Model
 	];
 
    public function imovel(){
-   	return $this->belongsTo('App\Imovel');   	
+   	return $this->belongsTo('App\Imovel');   	   	
    }
    
 }

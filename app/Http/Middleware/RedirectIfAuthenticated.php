@@ -19,38 +19,17 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
 
-
-        if (Auth::guard($guard)->check()) {
-            
+        if (Auth::guard($guard)->check()) {            
 
             if($guard == 'anuncios'){
-
                 return redirect()->route('anunciante.dashboard');
-
             }
-
+            if ($guard == 'admin'){
+                return redirect()->route('admin.dashboard');
+            }
             if($guard == 'web'){
-
-                if ($this->auth->check()) { 
-                    
-                    if ($this->auth->user()->role == 'admin') {
-                        
-                        return redirect()->route('admin.dashboard');
-                       
-                    }
-                    if ($this->auth->user()->role == 'membro') {
-                        
-                        return redirect()->intended('/');
-                    }
-
-                }
-
-             
-
-
-
-            }
-
+                return redirect()->intended('/');
+            } 
         }
 
         return $next($request);

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Anunciante;
-use App\Role;
 use App\Mail\ConfirmarEmail;
 use App\VerifyUser;
 use Mail;
@@ -23,7 +22,7 @@ class RegisterController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
 

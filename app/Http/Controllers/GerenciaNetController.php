@@ -180,7 +180,8 @@ public function __construct()
         		
 	            if(!$anunciante->verified) {
 	            	$anunciante->verified = 1;   
-        			event(new CadastrarSenhaAnunciante($anunciante));       			
+        			//event(new CadastrarSenhaAnunciante($anunciante));   
+        			Mail::to($anunciante->email)->queue(new RegistroAnunciante($anunciante));    			
         		}
 
         		$anunciante->save();

@@ -25,7 +25,8 @@ class Imovel extends Model
 
   public function media()
   {
- 		return $this->hasMany('App\Media');
+ 		return $this->hasMany('App\Media');   
+
   }
 
   public function user()
@@ -55,6 +56,10 @@ class Imovel extends Model
   } 
 
   
+  public function mensagens()
+  {
+    return $this->hasMany('App\Mensagem');
+  }
 
 
   public function scopeMeta($query, $meta)

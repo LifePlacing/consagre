@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
 use App\Anunciante;
+use App\Mensagem;
 use App\Imovel;
 use Validator;
+use Carbon\Carbon;
 
 class AnunciantesController extends Controller
 {
-    
     public function __construct()
     {
-    	$this->middleware('auth:anuncios')->except(['cadastro', 'verifyUser']);
+    	$this->middleware(['auth:anuncios'])->except(['cadastro', 'verifyUser']);
     }
 
 
     public function index()
     {
-        //$anunciante = Auth::user();
+        $anunciante = Auth::user();
 
         $expira = 5;
 
@@ -39,10 +40,8 @@ class AnunciantesController extends Controller
         $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
                
 
-        $assinatura = Cache::remember('assinatura', $expira, function(){
-            $anunciante = Auth::user();            
-            return $anunciante->assinaturas->last();
-        });
+        $assinatura = $anunciante->assinaturas->last();
+       
        
         $pagamento =  $assinatura->payments->last();  
 
@@ -65,7 +64,8 @@ class AnunciantesController extends Controller
         $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
         $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();
         
-        return view('users.anunciantes.infoPlano', compact(['simples', 'destaque', 'super'], [$simples, $destaque, $super]));
+        return view('users.anunciantes.infoPlano', compact(['simples', 'destaque', 'super'], 
+            [$simples, $destaque, $super]));
     }
 
 
@@ -192,10 +192,66 @@ class AnunciantesController extends Controller
             
         return back()->with('success', 'Foto atualizada com sucesso');
 
+    }
 
+    public function messageReceive()
+    {
+
+        $imoveis = Imovel::where('anunciante_id', '=', Auth::user()->id )->with('mensagens')->get();
+     
+        $mensagens = [];
+
+        $today = Carbon::now('America/Sao_Paulo');
+            
+           foreach ($imoveis as $imovel){                   
+               foreach ($imovel->mensagens as $msg) {
+                  $mensagens = $msg->orderBy('created_at', 'DESC')->paginate(10);
+               }
+            }
+
+
+        return view('users.anunciantes.messages', compact(['mensagens', 'today'], [$mensagens, $today]) );
+    }
+
+    public function messageInbox($user, $token)
+    {
+        $mensagem = Mensagem::find($token);
+
+        $now = Carbon::now('America/Sao_Paulo');
+
+        $mensagem->read_at = $now;
+        $mensagem->save();
+
+
+        return view('users.anunciantes.singleMsg', compact(['mensagem'], [$mensagem]));
 
     }
 
+    public function messageRemove(Request $request)
+    {
+
+        $id = $request['id'];
+
+        $mensagem = Mensagem::find($id);
+
+        if($mensagem != null){ 
+
+            $mensagem->delete();
+
+            return response()->json('Mensagem removida com sucesso!');
+
+        }else{
+
+            return response()->json(array(
+                    'code'      =>  401,
+                    'message'   =>  'erro'
+                ), 401);
+
+        }
+
+
+
+    }
 
 
 }

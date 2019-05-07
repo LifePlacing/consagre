@@ -22,6 +22,15 @@
                         </a>
                     </li> 
 
+                    @isset(Auth::user()->tipo) 
+                        <li>
+                            <a href="{{ route('listar.mensagens') }}">
+                                <i class="pe-7s-mail"></i>
+                                <p>Mensagens</p>
+                            </a>
+                        </li> 
+                    @endif 
+
                     <li class="{{ Route::current()->getName() == 'anuncios.listar' ? 'active' : '' }}">
                         <a href="{{ isset(Auth::user()->tipo) ? route('anunciantes.listar.anuncios') :route('anuncios.listar') }}">
                             <i class="pe-7s-note2"></i>                            

@@ -18,7 +18,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['guest', 'revalidate', 'guest:anuncios'])->except('logout');
+        $this->middleware(['guest:web'])->except('logout');
     }
 
     
@@ -58,6 +58,19 @@ class LoginController extends Controller
             return redirect()->intended(route('anunciante.dashboard')); 
         }
 
+
+        $admin = Auth::guard('admin')->attempt($credentials, $request->remember);
+
+        if ($admin) {
+            return redirect()->intended(route('admin.dashboard')); 
+        }
+
+        $user = Auth::guard('web')->attempt($credentials, $request->remember);
+
+        if ($user) {
+            return redirect()->intended(route('home')); 
+        }
+
             
         return $this->sendFailedLoginResponse($request); 
 
@@ -74,11 +87,8 @@ class LoginController extends Controller
     public function authenticated(Request $request, $user)
     {
         if (!$user->verified) {
-
-            auth()->logout();
-            
+            auth()->logout();            
             return $this->reenvia($user);
-
         }
         
         return redirect()->intended($this->redirectPath());

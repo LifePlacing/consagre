@@ -219,14 +219,16 @@ jQuery(document).ready(function(){
                   success: function(resposta){
 
                    if(resposta.code == 200){ 
-
-                                  
-                    
+                  
                      $("#processando").modal('hide');
                       $("#retorno").modal('show');                    
                      
-
-                        var trans = "<p>Código da Assinatura:"+resposta.data.subscription_id+"</p>";
+                        if(typeof resposta.data.subscription_id !='undefined'){
+                           var trans = "<p>Código da Assinatura:"+resposta.data.subscription_id+"</p>";
+                        }else{
+                            var trans = "<p>Código da Transação:"+resposta.data.charge_id+"</p>";
+                        }
+                        
                         var cod_barras = "Código de Barras: <p> "+resposta.data.barcode+"</p>";
                         var imprime = "<a href='"+resposta.data.link+"'>Imprimir Boleto </a> ";
 

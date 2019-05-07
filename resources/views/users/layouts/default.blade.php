@@ -24,6 +24,8 @@
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{{asset('users/css/demo.css') }}" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/css/jquery-ui.min.css') }}">
    
 
     <!--  Light Bootstrap Table core CSS    -->
@@ -35,6 +37,9 @@
     <link href='https://fonts.googleapis.com/css?family=Abril+Fatface|Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="{{ asset('users/css/pe-icon-7-stroke.css')}}" rel="stylesheet" />
 
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+   
     <!-- end of global styles-->
     @yield('header_styles')
 
@@ -78,6 +83,26 @@
                                 </ul>
 
                                 <ul class="nav navbar-nav navbar-right">
+
+                                    <li>
+                                        @if( verificaMensagens(Auth::user()->id) > 0) 
+
+                                            <a href="{{ route('listar.mensagens') }}" style="color: #d9534f;">
+                                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                <span class="badge" style="background: #d9534f; color:#fff;">
+                                                    {{ verificaMensagens(Auth::user()->id) }}
+                                                </span>
+                                            </a>
+
+                                        @else
+                                            <a href="#" style="color: #049F0C;" >
+                                                <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                                                <span class="badge" style="background:#049F0C; color:#fff; ">0</span>
+                                            </a>
+                                        @endif
+                                        
+                                    </li>
+
                                     <li>
                                        <a href="{{ isset(Auth::user()->tipo) ? route('anunciante.profile') : route('account.show') }}">
                                            Minha Conta
@@ -129,19 +154,25 @@
 
 </body>
 
-@hasSection('footer_scripts')
-    @yield('footer_scripts')
-@endif
 
-    <!--   Core JS Files -->  
-    <script src="{{ asset('users/js/jquery.min.js')}} " type="text/javascript"></script> 
-    <script src="{{ asset('users/js/jquery-ui.min.js')}} " type="text/javascript"></script>
-    <script src="{{ asset('users/js/moment.min.js')}} " type="text/javascript"></script>       
-    <script src="{{ asset('users/js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+    <!--   Core JS Files --> 
+    <script src="{{ asset('users/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('users/js/jquery-ui.min.js') }}"></script>
+
+    <script src="{{ asset('users/js/bootstrap.min.js') }}" type="text/javascript"></script>   
+     
+    @hasSection('footer_scripts')
+        @yield('footer_scripts')
+    @endif
+
+    <script src="{{ asset('users/js/moment.min.js')}} " type="text/javascript"></script>     
+
     <script src="{{ asset('users/js/fullcalendar.min.js')}} " type="text/javascript"></script>
-    <script src="{{ asset('users/js/pt-br.js')}} " type="text/javascript"></script>
+    <script src="{{ asset('users/js/pt-br.js')}}" type="text/javascript"></script>
+    
     <!--  Charts Plugin -->
-    <script src="{{ asset('users/js/chartist.min.js') }}"></script>
+   <script src="{{ asset('users/js/chartist.min.js') }}"></script>
 
     <!--  Notifications Plugin    -->
     <script src="{{ asset('users/js/bootstrap-notify.js') }}"></script>
@@ -209,6 +240,8 @@
         
     </script>
 
+
+
     @if (session('errors'))
        
         <script type="text/javascript">
@@ -234,6 +267,9 @@
         </script>
 
     @endif
+
+
+
 
 
 </html>              

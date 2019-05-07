@@ -57,6 +57,16 @@ return [
             'provider' => 'anunciantes',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'administradores',
+        ],
+
+        'admin-api' => [
+            'driver' => 'token',
+            'provider' => 'administradores',
+        ]
+
 
     ],
 
@@ -86,6 +96,11 @@ return [
         'anunciantes' => [
             'driver' => 'eloquent',
             'model'  => App\Anunciante::class,
+        ],
+
+        'administradores' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
         ],
 
         // 'users' => [
@@ -121,6 +136,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        'admins' => [
+            'provider' => 'administradores',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ]
        
     ],
 

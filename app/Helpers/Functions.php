@@ -1,6 +1,7 @@
 <?php
 
 use App\Imovel;
+use App\Gateway;
 use Illuminate\Support\Facades\Cache;
 
 function formatCodigo($value)
@@ -14,6 +15,27 @@ function formatCodigo($value)
 	}
 
     return $codigo;
+}
+
+function consultaCredenciais($nome)
+{
+	$gateway = Gateway::where('nome', '=', $nome)->first();
+
+		if(!empty($gateway) && $gateway->nome == 'Gerencia Net'){
+
+			return [ 'client_id' => $gateway->cliente_id,
+		  	'client_secret' => $gateway->cliente_secret,
+		  	'sandbox' => $gateway->cliente_sandbox,
+			];
+
+		}
+
+	return [
+		'client_id' => config('app.client_id_gerencianet'),
+		'client_secret' => config('app.client_secret_id_gerencianet'),
+		'client_sandbox' => config('app.sandbox_gerencianet'),
+	];
+
 }
 
 
@@ -34,6 +56,12 @@ function formataMoedaInteiro($valor){
 
 }
 
+
+
+function soNumero($str) {
+	$number = trim($str);
+    return preg_replace("/[^0-9]/", "", $number);
+}
 
 
 function formataMoney($valor)
@@ -66,6 +94,27 @@ function slugTitulo($valor)
 	return $slugTitulo;
 }
 
+function verificaMensagens($user_id)
+{
+
+        $imoveis = Imovel::where('anunciante_id', '=', $user_id)->with('mensagens')->get();
+     
+        $mensagens = 0;        
+            
+       foreach ($imoveis as $imovel){                   
+           foreach ($imovel->mensagens as $msg) {
+                      		
+           		if( $msg->read_at == '' || $msg->read_at == null ){
+              		$mensagens += 1;
+           		}
+
+           }
+        }
+
+        return $mensagens;
+
+}
+
 
 function geraImagem($filepath, $file, $url, $qualidade){
 
@@ -91,16 +140,16 @@ $type = exif_imagetype($filepath);
 
 	switch ($type) {
 	case 1 :
-	$image = imagegif($file, $url, $qualidade);;
+	$image = imagegif($file, $url);;
 	break;
 	case 2 :
 	$image = imagejpeg($file, $url, $qualidade);
 	break;
 	case 3 :
-	$image = imagepng($file, $url, $qualidade);
+	$image = imagepng($file, $url);
 	break;
 	case 6 :
-	$image = imagebmp($file, $url, $qualidade);
+	$image = imagebmp($file, $url);
 	break;
 	}
 
@@ -194,6 +243,22 @@ function escondeEmail($email)
 
 	return $string;
 }
+
+
+function abrevia($string)
+{
+	$inicio = substr($string,0, 50);	
+
+	return $inicio;
+}
+
+function abreviaCod($string)
+{
+	$inicio = substr($string,0, 15);	
+
+	return $inicio;
+}
+
 
 function contaAnuncios($user, $request)
 {
