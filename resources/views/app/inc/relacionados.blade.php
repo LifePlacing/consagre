@@ -27,7 +27,7 @@
 
 								@foreach($imovel->media as $media)
 
-									@if($media->position === 0)
+									@if($media->position == 0)
 										<img class="thumb card-img-top img-fluid" src="{{asset($media->source)}}">
 									@endif
 

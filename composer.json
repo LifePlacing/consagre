@@ -34,7 +34,8 @@
         },
 
         "files": [
-        "app/Helpers/Functions.php"
+        "app/Helpers/Functions.php",
+        "app/Helpers/ImovelXml.php"
         ]
 
     },

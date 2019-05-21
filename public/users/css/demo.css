@@ -1,4 +1,49 @@
 @media (min-width: 992px){
+
+    .titulo-lista-imovels{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center; 
+        max-width: 75%;
+    }
+
+    .txt-meta{
+        color: #666;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-weight: bold;
+
+    }
+
+    .icones-imovels{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0px;
+        color: #666;
+        font-size: 1.2em;
+    }
+
+    .content .btn-lg{
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+
+    .group-button{
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+    }
+
+    .group-button .btn{
+        margin: 10px;
+    }
+
     .typo-line{
         padding-left: 140px;
         margin-bottom: 40px;
@@ -29,6 +74,66 @@
     .panel-body > .col > .count{
         padding: 0px 8px;
     }
+
+    /* Estilo iOS */
+    .switch__container {
+      margin: 5px auto;
+      width: 60px;
+      position: absolute;
+      right: 5px;
+    }
+
+    .switch {
+      visibility: hidden;
+      position: absolute;
+      margin-left: -9999px;
+    }
+
+    .switch + label {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+    }
+
+    .switch--shadow + label {
+      padding: 2px;
+      width: 60px;
+      height: 30px;
+      background-color: #dddddd;
+      border-radius: 60px;
+    }
+    .switch--shadow + label:before,
+    .switch--shadow + label:after {
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      bottom: 1px;
+      content: "";
+    }
+    .switch--shadow + label:before {
+      right: 1px;
+      background-color: #EB3E23;
+      border-radius: 30px;
+      transition: background 0.4s;
+    }
+    .switch--shadow + label:after {
+      width: 32px;
+      background-color: #fff;
+      border-radius: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s;
+    }
+    .switch--shadow:checked + label:before {
+      background-color: #8ce196;
+    }
+    .switch--shadow:checked + label:after {
+      transform: translateX(26px);
+    }
+
+
 
 
 }
@@ -95,8 +200,116 @@
         position: initial;
     }
 
-.panel-body > .col{
-    display: inline-flex;
-}
+    .panel-body > .col{
+        display: inline-flex;
+    }
+    /* Estilo iOS */
+    .switch__container {
+      margin: 5px auto;
+      width: 60px;
+      position: absolute;
+      right: -5px;
+      top: 0px;
+    }
+
+    .switch {
+      visibility: hidden;
+      position: absolute;
+      margin-left: -9999px;
+    }
+
+    .switch + label {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+    }
+
+    .switch--shadow + label {
+      padding: 2px;
+      width: 60px;
+      height: 30px;
+      background-color: #dddddd;
+      border-radius: 60px;
+    }
+    .switch--shadow + label:before,
+    .switch--shadow + label:after {
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      bottom: 1px;
+      content: "";
+    }
+    .switch--shadow + label:before {
+      right: 1px;
+      background-color: #EB3E23;
+      border-radius: 30px;
+      transition: background 0.4s;
+    }
+    .switch--shadow + label:after {
+      width: 32px;
+      background-color: #fff;
+      border-radius: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s;
+    }
+    .switch--shadow:checked + label:before {
+      background-color: #8ce196;
+    }
+    .switch--shadow:checked + label:after {
+      transform: translateX(26px);
+    }
+
+    .titulo-lista-imovels{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center; 
+        max-width: 75%;
+    }
+
+    .txt-meta{
+        color: #EB3E23;
+        font-size: 18px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-weight: bold;
+        position: absolute;
+        top: -180px;
+        left: 5px;
+        border: 1px solid #EB3E23;
+        padding: 5px;
+
+    }
+
+    .icones-imovels{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 0px;
+        color: #666;
+        font-size: 1.2em;
+        align-items: flex-start;        
+
+    }
+
+    .icones-imovels div{
+        padding: 2px;
+        text-align: center;
+    }
+
+    .icones-imovels div small{
+        display: none;
+    }
+
+    .group-button .btn{
+        width: 48%;
+        margin: 0px 0.5%;
+    }
 
 }
+
+
+

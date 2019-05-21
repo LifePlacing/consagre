@@ -15,54 +15,70 @@
                             </div>
                             <div class="content">
 
-                            	<div class="table-responsive">
+                                <a href="" onclick="event.preventDefault(); document.getElementById('ativar-todos').submit();" class="btn btn-primary btn-lg">Ativar Anúncios
+                                
+                                </a>
 
-                            		<table class="table">
-
-		                    			<tr>
-		                        			<th>Código</th>
-		                        			<th>Titulo</th>
-		                        			<th>Descrição</th>
-		                        			<th>Ações</th>
-		                        		</tr>
-
-		                            	@foreach( $anun_integracoes['Listing'] as $key => $list )
+                                <form id="ativar-todos" action="{{ route('anunciosemmassa.corujas') }}" method="POST" style="display: none;">
+                                    @csrf
+                                    <input type="hidden" name="url" value="{{$url}}">
+                                </form>
 
 
-		                            		<tr>
-		                            			<td>{{ $list['ListingID'] }}</td>
-		                            			<td> {{ $list['Title'] }}</td>
+		                      @foreach( $anun_integracoes['Listing'] as $key => $list )
 
-		                            			<td> {!! $list['Details']['Description'] !!}
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                          <div class="col-xs-12 col-md-3">
+                                            <?php $url = preg_replace("/^http:/i", "https:", $list['Media']['Item'][0] )?>
+                                            <a href="#" class="thumbnail">       
+                                              <img src="{{ $url }}" alt="">
+                                            </a>
+                                          </div>
+                                          <div class="col-xs-12 col-md-9">
 
-		                            			</td>
-		                            			<td> 
-		                            				<a href="#" onclick="event.preventDefault();      document.getElementById('ativar-form-{{$key}}').submit();"> Ativar</a> 
+                                                <div class="titulo-lista-imovels">
+                                                    <h5>{{ $list['Title'] }}</h5>
+                                                    
+                                                    <span>
+                                                        {{ __('imovels.'.$list['TransactionType']) }} 
+                                                    </span>   
+                                                </div>
 
-		                            				<a href="#" onclick="event.preventDefault();
-                                                document.getElementById('detalhes-form-{{$key}}').submit();" title="Detalhes do anúncio"> Detalhes</a> 
+                                              Código: <span>{{ $list['ListingID'] }}</span>
+
+                                              <div class="icones-imovels">
+
+                                                <div>
+                                                    <i class="fa fa-bed fa-lg" aria-hidden="true"></i><br>
+                                                    {{ $list['Details']['Bedrooms']}} quartos
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-bath fa-lg" aria-hidden="true"></i><br>
+                                                    {{ $list['Details']['Bathrooms']}}
+                                                    banheiros
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-area-chart fa-lg" aria-hidden="true"></i><br>
+                                                    {{ $list['Details']['ConstructedArea'] }}m<sup>2</sup>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-car fa-lg" aria-hidden="true"></i><br>
+                                                    {{ $list['Details']['Garage']}} garagem
+                                                </div>
+                                                    
+                                                  
+                                              </div>
+                                          </div>
+                                    </div>                                    
+                                </div>
+
+		                      @endforeach
 
 
+                            </div>
 
-                                                        <form id="detalhes-form-{{$key}}" action="{{ route('single.xml.detalhes') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                            <input type="hidden" name="ListingID" value="{{ $list['ListingID'] }}">
-                                                            <input type="hidden" name="url" value="{{$url}}">
-                                                        </form>
 
-                                                        <form id="ativar-form-{{$key}}" action="{{ route('ativarAnuncioXml') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                            <input type="hidden" name="ListingID" value="{{ $list['ListingID'] }}">
-                                                            <input type="hidden" name="url" value="{{$url}}">
-                                                        </form>
-		                            			</td>
-		                            		</tr>
-
-		                            	@endforeach
-
-	                            	</table>
-
-                            	</div>
 
                             </div>
                             
@@ -147,5 +163,9 @@
 	@else
 		<h2>Não Existe anuncios para este sistema</h2>
 	@endif
+
+
+
+
 
 @endsection

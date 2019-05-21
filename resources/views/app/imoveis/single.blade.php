@@ -5,7 +5,7 @@
 
 @section('content')
 
-	<div class="h2">
+	<div class="h2 title-single">
 		<h2> {{$propriedade->titulo}} </h2> <span></span>
 	</div>
 
@@ -29,15 +29,21 @@
 
 
 				<div class="carousel-inner">
-
 					
-					@foreach($propriedade->media->sortBy('position') as $media )
+					@foreach($propriedade->media->sortBy('position') as $media )			
 
-						@if($media->position !== null)
-							<div class="carousel-item {{ $media->position == 0 ? 'active' : '' }}">
-								<img class="d-block w-100" src="{{asset($media->source)}}" 
-								alt="{{ $media->source }}">
-							</div>
+						@if($media->where('position', '=', 0) !== null)						
+								<div class="carousel-item {{ $media->position == 0 ? 'active' : ''}}">
+									<img class="" src="{{asset($media->source)}}" 
+									alt="{{ $media->source }}">
+								</div>
+						@else
+
+						<div class="carousel-item {{ $media->position == 1 ? 'active' : ''}}">
+							<img class="" src="{{asset($media->source)}}" 
+							alt="{{ $media->source }}">
+						</div>
+								
 						@endif
 
 					@endforeach

@@ -88,10 +88,19 @@
 
                                                         </a>
 
-                                                        <form id="ler-form-{{$item->id}}" action="{{ route('anunciante.xml.leitura') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                                        </form>
+                                                        <a href="#" onclick="event.preventDefault(); document.getElementById('ativar-todos').submit();">
+                                                            Ativar
+                                                        </a>
+
+                                                    <form id="ativar-todos" action="{{ route('anunciosemmassa.corujas') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        <input type="hidden" name="url" value="{{$item->url}}">
+                                                    </form> 
+
+                                                    <form id="ler-form-{{$item->id}}" action="{{ route('anunciante.xml.leitura') }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                    <input type="hidden" name="id" value="{{ $item->id }}">
+                                                    </form>
                                 						
 														<form id="delete-form-{{$item->id}}" action="{{ route('anunciante.parseXml.delete') }}" method="POST" style="display: none;">
 														    @csrf

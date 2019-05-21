@@ -37,7 +37,7 @@ Route::prefix('sistem/adm')->middleware(['auth:admin', 'revalidate'])->group(fun
 });
 
 
-/*====================== ROTAS DOS USUARIOS ====================================*/
+/*====================== ROTAS DOS USUARIOS =============================*/
 
 Route::get('/usuario/confirmar/{token}', 'Auth\RegisterController@verifyUser');
 
@@ -65,6 +65,8 @@ Route::post('/anunciante/imovel/apagar', 'ImovelanunciantesController@delete')->
 Route::get('/busca/imoveis/{cidade}', 'BuscaController@getCidade')->name('buscaCidade');
 
 Route::get('/busca/todososimoveis/{meta}', 'BuscaController@getMeta')->name('buscaTodos');
+
+Route::get('/busca/listarimoveis', 'BuscaController@getAll')->name('listarTodosImoveis');
 
 Route::any('/buscar/imoveis/filtro-search', 'BuscaController@getImoveis')->name('buscaImoveis');
 
@@ -162,6 +164,8 @@ Route::post('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorXml
 
 Route::post('anunciante/integracoes/xml/detalhes', 'XmlController@singleXml')->name('single.xml.detalhes');
 
+Route::post('anunciante/integracoes/xml/ativar/all', 'XmlController@ativarAnunciosEmMassa')->name('anunciosemmassa.corujas');
+
 Route::post('anunciante/integracoes/xml/ativar', 'XmlController@ativarAnuncioXml')->name('ativarAnuncioXml');
 
 Route::post('anunciante/integracoes/ingaia/ativar', 'XmlController@ativarAnuncioIngaia')->name('ativarAnuncioIngaia');
@@ -169,6 +173,8 @@ Route::post('anunciante/integracoes/ingaia/ativar', 'XmlController@ativarAnuncio
 Route::get('anunciante/integracoes/single/detalhes/anuncio', 'XmlController@singleDetalhesXml')->name('xml.detalhesdoimovel');
 
 Route::get('anunciante/integracoes/xml', 'ImovelAnunciantesController@leitorGetXml')->name('anunciante.xml.get');
+
+Route::post('anunciante/anuncios/desativar', 'ImovelAnunciantesController@desativarImovel')->name('desativar.imovel');
 
 /*================Cadastros dos anunciantes============================*/
 

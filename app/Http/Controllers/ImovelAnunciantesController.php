@@ -14,6 +14,7 @@ use App\Categoria;
 use App\Xml;
 use Redirect;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
 
 
 class ImovelAnunciantesController extends ImovelController
@@ -382,13 +383,12 @@ class ImovelAnunciantesController extends ImovelController
     {
         $anunciante = Auth::user();
 
-        $imoveis = Imovel::where('anunciante_id', '=', $anunciante->id)->orderBy('created_at', 'desc')->get();       
+        $imoveis = Imovel::where('anunciante_id', '=', $anunciante->id)->orderBy('created_at', 'desc')->paginate(10);       
 
-        $simples = $imoveis->where('tipo_de_anuncio', '=', 'simples');
-        $destaques = $imoveis->where('tipo_de_anuncio', '=', 'destaque');
-        $super = $imoveis->where('tipo_de_anuncio', '=', 'super');
 
-        return view('users.anunciantes.anuncios.listar', compact(['imoveis','simples', 'destaques', 'super'], [$imoveis, $simples, $destaques, $super]));
+
+
+        return view('users.anunciantes.anuncios.listar', compact(['imoveis'], [$imoveis]));
     }
 
 
@@ -495,7 +495,9 @@ class ImovelAnunciantesController extends ImovelController
 
         $xml = Xml::find($id);
 
-        $user = Auth::user()->id;
+        $imoveisAtivos = Auth::user();
+
+        $user = $imoveisAtivos->id;
 
         $diretorio = public_path('webservice/'.$user.'/xml');
         
@@ -544,11 +546,7 @@ class ImovelAnunciantesController extends ImovelController
                 $request->session()->get('url');   
                 $request->session()->put('url', $file); 
                                             
-           } 
-           
-          
-   
-
+           }            
 
             return redirect()->route('anunciante.xml.get');            
            
@@ -625,11 +623,17 @@ class ImovelAnunciantesController extends ImovelController
 
         $diretorio = public_path('webservice/'.$user.'/xml');
 
-        if (is_dir($diretorio)){
+        if (is_dir($diretorio)){           
+                
+            //$arquivo = file_get_contents($request['url']);
+            $arquivo = file_get_contents_curl($request['url']);
+                
+            if ($arquivo === FALSE){
+               return back()->with('errors', 'Ocorreu um erro com sua integração! Verifique o endereço xml informado'); 
+            }
 
-            $arquivo = file_get_contents($request['url']);
-
-            file_put_contents($diretorio.'/'.$request['sistema'].'.xml', $arquivo);            
+            file_put_contents($diretorio.'/'.$request['sistema'].'.xml', $arquivo);
+            
             
         }else{   
 
@@ -751,6 +755,33 @@ class ImovelAnunciantesController extends ImovelController
         }
 
         return redirect()->route('anunciantes.listar.anuncios')->with('success', 'Anúncio cadastrado com sucesso!');
+    }
+
+    function desativarImovel(Request $request)
+    {
+
+        $id = $request['id'];
+
+        $imovel = Imovel::find($id);
+
+        if($imovel->status == 0){
+
+            $imovel->status = 1;
+            $imovel->save();
+
+            return response()->json(['success', 'O anúncio está ativo e online'], 200);
+
+        }else{
+           $imovel->status = 0;
+           $imovel->save();
+
+           return response()->json(['errors', 'O anúncio está temporariamente pausado!'], 200);
+        }
+
+        
+
+        
+
     }
 
 

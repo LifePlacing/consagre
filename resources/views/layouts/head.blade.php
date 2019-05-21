@@ -22,7 +22,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/cube-btn.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mobile.css?ver=1.1') }}" rel="stylesheet">  
+    <link href="{{ asset('css/mobile.css?ver=1.2') }}" rel="stylesheet">  
 
     <!-- end of global styles-->
     @yield('header_styles')
@@ -75,7 +75,7 @@
 							    Conta Anunciante
 							  	</a>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+								<a class="dropdown-item" href="{{ route('anunciante.dashboard') }}">
 									Painel de Anuncios
 								</a>  
 
@@ -102,7 +102,7 @@
 							    Administrador
 							  	</a>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" href="{{ route('anunciante.dashboard') }}">
+								<a class="dropdown-item" href="{{ route('admin.dashboard') }}">
 									Painel Admnistrativo
 								</a>  
 
@@ -158,15 +158,15 @@
 	                	</li>
 
 	                	<li class="nav-item">
-	                		<a href="">COMPRAR</a>
+	                		<a href="{{ route('buscaTodos', 'venda') }}">COMPRAR</a>
 	                	</li>
 
 	                	<li class="nav-item">
-	                		<a href="">ALUGAR</a>
+	                		<a href="{{ route('buscaTodos', 'aluguel') }}">ALUGAR</a>
 	                	</li>
 
 	                	<li class="nav-item">
-	                		<a href="">TODOS</a>
+	                		<a href="{{ route('listarTodosImoveis')}}">TODOS</a>
 	                	</li>                	
 
 	                </ul>

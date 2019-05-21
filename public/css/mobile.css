@@ -66,12 +66,22 @@ span.text-informativo i{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin: 50px 0!important;
+	margin: 0px auto 10px!important;
+	text-align: center;
+	padding: 50px 0px;
+}
+
+.title-single{	
+	background-image: url('/images/imoveis-na-baixada-santista.jpg');
+	background-position: top;
+	background-size: 250%!important;
 }
 
 .h2 h2{
 	font-size: 1.8rem!important;
-	margin-bottom: 1.2rem!important;	
+	margin-bottom: 1.2rem!important;
+	color: #666!important;
+	font-weight: bold;		
 }
 
 .h2 span{
@@ -139,6 +149,11 @@ th{
 	padding: 10px 0px!important;
 }
 
+
+.txt-meta{
+	color: #666;
+	font-size: 22px;
+}
 
 
 /*====== Classes do Bootstrap =========*/
@@ -1351,9 +1366,9 @@ li.page-item.active > .page-link{
 	text-align: center;
 }
 .descricao p{
-	line-height: 1.4;
-	text-align: justify;
+	line-height: 1.8;
 	padding: 0px 5px;
+	font-size: 16px;	
 }
 
 .img-profile img{
@@ -1801,6 +1816,34 @@ img.cvv{
 	    flex: 0 0 100%!important;
 	    max-width: 100%!important;
 	}
+
+	/*Titulos imóvel single*/
+	.h2{
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: 50px 0!important;
+	}
+
+	.h2 h2{
+		font-size: 1.8rem!important;
+		margin-bottom: 1.2rem!important;
+		color: #666!important;
+		font-weight: bold	
+	}
+
+	.h2 span{
+		width: 20%;
+		min-height: 3px;		
+		background: rgb(255,90,0)!important;
+		border-bottom: 1px solid rgb(255,90,0);
+	}
+
+
+
+
 
 
 }
@@ -2423,11 +2466,12 @@ img.cvv{
 	}
 
 	#superDestaquesSlide{
-		max-width: 33%!important;
+		max-width: 33%!important;		
 	}
 
 	#superDestaquesSlide > .carousel-inner.slide-dest{
-		max-width: 100%!important;
+		min-width: 300px!important;
+		max-width: 100%;
 		max-height: 270px!important;
 		overflow: hidden!important;
 	}
@@ -2521,6 +2565,8 @@ img.cvv{
 
 	/*Página Single Imovel*/
 
+
+
 	.grid-right{
 		display: flex;
 		display: -webkit-flex;
@@ -2542,19 +2588,23 @@ img.cvv{
 
 	}
 
-	.carousel-inner {
-    	max-height: 500px!important;
-    	
+	#SliderImoveis .carousel-inner .carousel-item{
+		max-width: 100%;
+		max-height: 600px;
+		text-align: center;
 	}
 
-	#SliderImoveis > .carouser-inner > .carousel-item img{
-		object-fit: scale-down!important;
+	#SliderImoveis > .carouser-inner > .carousel-item img{		
+		object-fit: none!important;
+		object-position: center;		
 	}
 
 	.meta{
 		top: 60px;
 		left: 25px;		
 	}
+
+
 
 	.painel > ul{
 	display: flex!important;
@@ -2615,6 +2665,30 @@ img.cvv{
 	}
 
 
+	.h2{
+		display: flex;
+		display: -webkit-flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;		
+	}
+
+	.h2 h2{
+		font-size: 1.8rem!important;
+		margin-bottom: 1.2rem!important;
+		color: #666!important;
+		font-weight: bold	
+	}
+
+	.h2 span{
+		width: 20%;
+		min-height: 3px;		
+		background: rgb(255,90,0)!important;
+		border-bottom: 1px solid rgb(255,90,0);
+	}
+
+
+
 }
 
 
@@ -2623,5 +2697,25 @@ img.cvv{
 	.container {
 	    max-width: 1180px!important;
 	}
+
+	.h2{
+		margin: 0 auto!important;
+		text-align: center;		
+	}
+
+	.h2 h2{
+		font-size: 1.8rem!important;
+		margin-bottom: 1.2rem!important;
+		color: #666!important;
+		font-weight: bold	
+	}
+
+	.title-single{
+
+	background-size: 75%!important;
+}
+
+
+
 
 }

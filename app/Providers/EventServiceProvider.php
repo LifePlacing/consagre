@@ -15,6 +15,9 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\CadastrarSenhaAnunciante' => [
         	'App\Listeners\AtivarAnuncianteListener',
+        ],
+        'App\Events\AdicionarAnuncioXml' => [
+            'App\Listeners\AddAnuncioCorujas',
         ]
     ];
 

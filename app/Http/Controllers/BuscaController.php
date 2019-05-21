@@ -15,6 +15,25 @@ class BuscaController extends Controller
 {
 
 
+/*Listar todos os anuncios de imóveis ativos*/
+
+    public function getAll(){
+        $busca = Imovel::hasStatus()->orderBy('created_at', 'desc');
+        $total_resultados = $busca->count();
+        
+        if ($total_resultados > 0) { 
+
+            $imoveis = $busca->paginate(10);
+
+            return view('app.imoveis.search_cidades', compact(['imoveis', 'total_resultados'], [$imoveis, $total_resultados]));          
+        }else{
+            return view('app.imoveis.search_cidades')
+            ->withErrors(['Nenhum registro de Imovel Encontrado']);
+         }
+
+
+    }
+
 /*Busca por venda ou aluguel*/
 
     public function getMeta($meta){

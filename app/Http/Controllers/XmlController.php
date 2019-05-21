@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\AdicionarAnuncioXml;
 use App\Anunciante;
 use App\Imovel;
 use App\Cidade;
@@ -11,6 +12,7 @@ use App\Media;
 use App\ImovelType;
 use App\Categoria;
 use App\Xml;
+use App\Jobs\ProcessAnuncioXml;
 
 class XmlController extends Controller
 {
@@ -366,7 +368,9 @@ class XmlController extends Controller
                             
                                 $media = new Media();
                                 $media->imovel_id = $imovel->id;
-                                $media->source = (string)$item->URLArquivo;
+                                $urlArquivo  = (string)$item->URLArquivo;
+                                $novaUrl = preg_replace("/^http:/i", "https:", $urlArquivo);
+                                $media->source = $novaUrl;
 
                                 if(isset($item->Principal)){
                                     $media->position = 0;
@@ -416,6 +420,31 @@ class XmlController extends Controller
         }
 
         
+    }
+
+
+    public function ativarAnunciosEmMassa(Request $request){
+
+        $url_arquivo_xml = $request['url'];
+        $xml = simplexml_load_file($url_arquivo_xml);
+        $anunciante = Auth::user();
+    
+
+        foreach ($xml->Listings->Listing as $item){
+           $obj = simplexml_load_string($item->asXML(), null, LIBXML_NOCDATA);
+
+            /* Verificando se o imovel já existe */
+            $imovel = Imovel::where('anunciante_id', '=', $anunciante->id)->where('codigo', '=', $obj->ListingID )->withTrashed()->first();
+
+            if($imovel == null){
+                //event( new AdicionarAnuncioXml($obj, $anunciante->id));
+                ProcessAnuncioXml::dispatch($item->asXML(), $anunciante->id)->delay(now()->addMinutes(1));
+            }
+
+        }
+
+        return back()->with('success', 'Requisição Processada com Sucesso. Este procedimento pode demorar até 20min para concluir.');
+
     }
 
 
@@ -642,8 +671,7 @@ class XmlController extends Controller
             $imovel->status = 1;
 
             $imovel->save();
-
-
+            
 
             $i = 0;
 
@@ -652,8 +680,11 @@ class XmlController extends Controller
                 $count = $i++;
 
                 $media = new Media();
-                $media->imovel_id = $imovel->id;
-                $media->source = (string)$item;
+                $media->imovel_id = $imovel->id;                
+
+                $urlArquivo  = (string)$item;
+                $novaUrl = preg_replace("/^http:/i", "https:", $urlArquivo);
+                $media->source = $novaUrl;
 
                 if($item->attributes()->primary){
                     $media->position = 0;
@@ -670,6 +701,8 @@ class XmlController extends Controller
                 
 
             }
+
+            
 
 
             return back()->with('success', 'Anúncio gravado com sucesso!');

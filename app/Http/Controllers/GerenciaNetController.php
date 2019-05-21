@@ -10,6 +10,7 @@ use App\Plano;
 use App\Payment;
 use App\Assinatura;
 use DateTime;
+use App\Mail\SenhaAnunciante;
 use App\Events\CadastrarSenhaAnunciante;
 
 use Validator;
@@ -61,7 +62,8 @@ public function __construct()
 
 		$body_plan = [
 			'name' => $plano->nome, 
-			'interval' => (int)$plano->interval, 
+			//'interval' => (int)$plano->interval, 
+			'interval' => (int)1, 
 		];
 
 
@@ -180,8 +182,7 @@ public function __construct()
         		
 	            if(!$anunciante->verified) {
 	            	$anunciante->verified = 1;   
-        			//event(new CadastrarSenhaAnunciante($anunciante));   
-        			Mail::to($anunciante->email)->queue(new RegistroAnunciante($anunciante));    			
+        			event(new CadastrarSenhaAnunciante($anunciante));
         		}
 
         		$anunciante->save();
@@ -271,7 +272,8 @@ public function __construct()
 
 		$body_plan = [
 			'name' => $plano->nome, 
-			'interval' => (int)$plano->interval, 
+			//'interval' => (int)$plano->interval, 
+			'interval' => (int)1, 
 		];
 
 

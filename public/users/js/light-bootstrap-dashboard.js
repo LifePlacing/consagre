@@ -1,19 +1,3 @@
-/*!
-
- =========================================================
- * Light Bootstrap Dashboard - v1.4.0
- =========================================================
-
- * Product Page: http://www.creative-tim.com/product/light-bootstrap-dashboard
- * Copyright 2017 Creative Tim (http://www.creative-tim.com)
- * Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE.md)
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
 var searchVisible = 0;
 var transparent = true;
 
@@ -39,6 +23,21 @@ $(document).ready(function(){
     }).on("blur", function(){
         $(this).parent(".input-group").removeClass("input-group-focus");
     });
+
+
+    $('.delete-imv').on("mousedown", function(){
+        $("#modalDelete").modal('toggle');
+
+        var id = $(this).data("id");
+        $('#continuar').on('mousedown', function(event){
+            event.preventDefault();
+            document.getElementById('delete-form-'+id).submit();
+        });
+
+
+    });
+
+
 
     // Fixes sub-nav not working as expected on IOS
 $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
@@ -134,6 +133,47 @@ lbd = {
     },200)
 }
 
+function Valid_id(id){
+        
+        console.log(id);
+
+        let url = '';
+
+        $.ajaxSetup({
+           headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+        });
+
+        $.ajax({
+            url: "/anunciante/anuncios/desativar",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                id:id,
+            },
+            success: AjaxSucceeded,       
+        });
+
+        function AjaxSucceeded(result){
+            //alert();
+            if(result[0] === 'success'){
+                $('#msg').removeClass('alert-danger');
+                $('#msg').addClass('alert-success');
+            }
+
+            if(result[0] === 'errors'){
+                $('#msg').removeClass('alert-success');
+                $('#msg').addClass('alert-danger');
+            }
+            $('#msg').html(result[1]);
+
+            $('#modal-success').modal('toggle');
+        }
+
+
+}
+
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -152,3 +192,5 @@ function debounce(func, wait, immediate) {
 		if (immediate && !timeout) func.apply(context, args);
 	};
 };
+
+

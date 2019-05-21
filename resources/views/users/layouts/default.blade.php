@@ -19,6 +19,7 @@
     <!-- Bootstrap core CSS     -->
     <link href="{{ asset('users/css/bootstrap.min.css') }}" rel="stylesheet" />
 
+    
     <!-- Animation library for notifications   -->
     <link href="{{ asset('users/css/animate.min.css')}}" rel="stylesheet"/>
 
@@ -157,14 +158,10 @@
 
 
     <!--   Core JS Files --> 
-    <script src="{{ asset('users/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('users/js/jquery.3.2.1.min.js')}}"></script>
     <script src="{{ asset('users/js/jquery-ui.min.js') }}"></script>
 
-    <script src="{{ asset('users/js/bootstrap.min.js') }}" type="text/javascript"></script>   
-     
-    @hasSection('footer_scripts')
-        @yield('footer_scripts')
-    @endif
+    <script src="{{ asset('users/js/bootstrap.min.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('users/js/moment.min.js')}} " type="text/javascript"></script>     
 
@@ -178,7 +175,9 @@
     <script src="{{ asset('users/js/bootstrap-notify.js') }}"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-    <script src="{{ asset('users/js/light-bootstrap-dashboard.js?v=1.4.0') }}"></script>
+    <script src="{{ asset('users/js/light-bootstrap-dashboard.js?v=1.4.0') }}">
+        
+    </script>
 
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! 
     <script src="{{ asset('users/js/demo.js')}}"></script>-->
@@ -187,6 +186,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script> 
 
+    @hasSection('footer_scripts')
+        @yield('footer_scripts')
+    @endif
 
     <script>
 
@@ -237,7 +239,7 @@
 
 
         });
-        
+      
     </script>
 
 
@@ -267,9 +269,6 @@
         </script>
 
     @endif
-
-
-
 
 
 </html>              
