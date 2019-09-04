@@ -56,6 +56,7 @@ class AnunciantesController extends Controller
 
         $imovel = Cache::remember('imoveis', $expira, function(){
             $anunciante = Auth::user();
+
             return Imovel::where('anunciante_id', '=', $anunciante->id)->withTrashed()->get();
         });
 
@@ -63,9 +64,15 @@ class AnunciantesController extends Controller
         $simples = $imovel->where('tipo_de_anuncio', '=', 'simples')->count();
         $destaque = $imovel->where('tipo_de_anuncio', '=', 'destaque')->count();
         $super = $imovel->where('tipo_de_anuncio', '=', 'super')->count();
+
+        $anunciante = Auth::user();
+
+        $assinatura = $anunciante->assinaturas->last();       
+       
+        $pagamento =  $assinatura->payments->last(); 
         
-        return view('users.anunciantes.infoPlano', compact(['simples', 'destaque', 'super'], 
-            [$simples, $destaque, $super]));
+        return view('users.anunciantes.infoPlano', compact(['simples', 'destaque', 'super', 'assinatura', 'pagamento'], 
+            [$simples, $destaque, $super, $assinatura, $pagamento ]));
     }
 
 
@@ -197,18 +204,17 @@ class AnunciantesController extends Controller
     public function messageReceive()
     {
 
-        $imoveis = Imovel::where('anunciante_id', '=', Auth::user()->id )->with('mensagens')->get();
-     
-        $mensagens = [];
+        $anunciante = Anunciante::with(['mensagens' => function($query){ $query->orderBy('created_at', 'DESC');}])->find(Auth::user()->id);
+
+        if( $anunciante->mensagens->count() ){
+           $mensagens = $anunciante->mensagens; 
+       }else{
+            $mensagens = [];
+       }
+        
 
         $today = Carbon::now('America/Sao_Paulo');
             
-           foreach ($imoveis as $imovel){                   
-               foreach ($imovel->mensagens as $msg) {
-                  $mensagens = $msg->orderBy('created_at', 'DESC')->paginate(10);
-               }
-            }
-
 
         return view('users.anunciantes.messages', compact(['mensagens', 'today'], [$mensagens, $today]) );
     }

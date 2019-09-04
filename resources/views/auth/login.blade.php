@@ -84,7 +84,7 @@
 
                <h5>  Ainda não tem uma Conta ? </h5>
 
-                <a href="{{ route('register') }}" class="btn btn-danger">
+                <a href="{{ route('cadastro.usuarios') }}" class="btn btn-danger">
                     {{ __('Cadastre-se aqui') }}
                 </a>
 

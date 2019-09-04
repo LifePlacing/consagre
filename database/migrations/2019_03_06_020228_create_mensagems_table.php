@@ -25,6 +25,6 @@ class CreateMensagemsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('mensagems');
+        Schema::dropIfExists('mensagems');        
     }
 }

@@ -9,7 +9,7 @@
 		<i class="fa fa-sort-desc" aria-hidden="true" v-if=" minpreco == 0 "></i>
 
 		<h5 class="precos" v-else=" minpreco > 0 "> 
-		{{ minpreco }} -até- {{ maxpreco }}<span v-if="maxpreco == 50000">+</span> 
+		{{ minpreco }} -até- {{ maxpreco }}<span v-if="maxpreco == 500000">+</span> 
 		</h5>
 	
 	</a>
@@ -27,11 +27,11 @@
 
 			<span>Valor Minimo:</span>
 
-			<input type="range" class="range" min="0" max="5000" step="100" v-model="minpreco"/>
+			<input type="range" class="range" min="0" max="50000" step="1000" v-model="minpreco"/>
 
 			<span>Valor Maximo:</span>
 
-			<input type="range" class="range" min="6000" max="50000" step="1000" v-model="maxpreco"/>
+			<input type="range" class="range" min="50000" step="10000" v-model="maxpreco" max="1000000"/>
 
 		</div>
 
@@ -191,7 +191,7 @@ export default {
   data(){
     return{
      minpreco: 0,
-     maxpreco: 50000,
+     maxpreco:1000000,
      area_inicial: 0,
      area_final:10000
     }

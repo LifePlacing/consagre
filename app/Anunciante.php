@@ -47,5 +47,10 @@ class Anunciante extends Authenticatable
 		return $this->hasMany('App\Payment');
 	}
 
+  public function mensagens()
+  {
+    return $this->hasMany('App\Mensagem');
+  }
+
    
 }

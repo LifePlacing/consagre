@@ -113,7 +113,7 @@ class BuscaController extends Controller
     public function getImoveis(Request $request)
     {
     
-        $pesquisa = $request->except('_token');
+        $pesquisa = $request->except('_token');       
 
         if($request['cidade'] !== 'all'){
 
@@ -159,7 +159,7 @@ class BuscaController extends Controller
 
             return redirect()->route('searchImoveis')
                             ->withErrors(['Nenhum registro de Imovel Encontrado'])
-                            ->with('super', $super);
+                            ->with(['super', 'pesquisa'], [$super, $pesquisa]);
         }else{
 
             //$destaque = $busca->get();
@@ -174,6 +174,7 @@ class BuscaController extends Controller
 
 
     public function searchImoveis(Request $request){      
+
 
         return view('app.imoveis.search_imoveis');
     }

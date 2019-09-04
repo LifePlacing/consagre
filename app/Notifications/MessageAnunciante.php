@@ -31,10 +31,13 @@ class MessageAnunciante extends Notification
     {
 
         $titulo = $this->mensagem->imovel->titulo;     
-        $remetente =  $this->mensagem->nome_remetente;  
+        $remetente =  $this->mensagem->nome_remetente;
+        $email_anunciante = $this->mensagem->imovel->anunciante->email; 
+        $email_remetente = $this->mensagem->email_remetente;
 
         return (new MailMessage)
-                    ->subject("Você uma nova Mensagem!" )
+                    ->subject("Você tem uma nova Mensagem!" )                    
+                    ->replyTo($email_remetente)
                     ->greeting('Olá!')
                     ->line("$remetente demonstrou interesse em um dos seus anúncios")
                     ->action('Entre em contato agora', url('/'))

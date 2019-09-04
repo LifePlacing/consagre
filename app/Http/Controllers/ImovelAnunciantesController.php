@@ -457,23 +457,37 @@ class ImovelAnunciantesController extends ImovelController
 
         $xml = Xml::find($id);
 
-        /* Limpa arquivo do servidor */
-        $diretorio = public_path('webservice/'.$user.'/xml');
-        $file = $diretorio.'/'.$xml->sistema.'.xml';
 
-        if(file_exists($file)){
-            unlink($file);
+        if( !empty($xml) ){
+
+            /* Limpa arquivo do servidor */
+            $diretorio = public_path('webservice/'.$user.'/xml');
+            $file = $diretorio.'/'.$xml->sistema.'.xml';
+
+            if(file_exists($file)){
+                unlink($file);
+            }
+
+            if($xml->sistema == 'inGaia'){
+                ini_set('user_agent', 'inGaia');                
+                header('Cache-control: private');
+                header('Content-Type: application/octet-stream; charset=UTF-8');
+                header('Content-Disposition: filename='.$file);
+                $url = $xml->url;
+                $arquivo = file_get_contents($url);
+            }else{
+               $arquivo = file_get_contents($xml->url); 
+            }
+                       
+
+            file_put_contents($file, $arquivo);
+
+            $mytime = Carbon::now();
+
+            $xml->LastPublishDate = $mytime->toDateTimeString();
+
+            $xml->save();
         }
-
-        $arquivo = file_get_contents($xml->url);
-
-        file_put_contents($file, $arquivo);
-
-        $mytime = Carbon::now();
-
-        $xml->LastPublishDate = $mytime->toDateTimeString();
-
-        $xml->save();
 
         return back()->with('success', 'Lista Atualizada com sucesso! ');
     }
@@ -519,7 +533,11 @@ class ImovelAnunciantesController extends ImovelController
 
                 $obj = json_encode($xmlSis->Listings);
 
-                $header = json_encode($xmlSis->Header);    
+                $header = json_encode($xmlSis->Header);
+
+                if($request->session()->exists('anun_integracoes_ingaia')){
+                    $request->session()->forget('anun_integracoes_ingaia');
+                }    
 
                 $request->session()->get('anun_integracoes');    
                 $request->session()->put('anun_integracoes', $obj); 
@@ -537,11 +555,16 @@ class ImovelAnunciantesController extends ImovelController
 
                 $obj = json_encode($xmlSis->Imoveis);
 
+                $header = header("Content-Type: text/xml; charset='UTF-8'");
+
                 if($request->session()->exists('anun_integracoes')){
                     $request->session()->forget('anun_integracoes');
                 }
                 $request->session()->get('anun_integracoes_ingaia');    
                 $request->session()->put('anun_integracoes_ingaia', $obj);
+
+                $request->session()->get('header');   
+                $request->session()->put('header', $header); 
 
                 $request->session()->get('url');   
                 $request->session()->put('url', $file); 
@@ -580,6 +603,8 @@ class ImovelAnunciantesController extends ImovelController
         if ($request->session()->exists('anun_integracoes_ingaia')) {
 
             $anun_integracoes_ingaia = json_decode($request->session()->get('anun_integracoes_ingaia'), true);
+            
+            $header = json_decode($request->session()->get('header'), true);
             
             $url = $request->session()->get('url');
 
@@ -623,10 +648,20 @@ class ImovelAnunciantesController extends ImovelController
 
         $diretorio = public_path('webservice/'.$user.'/xml');
 
-        if (is_dir($diretorio)){           
+        if (is_dir($diretorio)){         
                 
             //$arquivo = file_get_contents($request['url']);
-            $arquivo = file_get_contents_curl($request['url']);
+            if($request['sistema'] == 'inGaia'){
+            ini_set('user_agent', 'inGaia');
+            $download_file = $request['sistema'].'.xml';
+            header('Cache-control: private');
+            header('Content-Type: application/octet-stream; charset=UTF-8');
+            header('Content-Disposition: filename='.$download_file);            
+            $arquivo = file_get_contents($request['url']);
+            }else{
+              $arquivo = file_get_contents_curl($request['url']);  
+            }
+            
                 
             if ($arquivo === FALSE){
                return back()->with('errors', 'Ocorreu um erro com sua integração! Verifique o endereço xml informado'); 
@@ -637,9 +672,25 @@ class ImovelAnunciantesController extends ImovelController
             
         }else{   
 
-           mkdir($diretorio, 0775, true); 
+            mkdir($diretorio, 0775, true); 
 
-           $arquivo = file_get_contents($request['url']);
+            if($request['sistema'] == 'inGaia'){
+                header("Content-Type: text/xml; charset='UTF-8'");
+                $url = $request['url'];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'inGaia');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $arquivo = curl_exec($ch);
+                curl_close($ch);
+
+            }else{
+              $arquivo = file_get_contents_curl($request['url']);  
+            }
+
+           //$arquivo = file_get_contents($request['url']);
 
            file_put_contents($diretorio.'/'.$request['sistema'].'.xml', $arquivo);            
         }

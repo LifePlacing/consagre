@@ -62,16 +62,24 @@
                             						
                         							@if($assinatura->last_charge == $pagamento->charge_id )
 
-                        							<td> {{ $pagamento->payment == "banking_billet" ? 'Boleto Bancário' : 'Cartão de Crédito' }} </td>
+                        							<td> 
+                                                        @if($pagamento->payment == "banking_billet")
+                                                            Boleto Bancário 
+                                                        @elseif($pagamento->payment == "currency")
+                                                            Em Dinheiro
+                                                        @else
+                                                            Cartão de Crédito
+                                                        @endif 
+                                                    </td>
                             							
                         							<td>
                             							@if(verificaStatus($pagamento->status) == 'Aguardando Pagamento' )
                             								<span class="bg-warning text-danger">	{{ verificaStatus($pagamento->status) }}
                             								</span>	
                             							@else
-
+                                                            <span class="text-success">
                             								{{ verificaStatus($pagamento->status) }}
-
+                                                            </span>
                             							@endif
                             						</td>			
 

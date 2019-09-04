@@ -95,6 +95,8 @@ jQuery(document).ready(function(){
 
 			    var errors = data.responseJSON;
 
+			    console.log(errors);
+
 			    var errorsHtml = '';
 
 			    $.each(errors.errors, function( key, value ) {

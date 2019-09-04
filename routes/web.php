@@ -57,7 +57,7 @@ Route::post('/usuario/profile/show/update/{id}', 'UserController@update')->name(
 
 /*=================== ROTAS DOS IMOVEIS=========================*/
 
-Route::post('/anunciante/imovel/apagar', 'ImovelanunciantesController@delete')->name('apagarImovel');
+Route::post('/anunciante/imovel/apagar', 'ImovelAnunciantesController@delete')->name('apagarImovel');
 
 
 /*======================ROTAS DAS BUSCAS DOS IMOVEIS ============================*/
@@ -169,6 +169,8 @@ Route::post('anunciante/integracoes/xml/ativar/all', 'XmlController@ativarAnunci
 Route::post('anunciante/integracoes/xml/ativar', 'XmlController@ativarAnuncioXml')->name('ativarAnuncioXml');
 
 Route::post('anunciante/integracoes/ingaia/ativar', 'XmlController@ativarAnuncioIngaia')->name('ativarAnuncioIngaia');
+
+Route::post('anunciante/integracoes/ingaia/ativar/all', 'XmlController@anunciosIngaiaEmMassa')->name('ativarAnuncioIngaia.all');
 
 Route::get('anunciante/integracoes/single/detalhes/anuncio', 'XmlController@singleDetalhesXml')->name('xml.detalhesdoimovel');
 

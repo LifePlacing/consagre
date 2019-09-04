@@ -91,9 +91,17 @@ span.text-informativo i{
 	border-bottom: 1px solid rgb(255,90,0);
 }
 
-
 th{
 	font-weight: 600!important;
+}
+
+.fixo{
+	z-index: 0;
+ 	position: fixed;
+ 	top: 5px;
+ 	left: 5px;
+ 	padding-right: 10px; 
+ 	max-width: 24%;
 }
 
 
@@ -2286,7 +2294,7 @@ img.cvv{
 	}
 
 	.container-grid > .sidebar{
-		width: 30%!important;	
+		width: 25%!important;	
 	}
 
 	.sidebar > form > .widget{
@@ -2294,7 +2302,7 @@ img.cvv{
 	}
 
 	.wrap {
-	    width: 70%!important;	    
+	    width: 75%!important;	    
 	}
 
 	/*=================== Resultados Pesquisas ==================*/
@@ -2576,15 +2584,15 @@ img.cvv{
 	}
 
 	.wrapleft{
-		-ms-flex: 0 0 70%!important;
-	    flex: 0 0 70%!important;
-		max-width: 70%;
+		-ms-flex: 0 0 75%!important;
+	    flex: 0 0 75%!important;
+		max-width: 75%;
 	}
 
 	.sidebar-right{
-		-ms-flex: 0 0 30%!important;
-	    flex: 0 0 30%!important;
-		max-width: 30%;
+		-ms-flex: 0 0 25%!important;
+	    flex: 0 0 25%!important;
+		max-width: 25%;
 
 	}
 

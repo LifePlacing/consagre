@@ -46,7 +46,7 @@
   				@endphp
 
 			  	<div class="col-sm-6 col-md-3">
-		  				<div class="card card-imoveis" onclick="window.location='/{{$slugTitulo}}/{{$venda->id}}/{{$venda->meta}}/{{$venda->cidade->slug}}'" >
+		  				<div class="card card-imoveis" onclick="window.location='/{{ slugTitulo($venda->titulo)}}/{{$venda->id}}/{{$venda->meta}}/{{$venda->cidade->slug}}'" >
 
 					 	@foreach($venda->media as $m => $medias)
 
@@ -113,14 +113,9 @@
 	  	<div class="row">
   			@foreach($imoveisAluguel as $a => $aluguel)
 
-  				@php 
-					$titulo  = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $aluguel->titulo));
-                	$slug =  str_replace(' ', '-', $titulo);
-                	$slugTitulo =  strtolower($slug); 
-  				@endphp
 
   			<div class="col-sm-3">
-  				<div class="card card-imoveis" onclick="window.location='/{{$slugTitulo}}/{{$aluguel->id}}/{{$aluguel->meta}}/{{$aluguel->cidade->slug}}'">
+  				<div class="card card-imoveis" onclick="window.location='/{{slugTitulo($aluguel->titulo)}}/{{$aluguel->id}}/{{$aluguel->meta}}/{{$aluguel->cidade->slug}}'">
   					 	@foreach($aluguel->media as $m => $medias)
   					 		@if($medias->position === 0)
                                 <img class="thumb" src="{{asset($medias->source)}}">

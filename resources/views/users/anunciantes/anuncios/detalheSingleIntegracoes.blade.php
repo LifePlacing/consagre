@@ -242,7 +242,12 @@
   										<p class="text-justify">
 	                						{{ $registro->TipoImovel." - ".$registro->CategoriaImovel }} {{ $registro->Finalidade }} em {{ $registro->Cidade }} 
 	                						{{ isset($registro->FrenteMar) && $registro->FrenteMar == 1 ? ", com vista para o mar" : ''}} com 
-	                						{{ isset($registro->QtdDormitorios) ? $registro->QtdDormitorios ." quartos" : '' }} , {{ $registro->QtdBanheiros }} banheiros e {{ $registro->QtdSuites < 2 ? $registro->QtdSuites."  suite" : $registro->QtdSuites." suites"  }}. <br>
+	                						{{ isset($registro->QtdDormitorios) ? $registro->QtdDormitorios ." quartos" : '' }} , {{ $registro->QtdBanheiros }} banheiros
+	                						@isset($registro->QtdSuites) 	
+	                							e $registro->QtdSuites < 2 ? $registro->QtdSuites."  suite" : $registro->QtdSuites." suites"
+	                						@endif
+
+	                						<br>
 	                						{{ isset($registro->QtdVagas) && $registro->QtdVagas > 0 ? "Possui  ".$registro->QtdVagas." vagas de garagem" : ''}} <br>
 	                						{!! isset($registro->Observacao) ? $registro->Observacao : ''!!}
 	                					</p>

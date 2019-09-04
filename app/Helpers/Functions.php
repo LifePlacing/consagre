@@ -15,6 +15,15 @@ function file_get_contents_curl($url){
 	return $data;
 }
 
+function url_exists($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return ($code == 200);
+}
+
 
 
 function formatCodigo($value)
@@ -272,6 +281,14 @@ function abreviaCod($string)
 	return $inicio;
 }
 
+function replacehttps($url)
+{
+
+	 $urlArquivo = (string)$url;
+     $novaUrl = preg_replace("/^http:/i", "https:", $urlArquivo);
+
+     return $novaUrl;
+}
 
 function contaAnuncios($user, $request)
 {

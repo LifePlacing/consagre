@@ -5,9 +5,8 @@
     <div class="justify-content-center">
         <div class="col-md-10 col-sm-12 col-xs-12" id="auth">
 
-            <a class="navbar-brand" href="{{ url('/') }}">            
-                <img src="{{asset('imagens/logo-page-login.svg')}}">
-            </a>
+            <a class="navbar-brand" href="{{ url('/') }}">           
+                <img src="{{asset('imagens/logo-page-login.svg')}}">         </a>
 
             <h4>{{ __('Recuperar Senha') }}</h4>
 

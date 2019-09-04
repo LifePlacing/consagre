@@ -102,107 +102,36 @@
                                     <tr>                                        
                                         <td>{{ formataMoedaInteiro(Auth::user()->plano->valor_mensal) }}</td>
 
-                                        @foreach( Auth::user()->assinaturas as $assinatura )
-                                            
-                                            @if($assinatura->name == Auth::user()->plano->nome)
-                                                                                   
-                                                @foreach($assinatura->payments as $payment)
+                                            <td>
+                                                @if($pagamento->payment == "banking_billet")
+                                                    Boleto Bancário 
+                                                 @elseif( $pagamento->payment == "currency") 
+                                                    Em Dinheiro
+                                                 @else
+                                                    Cartão de Crédito 
+                                                 @endif
+                                            </td>
 
-                                                    @if($assinatura->last_charge == $payment->charge_id )
-
-                                                    <td> {{ $payment->payment == "banking_billet" ? 'Boleto Bancário' : 'Cartão de Crédito' }} </td>
-
-                                                    <td>{{ verificaStatus($payment->status) }}</td>
-
-                                                    @endif
-
-                                                @endforeach
-
-
-                                            @endif
-
-                                        @endforeach
+                                            <td>
+                                                
+                                                @if(verificaStatus($pagamento->status) == 'Aguardando Pagamento' )
+                                                    <span class="bg-warning text-danger">   {{ verificaStatus($pagamento->status) }}
+                                                    </span> 
+                                                @else
+                                                    <span class="text-success">
+                                                    {{ verificaStatus($pagamento->status) }}
+                                                    </span>
+                                                @endif
+                                                
+                                            </td>
+                                        
                                     </tr>
 
                                   </table>  
 
                             </div> 
                         
-                        </div>                   
-
-                        
-                    <div class="row">
-                        
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">Total de Anuncios</h4>                                
-                            </div>
-                            <div class="content">
-
-                                <div class="row">
-                                    
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        
-                                        <div class="card">
-
-                                            <div class="content">
-
-                                                <div id="chartSimples" class="ct-chart"></div>
- 
-                                                
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        
-                                        <div class="card">
-
-                                            <div class="content">
-
-                                                <div id="chartDestaque" class="ct-chart"></div>
- 
-                                                
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-12 col-md-4">
-                                        
-                                        <div class="card">
-
-                                            <div class="content">
-
-                                                <div id="superDest" class="ct-chart"></div>
- 
-                                                
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-
-
-                                </div>
-
-                           <div class="footer">
-                                <div class="legend">
-                                    <i class="fa fa-circle text-info"></i> Total
-                                    <i class="fa fa-circle text-danger"></i>Disponiveis
-                                    <i class="fa fa-circle text-warning"></i>Ativos
-                                </div>                                    
-                            </div>
-
-                            </div>
-
-                        </div>
-                    </div>
+                        </div> 
 
                	</div>
         </div>
@@ -230,100 +159,6 @@
     $('#iptu').mask('#.##0,00', {reverse: true});
     $('#condominio').mask('#.##0,00', {reverse: true});
 </script> 
-
-<script type="text/javascript">
-
- $(document).ready(function(){
-
-    var si = {!! Auth::user()->plano->quant_anuncios !!};
-    var dest =  {!! Auth::user()->plano->destaques !!};
-    var su = {!! Auth::user()->plano->super_destaques !!} ;
-
-    var si_a = {!! Auth::user()->plano->quant_anuncios - $simples !!};
-    var dest_a = {!! Auth::user()->plano->destaques - $destaque !!};
-    var su_a = {!! Auth::user()->plano->super_destaques - $super !!};
-
-
-    new Chartist.Bar('#chartSimples', {
-      labels: ['Anuncios Simples'],
-      series: [
-        [si],
-        [si_a],
-        [{!! $simples !!}]
-        
-      ]
-    }, 
-    {
-      seriesBarDistance: 15,
-      axisX: {
-        offset: 50
-      },
-      axisY: {
-        onlyInteger: true,
-        offset: 50,
-        labelInterpolationFnc: function(value) {
-          return value
-        },
-        scaleMinSpace: 20
-      }
-    }); 
-
-
-//Destaques
-
-    new Chartist.Bar('#chartDestaque', {
-      labels: ['Anuncios Destaques'],
-      series: [
-        [dest],
-        [dest_a],
-        [{!! $destaque !!}]
-        
-      ]
-    },
-    {
-      seriesBarDistance: 15,
-      axisX: {
-        offset: 50
-      },
-      axisY: {
-        onlyInteger: true,
-        offset: 50,
-        labelInterpolationFnc: function(value) {
-          return value 
-        },
-        scaleMinSpace: 5
-      }
-    });
-
-//Super Destaques
-
-    new Chartist.Bar('#superDest', {
-      labels: ['Super Destaques'],
-      series: [
-        [su],
-        [su_a],
-        [{!! $super !!}]
-        
-      ]
-    },
-    {
-      seriesBarDistance: 15,
-      axisX: {
-        offset: 50
-      },
-      axisY: {
-        onlyInteger: true,
-        offset: 50,
-        labelInterpolationFnc: function(value) {
-          return value 
-        },
-        scaleMinSpace: 5
-      }
-    });
-
-});
-
-</script>
 
 
 @stop

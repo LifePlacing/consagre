@@ -116,15 +116,10 @@
 									</div>
 										
 					
-								</div>
-
-								{{ $mensagens->links() }}
+								</div>								
 
 								@else
-
-									<h2>Sem mensagens no momento.</h2>						
-
-								
+									<h2>Sem mensagens no momento.</h2>
 								@endif
 
 							</div>

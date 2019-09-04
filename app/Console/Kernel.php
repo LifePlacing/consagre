@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('queue:work --queue=high,normal,low --tries=3')
+                  ->daily();
     }
 
 

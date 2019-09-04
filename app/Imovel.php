@@ -97,13 +97,27 @@ class Imovel extends Model
 
   public function scopePrecoMinMax($query, $opt, $valorMin, $valorMax)
   {
-    if($valorMin > 0 || $valorMax < 50000){          
-        if ($valorMin > 0 && $valorMax < 50000 ) {
-            return $query->whereBetween($opt, [$valorMin, $valorMax ]);
-        }else if($valorMin > 0 && $valorMax == 50000){
-            return $query->where($opt, '>=', $valorMin);
-        }
+    
+
+    if(isset($valorMin) && isset($valorMax)){
+      return $query->whereBetween($opt, [$valorMin, $valorMax ]);
+    }elseif (isset($valorMin) && !isset($valorMax)) {
+      return $query->where($opt, '>=', $valorMin);      
+    }elseif (!isset($valorMin) && isset($valorMax)) {
+      return $query->where($opt, '<=', $valorMax);      
     }
+
+    /*if($valorMin > 0 || $valorMax < 50000){      
+
+        if($valorMin > 0 && $valorMax == 50000 ){
+            return $query->whereBetween($opt, [$valorMin, $valorMax ]);
+          
+        }else if($valorMin > 0 && $valorMax > 50000){
+            return $query->where($opt, '>=', $valorMin);
+          
+        }
+    }*/   
+
   }
 
   public function scopeAreaMinMax($query, $opt, $valorMin, $valorMax)

@@ -91,6 +91,29 @@ class XmlController extends Controller
         return view('users.anunciantes.anuncios.detalheSingleIntegracoes', compact('registro', $registro));
     }
 
+     public function anunciosIngaiaEmMassa(Request $request)
+    {
+
+        $xml = lerXml($request['url']);
+
+        $anunciante = Auth::user(); 
+
+        foreach ($xml->Imoveis->Imovel as $item){
+
+            $imovel = Imovel::where('anunciante_id', '=', $anunciante->id)->where('codigo', '=', $item->CodigoImovel )->withTrashed()->first();
+
+             if($imovel == null){
+                ProcessAnuncioXml::dispatch($item->asXML(), $anunciante->id, 'inGaia')->delay(now()->addMinutes(1));
+            }else{
+                Log::info('Anuncio já existente '.$item->CodigoImovel);
+            }
+        }
+
+
+         return back()->with('success', 'Requisição INGAIA Processada com Sucesso. Este procedimento pode demorar até 20min para concluir.');
+
+    }
+
 
     public function ativarAnuncioIngaia(Request $request)
     {
@@ -423,6 +446,8 @@ class XmlController extends Controller
     }
 
 
+
+
     public function ativarAnunciosEmMassa(Request $request){
 
         $url_arquivo_xml = $request['url'];
@@ -433,12 +458,11 @@ class XmlController extends Controller
         foreach ($xml->Listings->Listing as $item){
            $obj = simplexml_load_string($item->asXML(), null, LIBXML_NOCDATA);
 
-            /* Verificando se o imovel já existe */
             $imovel = Imovel::where('anunciante_id', '=', $anunciante->id)->where('codigo', '=', $obj->ListingID )->withTrashed()->first();
 
             if($imovel == null){
                 //event( new AdicionarAnuncioXml($obj, $anunciante->id));
-                ProcessAnuncioXml::dispatch($item->asXML(), $anunciante->id)->delay(now()->addMinutes(1));
+                ProcessAnuncioXml::dispatch($item->asXML(), $anunciante->id, 'Corujas')->delay(now()->addMinutes(1));
             }
 
         }

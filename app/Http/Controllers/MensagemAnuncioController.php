@@ -13,8 +13,6 @@ class MensagemAnuncioController extends Controller
 {
     public function store(Request $request)
     {
-
-
     	
         $this->validate($request, [
         	'imv_id' => 'required',
@@ -28,22 +26,22 @@ class MensagemAnuncioController extends Controller
         
         $msg = strip_tags($request['mensagem']);
 
+        $imovel = Imovel::findOrFail($request['imv_id']);
 
         $mensagem = Mensagem::create([
         	'msg' => $msg,
         	'nome_remetente' => $request['nome'],
         	'email_remetente' => $request['email'],
         	'telefone' => $request['telefone'],
-        	'imovel_id' => $request['imv_id']       	
-
+        	'imovel_id' => $request['imv_id'],
+            'anunciante_id' => $imovel->anunciante_id 
         ]);
 
-        $author = $mensagem->imovel->anunciante;
+        $author = $mensagem->anunciante;
 
         $author->notify( new MessageAnunciante($mensagem));
         
-        return response(200);
-        
+        return response(200);        
     	
 	}
 
