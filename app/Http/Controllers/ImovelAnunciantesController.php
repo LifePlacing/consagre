@@ -15,6 +15,7 @@ use App\Xml;
 use Redirect;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Collection;
 
 
 class ImovelAnunciantesController extends ImovelController
@@ -514,65 +515,61 @@ class ImovelAnunciantesController extends ImovelController
         $user = $imoveisAtivos->id;
 
         $diretorio = public_path('webservice/'.$user.'/xml');
+
         
         $file = $diretorio.'/'.$xml->sistema.'.xml';
 
-           
-            if ($request->session()->exists('singleObject')) {
-                $request->session()->forget('singleObject');
-            }
+
+        if ($request->session()->exists('singleObject')) {
+            $request->session()->forget('singleObject');
+        }
 
 
-        if(file_exists($file)){           
-            
-            $data = file_get_contents($file);
-
-            $xmlSis = simplexml_load_string($data, null, LIBXML_NOCDATA);
+        if(file_exists($file)){ 
            
            if($xml->sistema == 'Coruja Sistemas'){
 
-                $obj = json_encode($xmlSis->Listings);
-
-                $header = json_encode($xmlSis->Header);
-
                 if($request->session()->exists('anun_integracoes_ingaia')){
+                    
                     $request->session()->forget('anun_integracoes_ingaia');
-                }    
 
-                $request->session()->get('anun_integracoes');    
-                $request->session()->put('anun_integracoes', $obj); 
+                    $request->session()->get('anun_integracoes');
+                }
 
-                $request->session()->get('header');   
-                $request->session()->put('header', $header); 
+                $data = file_get_contents($file);               
+                    
+                $request->session()->put('anun_integracoes', $data);
 
                 $request->session()->get('url');   
                 $request->session()->put('url', $file); 
 
+                return redirect()->route('anunciante.xml.get');
 
            }
 
-           if($xml->sistema == 'inGaia'){
+           if($xml->sistema == 'inGaia'){ 
 
-                $obj = json_encode($xmlSis->Imoveis);
-
-                $header = header("Content-Type: text/xml; charset='UTF-8'");
+                ini_set('user_agent', 'inGaia');
+                header('Cache-control: private');
+                header('Content-Type: application/octet-stream; charset=UTF-8');
+                header('Content-Disposition: filename='.$file);            
+                $data = file_get_contents($file);           
 
                 if($request->session()->exists('anun_integracoes')){
                     $request->session()->forget('anun_integracoes');
+                    $request->session()->get('anun_integracoes_ingaia');
                 }
-                $request->session()->get('anun_integracoes_ingaia');    
-                $request->session()->put('anun_integracoes_ingaia', $obj);
-
-                $request->session()->get('header');   
-                $request->session()->put('header', $header); 
+                
+                    
+                $request->session()->put('anun_integracoes_ingaia', $data);
 
                 $request->session()->get('url');   
                 $request->session()->put('url', $file); 
-                                            
-           }            
 
-            return redirect()->route('anunciante.xml.get');            
-           
+                return redirect()->route('anunciante.xml.get');
+                                            
+           }  
+
         }
 
 
@@ -591,8 +588,16 @@ class ImovelAnunciantesController extends ImovelController
         
         if ($request->session()->exists('anun_integracoes')) {
 
-            $anun_integracoes = json_decode($request->session()->get('anun_integracoes'), true);
-            $header = json_decode($request->session()->get('header'), true);
+            $data = simplexml_load_string($request->session()->get('anun_integracoes'), null, LIBXML_NOCDATA);
+
+            if (is_object($data)) { 
+                $anun_integracoes = $data->Listings;
+                $header = $data->Header;
+            }else{
+                $anun_integracoes = '';
+                $header = '';
+            }
+            
             $url = $request->session()->get('url');
 
                        
@@ -600,11 +605,14 @@ class ImovelAnunciantesController extends ImovelController
 
         }
 
-        if ($request->session()->exists('anun_integracoes_ingaia')) {
+        if ( $request->session()->exists('anun_integracoes_ingaia') ) {
 
-            $anun_integracoes_ingaia = json_decode($request->session()->get('anun_integracoes_ingaia'), true);
+            $data = simplexml_load_string($request->session()->get('anun_integracoes_ingaia'), "SimpleXMLElement", LIBXML_NOCDATA);
             
-            $header = json_decode($request->session()->get('header'), true);
+            if (is_object($data)) {                
+                //$data->asXML();
+                $anun_integracoes_ingaia = $data->Imoveis;
+            }
             
             $url = $request->session()->get('url');
 
@@ -652,14 +660,14 @@ class ImovelAnunciantesController extends ImovelController
                 
             //$arquivo = file_get_contents($request['url']);
             if($request['sistema'] == 'inGaia'){
-            ini_set('user_agent', 'inGaia');
-            $download_file = $request['sistema'].'.xml';
-            header('Cache-control: private');
-            header('Content-Type: application/octet-stream; charset=UTF-8');
-            header('Content-Disposition: filename='.$download_file);            
-            $arquivo = file_get_contents($request['url']);
+                ini_set('user_agent', 'inGaia');
+                $download_file = $request['sistema'].'.xml';
+                header('Cache-control: private');
+                header('Content-Type: application/octet-stream; charset=UTF-8');
+                header('Content-Disposition: filename='.$download_file);            
+                $arquivo = file_get_contents($request['url']);
             }else{
-              $arquivo = file_get_contents_curl($request['url']);  
+              $arquivo = file_get_contents($request['url']);  
             }
             
                 
@@ -687,7 +695,7 @@ class ImovelAnunciantesController extends ImovelController
                 curl_close($ch);
 
             }else{
-              $arquivo = file_get_contents_curl($request['url']);  
+              $arquivo = file_get_contents($request['url']);  
             }
 
            //$arquivo = file_get_contents($request['url']);

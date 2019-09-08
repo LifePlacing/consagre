@@ -37,6 +37,7 @@
     
     <link href='https://fonts.googleapis.com/css?family=Abril+Fatface|Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="{{ asset('users/css/pe-icon-7-stroke.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/cube-adm.css')}}">
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -50,6 +51,19 @@
 
     <div id="app">
 
+    <div class="loading hidden" id="load_message">
+        <div class="sk-cube-grid" >
+              <div class="sk-cube sk-cube1"></div>
+              <div class="sk-cube sk-cube2"></div>
+              <div class="sk-cube sk-cube3"></div>
+              <div class="sk-cube sk-cube4"></div>
+              <div class="sk-cube sk-cube5"></div>
+              <div class="sk-cube sk-cube6"></div>
+              <div class="sk-cube sk-cube7"></div>
+              <div class="sk-cube sk-cube8"></div>
+              <div class="sk-cube sk-cube9"></div>
+        </div>  
+    </div>
       
         <div class="wrapper">
 

@@ -30,7 +30,8 @@ class MessageAnunciante extends Notification
     public function toMail($notifiable)
     {
 
-        $titulo = $this->mensagem->imovel->titulo;     
+        $titulo = $this->mensagem->imovel->titulo;
+        $codigo = $this->mensagem->imovel->codigo;     
         $remetente =  $this->mensagem->nome_remetente;
         $email_anunciante = $this->mensagem->imovel->anunciante->email; 
         $email_remetente = $this->mensagem->email_remetente;
@@ -40,6 +41,7 @@ class MessageAnunciante extends Notification
                     ->replyTo($email_remetente)
                     ->greeting('Olá!')
                     ->line("$remetente demonstrou interesse em um dos seus anúncios")
+                    ->line("Código do Imóvel: $codigo")
                     ->action('Entre em contato agora', url('/'))
                     ->line('Confira as informações no seu painel');
     }

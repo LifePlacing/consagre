@@ -113,8 +113,8 @@ export default {
             let fileMegabyte = file.size /1024;
 
             
-            if( fileMegabyte > 2048 ){
-                this.$toastr.e(`${file.name} não pode ser maior que 2MB`);
+            if( fileMegabyte > 4096 ){
+                this.$toastr.e(`${file.name} não pode ser maior que 4MB`);
                 return;
             }
 

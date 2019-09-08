@@ -217,12 +217,27 @@ function addIngaia($obj, $anunciante_id){
 
 
             /*Adicionando Medias*/
-            if(isset($obj->Fotos)){ 
-               if(count($obj->Fotos->Foto) > 1){
+            if(isset($obj->Fotos->Foto)){ 
+               if($obj->Fotos->Foto->count() > 1){
                     adicionarMedia($obj->Fotos->Foto, $imovel->id);
                 }else{
-                    adicionarMedia($obj->Fotos, $imovel->id);
+                    
+                    $media = new Media();
+                    $media->imovel_id = $imovel->id;
+                    $media->position = 0;   
+                    $media->caption = '';             
+                    $urlArquivo  = (string)$obj->Fotos->Foto->URLArquivo;
+                    $novaUrl = preg_replace("/^http:/i", "https:", $urlArquivo);
+
+                    if(url_exists($novaUrl)){
+                        $media->source = $novaUrl;
+                    }else{
+                        $media->source = url('imagens/consagre-imoveis-sem-imagem.png');
+                    }
+                    $media->save();
+
                 }
+                
             }
 
 
@@ -434,6 +449,12 @@ function lerXml($url){
     return $xml;
 }
 
+function urlXmlLocal($user_id, $sistema){
+    $diretorio = public_path('webservice/'.$user_id.'/xml');
+    $url = $diretorio.'/'.$sistema.'.xml';
+    return $url;
+}
+
 function consultaCidade($cidade)
 {
 	$city = Cidade::where('nome','=', $cidade)->first();
@@ -476,16 +497,19 @@ function adicionarMedia($itens, $imovel_id)
             }else{
                 $media->source = url('imagens/consagre-imoveis-sem-imagem.png');
             }
-
-            
-            
             
 
-            if($item->attributes()->primary || isset($item->Principal)){
+            if($item->attributes()->primary ){
                 $media->position = 0;
+            }elseif (isset($item->Principal)) {
+                if($item->Principal == 1){                    
+                    $media->position = 0;
+                }
+            }else{
+               $media->position =  $count ; 
             }
 
-            if($count != 0){
+            if($count != 0 && $media->position == null ){
                 $media->position =  $count ;                                      
             }            
 

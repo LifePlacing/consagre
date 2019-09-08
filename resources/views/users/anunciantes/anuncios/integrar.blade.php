@@ -72,7 +72,7 @@
                                 						<td>{{ $item->url }}</td>
                                 						<td>
                                 						<a href="#" onclick="event.preventDefault();
-                                                document.getElementById('ler-form-{{$item->id}}').submit();" title="visualizar anuncios enviados">
+                                                document.getElementById('ler-form-{{$item->id}}').submit(); $('#load_message').removeClass('hidden');" title="visualizar anuncios enviados">
                                                         <i class="fa fa-eye fa-lg" aria-hidden="true"></i>&nbsp;
                                                         </a>
                                 							
@@ -83,19 +83,33 @@
 
 
                                                         <a href="#" onclick="event.preventDefault();
-                                                document.getElementById('atualiza-form-{{$item->id}}').submit();" title="Atualizar lista de anúncios">
+                                                document.getElementById('atualiza-form-{{$item->id}}').submit(); $('#load_message').removeClass('hidden');" title="Atualizar lista de anúncios">
                                                         <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>&nbsp;
 
                                                         </a>
 
-                                                        <a href="#" onclick="event.preventDefault(); document.getElementById('ativar-todos').submit();">
+                                                        @if($item->sistema == 'inGaia')
+                                                        <a href="#" onclick="event.preventDefault(); document.getElementById('ativar-todos-ingaia').submit(); $('#load_message').removeClass('hidden');">
                                                             Ativar
                                                         </a>
+                                                        @else
+                                                        
+                                                        <a href="#" onclick="event.preventDefault(); document.getElementById('ativar-todos').submit(); $('#load_message').removeClass('hidden');">
+                                                            Ativar
+                                                        </a>
+
+                                                        @endif
 
                                                     <form id="ativar-todos" action="{{ route('anunciosemmassa.corujas') }}" method="POST" style="display: none;">
                                                         @csrf
                                                         <input type="hidden" name="url" value="{{$item->url}}">
                                                     </form> 
+
+                                                    <form id="ativar-todos-ingaia" action="{{ route('ativarAnuncioIngaia.all') }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        <input type="hidden" name="url" value="{{ urlXmlLocal(Auth::user()->id, 'inGaia') }}">
+                                                    </form> 
+
 
                                                     <form id="ler-form-{{$item->id}}" action="{{ route('anunciante.xml.leitura') }}" method="POST" style="display: none;">
                                                                 @csrf

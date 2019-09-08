@@ -10,8 +10,8 @@
                     <div class=" col-xs-12 col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">{{ session('header') ? $header['Provider'] : 'Anuncios Enviados Recentemente' }}</h4>
-                                <p>Anuncios enviados em: {{ date_br($header['PublishDate']) }}.</p>                                
+                                <h4 class="title">{{ session('header') || isset($header) ? $header->Provider : 'Anuncios Enviados Recentemente' }}</h4>
+                                <p>Anuncios enviados em: {{ date_br($header->PublishDate) }}.</p>                                
                             </div>
                             <div class="content">
 
@@ -25,12 +25,12 @@
                                 </form>
 
 
-		                      @foreach( $anun_integracoes['Listing'] as $key => $list )
+		                      @foreach( $anun_integracoes->Listing as $key => $list )
 
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                           <div class="col-xs-12 col-md-3">
-                                            <?php $url = preg_replace("/^http:/i", "https:", $list['Media']['Item'][0] )?>
+                                            <?php $url = preg_replace("/^http:/i", "https:", $list->Media->Item[0] )?>
                                             <a href="#" class="thumbnail">       
                                               <img src="{{ $url }}" alt="">
                                             </a>
@@ -38,33 +38,33 @@
                                           <div class="col-xs-12 col-md-9">
 
                                                 <div class="titulo-lista-imovels">
-                                                    <h5>{{ $list['Title'] }}</h5>
+                                                    <h5>{{ $list->Title }}</h5>
                                                     
                                                     <span>
-                                                        {{ __('imovels.'.$list['TransactionType']) }} 
+                                                        {{ __('imovels.'.$list->TransactionType) }} 
                                                     </span>   
                                                 </div>
 
-                                              Código: <span>{{ $list['ListingID'] }}</span>
+                                              Código: <span>{{ $list->ListingID }}</span>
 
                                               <div class="icones-imovels">
 
                                                 <div>
                                                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i><br>
-                                                    {{ $list['Details']['Bedrooms']}} quartos
+                                                    {{ $list->Details->Bedrooms}} quartos
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-bath fa-lg" aria-hidden="true"></i><br>
-                                                    {{ $list['Details']['Bathrooms']}}
+                                                    {{ $list->Details->Bathrooms}}
                                                     banheiros
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-area-chart fa-lg" aria-hidden="true"></i><br>
-                                                    {{ $list['Details']['ConstructedArea'] }}m<sup>2</sup>
+                                                    {{ $list->Details->ConstructedArea }}m<sup>2</sup>
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-car fa-lg" aria-hidden="true"></i><br>
-                                                    {{ $list['Details']['Garage']}} garagem
+                                                    {{ $list->Details->Garage}} garagem
                                                 </div>
                                                     
                                                   
@@ -108,37 +108,40 @@
                                     <input type="hidden" name="url" value="{{$url}}">
                                 </form>                                                                      
                             </div>
+
                             <div class="content">
-
-
-
-                              
-                              @foreach( $anun_integracoes_ingaia['Imovel'] as $key => $list )
+                                                             
+                              @foreach($anun_integracoes_ingaia->Imovel as $key => $list )
 
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                           <div class="col-xs-12 col-md-3">
-                                                           
-                                        @foreach($list['Fotos']['Foto'] as $key => $item)
-                                           
-                                            @if($key === 0)
-                                                <a href="#" class="thumbnail">      
-                                                    <img src="{{ replacehttps($item['URLArquivo']) }}" alt="">
-                                                </a>
-                                            @break
+                                          
+                                        @if(isset($list->Fotos->Foto)) 
+                                            @foreach($list->Fotos->Foto as $key => $foto)
 
-                                            @endif                                        
-                                        @endforeach    
-                                              
+                                                @if($foto->Principal == 1)
+                                                    <a href="#" class="thumbnail">      
+                                                        <img src="{{ replacehttps($foto->URLArquivo) }}" alt="">
+                                                    </a>
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        @else
+                                           <a href="#" class="thumbnail">      
+                                                <img src="{{ url('imagens/consagre-imoveis-sem-imagem.png') }}" alt="">
+                                            </a>
+                                        @endif
+
                                                 
                                           </div>
                                           <div class="col-xs-12 col-md-9">
 
                                                 <div class="titulo-lista-imovels">
-                                                    <h5>{!! $list['TituloImovel'] !!}</h5>
+                                                    <h5>{!! $list->TituloImovel !!}</h5>
                                                     
                                                     <span>
-                                                        @if( isset($list['PrecoVenda']) )             
+                                                        @if( isset($list->PrecoVenda) )             
                                                          {{ __('imovels.For Sale') }}
                                                         @else
                                                         {{ __('imovels.For Rent') }}                   
@@ -146,33 +149,33 @@
                                                     </span>   
                                                 </div>
 
-                                              Código: <span>{!! $list['CodigoImovel'] !!}</span>
+                                              Código: <span>{!! $list->CodigoImovel !!}</span>
 
                                               <div class="icones-imovels">
 
                                                 <div>
                                                     <i class="fa fa-bed fa-lg" aria-hidden="true"></i><br>
-                                                    @isset($list['QtdDormitorios'])
-                                                        {!! $list['QtdDormitorios'] !!} quartos
+                                                    @isset($list->QtdDormitorios)
+                                                        {!! $list->QtdDormitorios !!} quartos
                                                     @endif
 
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-bath fa-lg" aria-hidden="true"></i><br>
-                                                    @isset($list['QtdBanheiros'])
-                                                    {!! $list['QtdBanheiros'] !!}         banheiros
+                                                    @isset($list->QtdBanheiros)
+                                                    {!! $list->QtdBanheiros !!}         banheiros
                                                     @endif
 
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-area-chart fa-lg" aria-hidden="true"></i><br>
-                                                    @isset($list['AreaUtil'])
-                                                    {{ $list['AreaUtil']}} m<sup>2</sup>
+                                                    @isset($list->AreaUtil)
+                                                    {{ $list->AreaUtil }} m<sup>2</sup>
                                                     @endif
                                                 </div>
                                                 <div>
                                                     <i class="fa fa-car fa-lg" aria-hidden="true"></i><br>
-                                                    @isset($list['QtdVagas'])   {!! $list['QtdVagas'] !!} garagem
+                                                    @isset($list->QtdVagas)   {!! $list->QtdVagas !!} garagem
                                                     @endif
                                                 </div>
                                                     
@@ -182,7 +185,7 @@
                                     </div>                                    
                                 </div>
 
-                            @endforeach
+                                @endforeach
 
 
                             </div>
