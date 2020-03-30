@@ -31,7 +31,7 @@
                                         <a href="#" class="thumbnail"> 
                                             @foreach($imovel->media as $media)
                                                 @if($media->position == 0)
-                                                <img src="{{ $media->source }}" alt="">
+                                                <img src="{{ url_imovel($media->source) }}" alt="">
                                                 @endif
                                             @endforeach
                                         </a>

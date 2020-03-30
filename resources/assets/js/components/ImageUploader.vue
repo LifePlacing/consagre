@@ -148,7 +148,7 @@ export default {
 
             const formData = new FormData();
             
-            if(this.images.length < 16){
+            if(this.images.length < 21){
 
                 this.files.forEach(file => {
                     formData.append('images[]', file, file.name);
@@ -156,7 +156,7 @@ export default {
 
             }else{
 
-                this.$toastr.e(`Você só pode fazer o upload de até 15 imagens`);
+                this.$toastr.e(`Você só pode fazer o upload de até 20 imagens`);
                     return;
             }
 

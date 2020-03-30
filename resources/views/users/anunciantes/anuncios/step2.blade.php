@@ -87,10 +87,9 @@
 				            <div class="form-group col-sm-12">
 				                <label for="descricao">Descrição</label>
 				                <textarea placeholder="Crie aqui seu texto falando sobre as principais caracteristicas do seu imóvel."
-				                id="descricao" name="descricao" rows="6" maxlength="400" class="col-sm-12 required char-count" value="{{ old('descricao') }}" required>
+				                id="descricao" name="descricao" rows="6"  class="col-sm-12 required char-count" value="{{ old('descricao') }}" required>
 				                </textarea>
-				                <p class="text-muted"><small><span name="descricao">400</span></small> caracteres restantes</p>
-				            </div>
+				         </div>
 
 				        	</div>
 

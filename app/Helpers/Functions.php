@@ -4,6 +4,16 @@ use App\Imovel;
 use App\Gateway;
 use Illuminate\Support\Facades\Cache;
 
+function url_imovel($url){
+
+	$link = substr(trim($url), 0, 4);
+
+	if($link !== 'http'){
+ 		return  'https://www.consagreimoveis.com.br/'.$url;
+	}else{
+		return trim($url);
+	}
+}
 
 function file_get_contents_curl($url){
 	$ch = curl_init();
